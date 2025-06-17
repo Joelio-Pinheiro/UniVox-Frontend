@@ -38,7 +38,7 @@ const Header = () => {
                 </Toolbar>
             </AppBar>
             <Drawer anchor="left" open={open} onClose={toggleDrawer(false)}>
-                 <Sidebar toggleDrawer={toggleDrawer} />
+                <Sidebar toggleDrawer={toggleDrawer} />
             </Drawer>
         </>
     );
