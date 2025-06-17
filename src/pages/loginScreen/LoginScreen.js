@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { EmailContainer } from "./EmailContainer";
 import { PasswordContainer } from "./PasswordContainer";
-import { Checkbox } from "@mui/material";
+import { Checkbox, FormControlLabel } from "@mui/material";
 import { LoginScreenHead } from "./LoginScreenHead";
 import { LoginConfirmButton } from "./LoginConfirmButton";
 export function LoginScreen() {
@@ -19,7 +19,7 @@ export function LoginScreen() {
   return (
     <div
       id="loginScreen"
-      className=" absolute -translate-x-1/2  left-1/2 h-screen bg-white w-3/12 border-blue-500"
+      className="flex items-center flex-col absolute -translate-x-1/2  left-1/2 h-screen bg-white w-"
     >
       <LoginScreenHead />
 
@@ -31,30 +31,27 @@ export function LoginScreen() {
       />
 
       <div className="relative top-20">
-        <div>
-          <Checkbox id="reminder" />
-          <label htmlFor="reminder" className="text-gray-500 font-semibold">
-            Lembrar de mim
-          </label>
-        </div>
+        <FormControlLabel
+          control={<Checkbox defaultValue={false}/>}
+          label={
+            <span className="text-gray-500">Lembrar de mim</span>
+          }
+        />
 
-        <div>
-          <a href="_link_" className="text-blue-500 font-semibold">
-            Esqueceu a senha?
-          </a>
-        </div>
+        <a href="_link_" className="text-blue-500 font-semibold">
+          Esqueceu a senha?
+        </a>
       </div>
 
-      <LoginConfirmButton email={email} password={password}/>
-      
-      <div className="relative top-28">
-        <p className=" text-center text-gray-500 font-semibold">
+      <LoginConfirmButton email={email} password={password} />
+
+      <div className="relative top-32">
+        <p className=" text-center text-gray-500">
           Ainda não possui uma conta?
-          <a href="_link_" className=" text-blue-500">
+          <a href="_link_" className=" text-blue-500 font-semibold">
             Cadastrar-se
           </a>
         </p>
-        {/**por enquanto sem link de redirecionamento*/}
       </div>
     </div>
   );
