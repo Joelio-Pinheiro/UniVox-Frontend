@@ -1,10 +1,15 @@
 import React from "react";
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import HomePage from './pages/home/HomePage';
 import { LoginScreen } from "./pages/loginScreen/LoginScreen";
 
 export function App() {
   return (
-    <div id="app" className=" h-screen w-screen bg-gray-800">
-      <LoginScreen />
-    </div>
+    <Router>
+      <Routes>
+        <Route path="/" element={<HomePage />} /> 
+        <Route path="/login" element={<LoginScreen />} />
+      </Routes>
+    </Router>
   );
 }
