@@ -1,23 +1,26 @@
 import React, { useState } from "react";
 import { Checkbox, FormControlLabel } from "@mui/material";
 import { LoginPageHead } from "./LoginPageHead";
-import { LoginError } from "./LoginError";
+import { CustomSnackbar } from "../../customComponents/CustomSnackbar";
 import { LoginConfirmButton } from "./LoginConfirmButton";
 import { TextInputContainer } from "../../customComponents/TextInputContainer";
 import { PasswordContainer } from "./PasswordContainer";
-import { data, Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 
 export function LoginPage() {
   const navigate = useNavigate();
-  const [open, setOpen] = useState(false);
+  const [state, setState] = useState({ open: false, text: "" });
   const [password, setPassword] = useState("");
   const [email, setEmail] = useState("");
 
-  function dataValidation(email, password){
-    if(!email || !password){
-      setOpen(true);
-      return; 
+  function dataValidation(email, password) {
+    if (!email || !password) {
+      setState(
+        {open: true, text: "Email e Senha obrigatórios"}
+      );
+
+      return;
     }
 
     const formData = new FormData();
@@ -37,17 +40,15 @@ export function LoginPage() {
   }
 
   function onCloseFn() {
-    setOpen(false);
+    setState({open: false});
   }
 
   async function LoginConfirmation(formData) {
     await axios
       .post("https://univox-backend.onrender.com/login/", formData, {
-        headers: {
-          "Content-Type": "application/json"
-        }
       })
       .then(() => {
+        setState({open: true, text: "Login bem sucedido."});
         navigate("/home");
       })
       .catch((err) => {
@@ -57,7 +58,12 @@ export function LoginPage() {
 
   return (
     <div className="flex items-center flex-col absolute -translate-x-1/2  left-1/2 h-screen bg-white">
-      <LoginError open={open} onCloseFn={onCloseFn} />
+      <CustomSnackbar
+        open={state.open}
+        message={state.text}
+        onCloseFn={onCloseFn}
+      />
+
       <LoginPageHead />
 
       <TextInputContainer
