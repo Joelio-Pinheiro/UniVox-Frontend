@@ -1,15 +1,16 @@
 import React from "react";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Outlet } from "react-router-dom";
 import { LoginPage } from "./pages/login/LoginPage";
+import HomePage from "./pages/home/HomePage";
 import { RegisterPage } from "./pages/register/RegisterPage";
-import { Layout } from "./router/layout";
 
 export function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route exact path="/" element={<Layout />}>
-          <Route index element={<LoginPage />} />
+        <Route exact path="/" element={<Outlet />}>
+          <Route index element={<HomePage />} />
+          <Route path="login" element={<LoginPage />} />
           <Route path="register" element={<RegisterPage />} />
         </Route>
       </Routes>
