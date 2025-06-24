@@ -20,9 +20,9 @@ export function RegisterPage() {
   const onSumbit = () => {};
 
   return (
-    <div className="flex items-center flex-col absolute -translate-x-1/2  left-1/2 h-screen bg-white w-">
+    <div className="flex items-center flex-col absolute -translate-x-1/2  left-1/2 h-screen bg-white">
       <RegisterPageHead />
-      <div>
+      <div className="relative top-4">
         <form>
           <TextInputContainer
             name={"userName"}
@@ -57,11 +57,13 @@ export function RegisterPage() {
         </form>
       </div>
       <Button
+        size="large"
         className="relative top-4"
+        sx={{ backgroundColor: "#106FE2", padding: "12px 65px" }}
         onSubmit={onSumbit}
         variant="contained"
       >
-        Cadastrar
+        CADASTRAR
       </Button>
     </div>
   );
