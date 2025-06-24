@@ -1,10 +1,11 @@
 import axios from "axios"
-const BASE_API_URL = "http://localhost:3000/api"
+const BASE_API_URL = "https://univox-backend.onrender.com/"
 
 class ApiProvider {
   constructor() {
     this.instance = axios.create({
       baseURL: BASE_API_URL,
+      withCredentials: true,
     })
   }
 
