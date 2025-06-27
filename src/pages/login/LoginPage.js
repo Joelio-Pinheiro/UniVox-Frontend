@@ -1,34 +1,31 @@
-import React, { useState } from "react";
-import { Checkbox, FormControlLabel } from "@mui/material";
-import { LoginPageHead } from "./LoginPageHead";
-import { CustomSnackbar } from "../../customComponents/CustomSnackbar";
-import { LoginConfirmButton } from "./LoginConfirmButton";
-import { TextInputContainer } from "../../customComponents/TextInputContainer";
-import { PasswordContainer } from "./PasswordContainer";
-import { Link, useNavigate } from "react-router-dom";
-import axios from "axios";
+import React, {useState} from "react";
+import {Checkbox, FormControlLabel} from "@mui/material";
+import {LoginPageHead} from "./LoginPageHead";
+import CustomSnackbar from "../../customComponents/CustomSnackbar";
+import CustomTextInput from "../../customComponents/CustomTextInputComponent";
+import CustomPassword from "../../customComponents/CustomPasswordComponent";
+import {Link, useNavigate} from "react-router-dom";
+import authService from "../../services/authService";
+import {LoginPageFooter} from "./LoginPageFooter";
 
 export function LoginPage() {
   const navigate = useNavigate();
-  const [state, setState] = useState({ open: false, text: "" });
+  const [state, setState] = useState({open: false, text: ""});
   const [password, setPassword] = useState("");
   const [email, setEmail] = useState("");
 
   function dataValidation(email, password) {
     if (!email || !password) {
-      setState(
-        {open: true, text: "Email e Senha obrigatórios"}
-      );
-
+      setState({open: true, text: "Email e Senha obrigatórios"});
       return;
     }
 
-    const formData = new FormData();
+    if (password.length < 7) {
+      setState({open: true, text: "Senha não pode ter menos de 8 caracteres"});
+      return;
+    }
 
-    formData.append("email", email);
-    formData.append("password", password);
-
-    LoginConfirmation(formData);
+    apiRequest(email, password);
   }
 
   function handleEmailChange(e) {
@@ -43,21 +40,18 @@ export function LoginPage() {
     setState({open: false});
   }
 
-  async function LoginConfirmation(formData) {
-    await axios
-      .post("https://univox-backend.onrender.com/login/", formData, {
-      })
-      .then(() => {
-        setState({open: true, text: "Login bem sucedido."});
-        navigate("/home");
-      })
-      .catch((err) => {
-        console.log(err.message);
-      });
+  async function apiRequest(email, password) {
+    try {
+      await authService.login(email, password);
+      navigate("/");
+    } catch (error) {
+      console.log(error);
+      setState({open: true, text: error.response.data.message});
+    }
   }
 
   return (
-    <div className="flex items-center flex-col absolute -translate-x-1/2  left-1/2 h-screen bg-white">
+    <div className="flex items-center flex-col absolute -translate-x-1/2 left-1/2 h-screen w-screen bg-white">
       <CustomSnackbar
         open={state.open}
         message={state.text}
@@ -66,14 +60,15 @@ export function LoginPage() {
 
       <LoginPageHead />
 
-      <TextInputContainer
+      <CustomTextInput
         name={"email"}
         text={"Email"}
         email={email}
         onChangeFn={handleEmailChange}
       />
 
-      <PasswordContainer
+      <CustomPassword
+        name={"password"}
         password={password}
         onChangeFn={handlePasswordChange}
       />
@@ -88,20 +83,7 @@ export function LoginPage() {
         </Link>
       </div>
 
-      <LoginConfirmButton
-        onClick={() => dataValidation(email, password)}
-        email={email}
-        password={password}
-      />
-
-      <div className="relative top-40">
-        <p className=" text-center text-gray-500">
-          Ainda não possui uma conta?
-          <Link to="/register" className=" text-[#106FE2] font-semibold">
-            Cadastrar-se
-          </Link>
-        </p>
-      </div>
+      <LoginPageFooter onClickFn={() => dataValidation(email, password)} />
     </div>
   );
 }

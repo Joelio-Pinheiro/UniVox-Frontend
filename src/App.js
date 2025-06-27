@@ -1,8 +1,8 @@
 import React from "react";
-import { BrowserRouter, Routes, Route, Outlet } from "react-router-dom";
-import { LoginPage } from "./pages/login/LoginPage";
+import {BrowserRouter, Routes, Route, Outlet} from "react-router-dom";
+import {LoginPage} from "./pages/login/LoginPage";
 import HomePage from "./pages/home/HomePage";
-import { RegisterPage } from "./pages/register/RegisterPage";
+import {CreateUserPage} from "./pages/createUser/CreateUserPage";
 
 export function App() {
   return (
@@ -11,7 +11,7 @@ export function App() {
         <Route exact path="/" element={<Outlet />}>
           <Route index element={<HomePage />} />
           <Route path="login" element={<LoginPage />} />
-          <Route path="register" element={<RegisterPage />} />
+          <Route path="register" element={<CreateUserPage />} />
         </Route>
       </Routes>
     </BrowserRouter>

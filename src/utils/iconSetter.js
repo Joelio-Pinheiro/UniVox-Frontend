@@ -1,18 +1,29 @@
-import { AccountCircle, LockRounded, Mail, PhoneAndroid } from "@mui/icons-material";
+import {
+  AccountCircle,
+  LockRounded,
+  Mail,
+  PhoneAndroid,
+  Visibility,
+  VisibilityOff,
+} from "@mui/icons-material";
 
-export function IconSetter(name){
-    switch(name){
-        case "userName":
-            return <AccountCircle sx={{ color: "#106FE2" }} />;
-        case "email":
-            return <Mail sx={{ color: "#106FE2" }} />;
-        case "phone":
-            return <PhoneAndroid sx={{ color: "#106FE2" }} />;
-        case "password":
-            return <LockRounded sx={{ color: "#106FE2" }} />;
-        case "passwordConfirmation":
-            return <LockRounded sx={{ color: "#106FE2" }} />;
-        default:
-            return <></>
-    }
+export function IconSetter(name) {
+  switch (name) {
+    case "name":
+      return <AccountCircle sx={{color: "#106FE2"}} />;
+    case "email":
+      return <Mail sx={{color: "#106FE2"}} />;
+    case "contact_number":
+      return <PhoneAndroid sx={{color: "#106FE2"}} />;
+    case "password":
+      return <LockRounded sx={{color: "#106FE2"}} />;
+    case "passwordConfirmation":
+      return <LockRounded sx={{color: "#106FE2"}} />;
+    case "visible":
+      return <Visibility sx={{color: "#808080"}} />;
+    case "invisible":
+      return <VisibilityOff sx={{color: "#808080"}} />;
+    default:
+      return <></>;
+  }
 }
