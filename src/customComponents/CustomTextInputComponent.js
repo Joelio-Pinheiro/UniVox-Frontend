@@ -1,5 +1,5 @@
-import {InputAdornment, TextField} from "@mui/material";
-import {IconSetter} from "../utils/iconSetter";
+import { InputAdornment, TextField } from "@mui/material";
+import { IconSetter } from "../utils/iconSetter";
 export default function CustomTextInputComponent({
   name,
   text,
@@ -9,11 +9,14 @@ export default function CustomTextInputComponent({
   const icon = IconSetter(name);
 
   return (
-    <div className=" relative">
-      <p className=" text-gray-500 font-semibold">{text}</p>
+    <div className=" relative top-2">
+      {text !== "" && <p className=" text-gray-500 font-semibold">{text}</p>}
       <TextField
         name={name}
-        sx={{width: "240px", marginBottom: "10px"}}
+        value={value}
+        variant="outlined"
+        onChange={onChangeFn}
+        sx={{ width: "240px", marginBottom: "10px" }}
         slotProps={{
           input: {
             startAdornment: (
@@ -21,9 +24,6 @@ export default function CustomTextInputComponent({
             ),
           },
         }}
-        variant="outlined"
-        value={value}
-        onChange={onChangeFn}
       />
     </div>
   );

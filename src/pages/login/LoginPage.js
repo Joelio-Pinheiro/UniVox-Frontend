@@ -1,32 +1,19 @@
-import React, {useState} from "react";
-import {Checkbox, FormControlLabel} from "@mui/material";
-import {LoginPageHead} from "./LoginPageHead";
+import React, { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { Checkbox, FormControlLabel } from "@mui/material";
+import { LoginPageFooter } from "./LoginPageFooter";
 import CustomSnackbar from "../../customComponents/CustomSnackbar";
 import CustomTextInput from "../../customComponents/CustomTextInputComponent";
 import CustomPassword from "../../customComponents/CustomPasswordComponent";
-import {Link, useNavigate} from "react-router-dom";
 import authService from "../../services/authService";
-import {LoginPageFooter} from "./LoginPageFooter";
+import CustomPageHead from "../../customComponents/CustomPageHead";
+import UnivoxFullIcon from "../../icons/UnivoxFullIcon.png";
 
 export function LoginPage() {
   const navigate = useNavigate();
-  const [state, setState] = useState({open: false, text: ""});
+  const [state, setState] = useState({ open: false, text: "" });
   const [password, setPassword] = useState("");
   const [email, setEmail] = useState("");
-
-  function dataValidation(email, password) {
-    if (!email || !password) {
-      setState({open: true, text: "Email e Senha obrigatórios"});
-      return;
-    }
-
-    if (password.length < 7) {
-      setState({open: true, text: "Senha não pode ter menos de 8 caracteres"});
-      return;
-    }
-
-    apiRequest(email, password);
-  }
 
   function handleEmailChange(e) {
     setEmail(e.target.value);
@@ -37,16 +24,16 @@ export function LoginPage() {
   }
 
   function onCloseFn() {
-    setState({open: false});
+    setState({ open: false });
   }
 
   async function apiRequest(email, password) {
     try {
       await authService.login(email, password);
-      navigate("/");
+      navigate("/"); //redireciona para a home page
     } catch (error) {
       console.log(error);
-      setState({open: true, text: error.response.data.message});
+      setState({ open: true, text: error.message });
     }
   }
 
@@ -58,32 +45,34 @@ export function LoginPage() {
         onCloseFn={onCloseFn}
       />
 
-      <LoginPageHead />
+      <CustomPageHead icon={UnivoxFullIcon} text={"Entre na sua conta"} />
+      <div className="relative top-2">
+        <CustomTextInput
+          name={"email"}
+          text={"Email"}
+          email={email}
+          onChangeFn={handleEmailChange}
+        />
 
-      <CustomTextInput
-        name={"email"}
-        text={"Email"}
-        email={email}
-        onChangeFn={handleEmailChange}
-      />
-
-      <CustomPassword
-        name={"password"}
-        password={password}
-        onChangeFn={handlePasswordChange}
-      />
+        <CustomPassword
+          name={"password"}
+          text={"Senha"}
+          password={password}
+          onChangeFn={handlePasswordChange}
+        />
+      </div>
 
       <div className="relative top-16">
         <FormControlLabel
           control={<Checkbox defaultValue={false} />}
           label={<span className="text-gray-500">Lembrar de mim</span>}
         />
-        <Link className="text-[#106FE2] font-semibold" to="/recovery">
+        <Link className="text-[#106FE2] font-semibold" to="/emailfornewpass">
           Esqueceu a senha?
         </Link>
       </div>
 
-      <LoginPageFooter onClickFn={() => dataValidation(email, password)} />
+      <LoginPageFooter onClickFn={() => apiRequest(email, password)} />
     </div>
   );
 }

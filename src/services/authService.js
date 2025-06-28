@@ -1,4 +1,5 @@
 import apiProvider from "../utils/apiProvider";
+
 const headers = {
   "Content-type": "application/json",
 };
@@ -7,9 +8,17 @@ const authService = {
   //rota da Api para login de usuário
   login: async (email, password) => {
     try {
+      if (!email || !password) {
+        throw new Error("Nenhum campo deve ser vazio");
+      }
+
+      if (password.length < 8) {
+        throw new Error("Senha não deve ter menos de 8 caracteres");
+      }
+
       const response = await apiProvider.post(
         "users/login/",
-        {email, password},
+        { email, password },
         headers
       );
 
@@ -22,10 +31,36 @@ const authService = {
   },
 
   //rota da Api para envio dos dados de criação da conta
-  createAccount: async (obj) => {
+  createAccount: async (fields) => {
     try {
-      const response = await apiProvider.post("users/create/", obj, headers);
+      for (const key of Object.keys(fields)) {
+        if (fields[key] === "") {
+          throw new Error("Nenhum campo deve ser vazio");
+        }
+      }
 
+      if (fields.contact_number.length < 11) {
+        throw new Error("Número de Telefone inválido");
+      }
+
+      if (fields.password.length < 8) {
+        throw new Error("Senha deve ter ao menos 8 caracteres");
+      }
+
+      if (fields.password !== fields.passwordConfirmation) {
+        throw new Error("As senhas não podem ser diferentes");
+      }
+
+      localStorage.setItem("email", fields.email);
+
+      const json = {
+        name: fields.name,
+        password: fields.password,
+        email: fields.email,
+        contact_number: fields.contact_number,
+      };
+
+      const response = await apiProvider.post("users/create/", json, headers);
       console.log("Conta necessita de verificação");
       return response;
     } catch (error) {
@@ -37,9 +72,37 @@ const authService = {
   //rota da Api para envio do código de confirmação do email na criação da conta
   accountConfirmation: async (code) => {
     try {
+      const email = localStorage.getItem("email");
+
+      if (email === "") {
+        throw new Error("Por favor, faça o reenvio dos seus dados");
+      }
+
       const response = await apiProvider.post(
         "users/verifyemail/",
-        {code},
+        { code, email },
+        headers
+      );
+
+      console.log("Conta verificada");
+      return response;
+    } catch (error) {
+      console.log("Erro na confirmação da conta:", error);
+      throw error;
+    }
+  },
+
+  accountNewCodeRequest: async () => {
+    try {
+      const email = localStorage.getItem("email");
+
+      if (email === "") {
+        throw new Error("Por favor, faça o reenvio dos seus dados");
+      }
+
+      const response = await apiProvider.post(
+        "users/newcodereq/",
+        { email },
         headers
       );
 
@@ -56,7 +119,7 @@ const authService = {
     try {
       const response = await apiProvider.post(
         "users/passwordresetreq/",
-        {email},
+        { email },
         headers
       );
 
@@ -68,11 +131,22 @@ const authService = {
     }
   },
 
+  //rota da Api para envio do código de confirmação do email cadastrado
   accountCodeForRecovery: async (code) => {
     try {
+      const email = localStorage.getItem("email");
+
+      if (email === "") {
+        throw new Error("Por favor, digite novamente seu email");
+      }
+
+      if (code.length !== 4) {
+        throw new Error("Código inválido");
+      }
+
       const response = await apiProvider.post(
-        "users/passwordresetvalidate",
-        {code},
+        "users/passwordresetvalidate/",
+        { code, email },
         headers
       );
 
@@ -84,15 +158,26 @@ const authService = {
     }
   },
 
-  accountNewPassword: async (password) => {
+  //rota da Api para envio da nova senha da conta
+  accountNewPassword: async (password, passwordConfirm) => {
     try {
+      const email = localStorage.getItem("email");
+
+      if (email === "") {
+        throw new Error("Por favor, digite novamente seu email");
+      }
+
       if (password.length < 8) {
-        return "Senha não pode ter menos de 8 caracteres.";
+        throw new Error("Senha não pode ter menos de 8 caracteres");
+      }
+
+      if (password !== passwordConfirm) {
+        throw new Error("As senhas não podem ser diferentes");
       }
 
       const response = await apiProvider.post(
-        "users/passwordresetnewpass",
-        {password},
+        "users/passwordresetnewpass/",
+        { password },
         headers
       );
 

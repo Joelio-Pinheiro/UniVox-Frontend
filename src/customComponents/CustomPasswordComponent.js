@@ -1,7 +1,8 @@
-import React, {useState} from "react";
-import {InputAdornment, TextField} from "@mui/material";
-import {IconSetter} from "../utils/iconSetter";
+import React, { useState } from "react";
+import { InputAdornment, TextField } from "@mui/material";
+import { IconSetter } from "../utils/iconSetter";
 import CustomPasswordHidingButton from "./CustomPasswordHidingButton";
+
 export default function CustomPasswordComponent({
   name,
   text,
@@ -22,7 +23,7 @@ export default function CustomPasswordComponent({
       <TextField
         name={name}
         type={visible === "visible" ? "text" : "password"}
-        sx={{width: "240px"}}
+        sx={{ width: "240px" }}
         variant="outlined"
         value={password}
         onChange={onChangeFn}

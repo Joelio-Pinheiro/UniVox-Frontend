@@ -1,14 +1,15 @@
-import React, {useState} from "react";
-import {CreateUserPageHead} from "./CreateUserPageHead";
-import {Button} from "@mui/material";
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import CustomTextInput from "../../customComponents/CustomTextInputComponent";
 import CustomSnackbar from "../../customComponents/CustomSnackbar";
-import {useNavigate} from "react-router-dom";
 import authService from "../../services/authService";
+import CustomConfirmButton from "../../customComponents/CustomConfirmButton";
+import CustomPageHead from "../../customComponents/CustomPageHead";
+import UnivoxIcon from "../../icons/UnivoxIcon.png";
 
 export function CreateUserPage() {
   const navigate = useNavigate();
-  const [state, setState] = useState({open: false, text: ""});
+  const [state, setState] = useState({ open: false, text: "" });
   const [fields, setFields] = useState({
     name: "",
     email: "",
@@ -18,57 +19,24 @@ export function CreateUserPage() {
   });
 
   function handleChange(e) {
-    const {name, value} = e.target;
+    const { name, value } = e.target;
     setFields((prev) => ({
       ...prev,
       [name]: value,
     }));
   }
 
-  function dataValidation(fields) {
-    for (const key of Object.keys(fields)) {
-      if (fields[key] === "") {
-        setState({open: true, text: "Campos não devem ser vazios"});
-        return;
-      }
-    }
-
-    if (fields.contact_number.length < 11) {
-      setState({open: true, text: "Telefone inválido"});
-      return;
-    }
-
-    if (fields.password.length < 8) {
-      setState({open: true, text: "Senha deve ter ao menos 8 caracteres"});
-      return;
-    }
-
-    if (fields.password !== fields.passwordConfirmation) {
-      setState({open: true, text: "As senhas não podem ser diferentes"});
-      return;
-    }
-
-    const obj = {
-      name: fields.name,
-      password: fields.password,
-      email: fields.email,
-      contact_number: fields.contact_number,
-    };
-
-    apiRequest(obj);
-  }
-
   function onCloseFn() {
-    setState({open: false});
+    setState({ open: false });
   }
 
-  async function apiRequest(obj) {
+  async function apiRequest(fields) {
     try {
-      await authService.createAccount(obj);
-      navigate("/verifyemail");
-    } catch (err) {
-      console.log(err);
-      setState({open: true, text: err.response.data.message});
+      await authService.createAccount(fields);
+      navigate("/verifyemail"); //redireciona para a página de verificação do email
+    } catch (error) {
+      console.log(error);
+      setState({ open: true, text: error.message });
     }
   }
 
@@ -80,7 +48,7 @@ export function CreateUserPage() {
         onCloseFn={onCloseFn}
       />
 
-      <CreateUserPageHead />
+      <CustomPageHead icon={UnivoxIcon} text={"Crie sua conta"} />
 
       <div className="relative top-4">
         <form>
@@ -117,14 +85,12 @@ export function CreateUserPage() {
         </form>
       </div>
 
-      <Button
-        size="large"
-        className="relative top-4"
-        sx={{backgroundColor: "#106FE2", padding: "12px 65px"}}
-        onClick={() => dataValidation(fields)}
-        variant="contained">
-        CADASTRAR
-      </Button>
+      <div className="relative flex items-center flex-col top-8">
+        <CustomConfirmButton
+          text={"CADASTRAR"}
+          onClick={() => apiRequest(fields)}
+        />
+      </div>
     </div>
   );
 }
