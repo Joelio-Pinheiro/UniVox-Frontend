@@ -1,11 +1,12 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import CustomTextInput from "../../customComponents/CustomTextInputComponent";
+import CustomPassword from "../../customComponents/CustomPasswordComponent";
 import CustomSnackbar from "../../customComponents/CustomSnackbar";
 import authService from "../../services/authService";
 import CustomConfirmButton from "../../customComponents/CustomConfirmButton";
 import CustomPageHead from "../../customComponents/CustomPageHead";
-import UnivoxIcon from "../../icons/UnivoxIcon.png";
+import UnivoxIcon from "../../assets/UnivoxIcon.png";
 
 export function CreateUserPage() {
   const navigate = useNavigate();
@@ -15,7 +16,7 @@ export function CreateUserPage() {
     email: "",
     contact_number: "",
     password: "",
-    passwordConfirmation: "",
+    password_confirmation: "",
   });
 
   function handleChange(e) {
@@ -41,53 +42,49 @@ export function CreateUserPage() {
   }
 
   return (
-    <div className="flex items-center flex-col absolute -translate-x-1/2  left-1/2 h-screen w-scren bg-white">
-      <CustomSnackbar
-        open={state.open}
-        message={state.text}
-        onCloseFn={onCloseFn}
-      />
+    <div className="absolute flex items-center flex-col -translate-x-1/2 left-1/2 h-screen w-screen bg-white">
+      <div className="relative flex items-center flex-col gap-[1.5vh] sm:gap-[2.5vh] md:gap-[2.5vh] lg:gap-[2.5vh] h-full w-10/12 sm:w-full md:w-full lg:w-6/12 bg-white">
+        <CustomSnackbar
+          open={state.open}
+          message={state.text}
+          onCloseFn={onCloseFn}
+        />
 
-      <CustomPageHead icon={UnivoxIcon} text={"Crie sua conta"} />
+        <CustomPageHead icon={UnivoxIcon} text={"Crie sua conta"} />
 
-      <div className="relative top-4">
-        <form>
-          <CustomTextInput
-            name={"name"}
-            text={"Nome de Usuário"}
-            value={fields.name}
-            onChangeFn={handleChange}
-          />
-          <CustomTextInput
-            name={"email"}
-            text={"Email"}
-            value={fields.email}
-            onChangeFn={handleChange}
-          />
-          <CustomTextInput
-            name={"contact_number"}
-            text={"Telefone com DDD"}
-            value={fields.contact_number}
-            onChangeFn={handleChange}
-          />
-          <CustomTextInput
-            name={"password"}
-            text={"Senha"}
-            value={fields.password}
-            onChangeFn={handleChange}
-          />
-          <CustomTextInput
-            name={"passwordConfirmation"}
-            text={"Confirmar senha"}
-            value={fields.passwordConfirmation}
-            onChangeFn={handleChange}
-          />
-        </form>
-      </div>
+        <CustomTextInput
+          name={"name"}
+          text={"Nome de Usuário"}
+          value={fields.name}
+          onChangeFn={handleChange}
+        />
+        <CustomTextInput
+          name={"email"}
+          text={"Email"}
+          value={fields.email}
+          onChangeFn={handleChange}
+        />
+        <CustomTextInput
+          name={"contact_number"}
+          text={"Telefone com DDD"}
+          value={fields.contact_number}
+          onChangeFn={handleChange}
+        />
+        <CustomPassword
+          name={"password"}
+          text={"Senha"}
+          value={fields.password}
+          onChangeFn={handleChange}
+        />
+        <CustomPassword
+          name={"password_confirmation"}
+          text={"Confirmar senha"}
+          value={fields.password_confirmation}
+          onChangeFn={handleChange}
+        />
 
-      <div className="relative flex items-center flex-col top-8">
         <CustomConfirmButton
-          text={"CADASTRAR"}
+          text={"Cadastrar"}
           onClick={() => apiRequest(fields)}
         />
       </div>

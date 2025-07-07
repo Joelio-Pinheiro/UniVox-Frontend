@@ -6,7 +6,7 @@ import { CreateUserPage } from "./pages/createUser/CreateUserPage";
 import { EmailForResetPage } from "./pages/passwordReset/EmailForResetPage";
 import { CodeForResetPage } from "./pages/passwordReset/CodeForResetPage";
 import { NewPasswordPage } from "./pages/passwordReset/NewPasswordPage";
-import { EmailConfirmationPage } from "./pages/createUser/EmailConfirmationPage";
+import { EmailConfirmationPage } from "./pages/createUser/emailConfirmation/EmailConfirmationPage";
 
 export function App() {
   return (

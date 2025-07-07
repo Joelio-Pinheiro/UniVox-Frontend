@@ -5,6 +5,7 @@ import CustomConfirmButton from "../../customComponents/CustomConfirmButton";
 import authService from "../../services/authService";
 import CustomSnackbar from "../../customComponents/CustomSnackbar";
 import CustomPageHead from "../../customComponents/CustomPageHead";
+import UnivoxIcon from "../../assets/UnivoxIcon.png";
 
 export function EmailForResetPage() {
   const navigate = useNavigate();
@@ -29,29 +30,26 @@ export function EmailForResetPage() {
   }
 
   return (
-    <div className="flex items-center flex-col absolute -translate-x-1/2 left-1/2 h-screen w-screen bg-white">
-      <CustomSnackbar
-        open={state.open}
-        message={state.text}
-        onCloseFn={onCloseFn}
-      />
+    <div className="absolute -translate-x-1/2 left-1/2 h-screen w-screen bg-white">
+      <div className="relative flex items-center flex-col mt-12 sm:mt-2 md:mt-2 lg:mt-2 gap-[2vh] sm:gap-[4vh] md:gap-[4vh] lg:gap-[4vh] h-full w-10/12 sm:w-full md:w-full lg:w-6/12 bg-white">
+        <CustomSnackbar
+          open={state.open}
+          message={state.text}
+          onCloseFn={onCloseFn}
+        />
 
-      <CustomPageHead
-        text={
-          "Digite seu email cadastrado para o processo de verificação. Nós enviaremos um código de 4 dígitos para ele."
-        }
-      />
+        <CustomPageHead
+          icon={UnivoxIcon}
+          text={"Digite seu email para receber o código de confirmação"}
+        />
 
-      <div>
         <CustomTextInputComponent
           name={"name"}
           text={"Email"}
           value={email}
           onChangeFn={handleEmailChange}
         />
-      </div>
 
-      <div className="relative flex items-center flex-col top-40">
         <CustomConfirmButton
           text={"CONTINUAR"}
           onClick={() => apiRequest(email)}

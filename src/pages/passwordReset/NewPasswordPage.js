@@ -5,6 +5,7 @@ import authService from "../../services/authService";
 import CustomConfirmButton from "../../customComponents/CustomConfirmButton";
 import CustomSnackbar from "../../customComponents/CustomSnackbar";
 import CustomPageHead from "../../customComponents/CustomPageHead";
+import UnivoxIcon from "../../assets/UnivoxIcon.png";
 
 export function NewPasswordPage() {
   const navigate = useNavigate("");
@@ -36,15 +37,19 @@ export function NewPasswordPage() {
   }
 
   return (
-    <div className="flex items-center flex-col absolute -translate-x-1/2  left-1/2 h-screen w-scren bg-white">
-      <CustomSnackbar
-        open={state.open}
-        message={state.text}
-        onCloseFn={onCloseFn}
-      />
+    <div className="absolute -translate-x-1/2 left-1/2 h-screen w-scren bg-white">
+      <div className="relative flex items-center flex-col mt-12 sm:mt-2 md:mt-2 lg:mt-2 gap-[2vh] sm:gap-[4vh] md:gap-[4vh] lg:gap-[4vh] h-full w-10/12 sm:w-full md:w-full lg:w-6/12 bg-white">
+        <CustomSnackbar
+          open={state.open}
+          message={state.text}
+          onCloseFn={onCloseFn}
+        />
 
-      <CustomPageHead text={"Insira e confirme abaixo a nova senha"}/>
-      <div className="relative">
+        <CustomPageHead
+          icon={UnivoxIcon}
+          text={"Insira e confirme abaixo a nova senha"}
+        />
+
         <CustomTextInputComponent
           name={"password"}
           text={"Nova senha"}
@@ -57,9 +62,7 @@ export function NewPasswordPage() {
           value={fields.passwordConfirm}
           onChangeFn={handleChange}
         />
-      </div>
 
-      <div className="relative flex items-center flex-col top-40">
         <CustomConfirmButton onClick={() => apiRequest(fields.password)} />
       </div>
     </div>

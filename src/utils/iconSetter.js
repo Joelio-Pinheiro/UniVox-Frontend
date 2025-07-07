@@ -18,7 +18,7 @@ export function IconSetter(name) {
       return <PhoneAndroid sx={{ color: "#106FE2" }} />;
     case "password":
       return <LockRounded sx={{ color: "#106FE2" }} />;
-    case "passwordConfirmation":
+    case "password_confirmation":
       return <LockRounded sx={{ color: "#106FE2" }} />;
     case "visible":
       return <Visibility sx={{ color: "#808080" }} />;

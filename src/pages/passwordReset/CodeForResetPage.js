@@ -5,6 +5,7 @@ import authService from "../../services/authService";
 import CustomSnackbar from "../../customComponents/CustomSnackbar";
 import CustomCodeFragComponent from "../../customComponents/CustomCodeFragComponent";
 import CustomPageHead from "../../customComponents/CustomPageHead";
+import UnivoxIcon from "../../assets/UnivoxIcon.png";
 
 export function CodeForResetPage() {
   const navigate = useNavigate();
@@ -44,43 +45,43 @@ export function CodeForResetPage() {
     }
   }
   return (
-    <div className="flex items-center flex-col absolute -translate-x-1/2 left-1/2 h-screen w-screen bg-white">
-      <CustomSnackbar
-        open={state.open}
-        message={state.text}
-        onCloseFn={onCloseFn}
-      />
-
-      <CustomPageHead text={"Insira abaixo o código que enviamos ao seu email"}/>
-
-      <form>
-        <CustomCodeFragComponent
-          name={"firstDigit"}
-          text={""}
-          value={codeFrags.firstDigit}
-          onChangeFn={handleChange}
+    <div className="absolute -translate-x-1/2 left-1/2 h-screen w-screen bg-white">
+      <div className="relative flex items-center flex-col mt-12 sm:mt-2 md:mt-2 lg:mt-2 gap-[2vh] sm:gap-[4vh] md:gap-[4vh] lg:gap-[4vh] h-full w-10/12 sm:w-full md:w-full lg:w-6/12 bg-white">
+        <CustomSnackbar
+          open={state.open}
+          message={state.text}
+          onCloseFn={onCloseFn}
         />
-        <CustomCodeFragComponent
-          name={"secondDigit"}
-          text={""}
-          value={codeFrags.secondDigit}
-          onChangeFn={handleChange}
+        <CustomPageHead
+          icon={UnivoxIcon}
+          text={"Insira abaixo o código enviado"}
         />
-        <CustomCodeFragComponent
-          name={"thirdDigit"}
-          text={""}
-          value={codeFrags.thirdDigit}
-          onChangeFn={handleChange}
-        />
-        <CustomCodeFragComponent
-          name={"lastDigit"}
-          text={""}
-          value={codeFrags.lastDigit}
-          onChangeFn={handleChange}
-        />
-      </form>
-
-      <div className="relative flex items-center flex-col top-40">
+        <div className="relative flex items-center flex-row gap-4">
+          <CustomCodeFragComponent
+            name={"firstDigit"}
+            text={""}
+            value={codeFrags.firstDigit}
+            onChangeFn={handleChange}
+          />
+          <CustomCodeFragComponent
+            name={"secondDigit"}
+            text={""}
+            value={codeFrags.secondDigit}
+            onChangeFn={handleChange}
+          />
+          <CustomCodeFragComponent
+            name={"thirdDigit"}
+            text={""}
+            value={codeFrags.thirdDigit}
+            onChangeFn={handleChange}
+          />
+          <CustomCodeFragComponent
+            name={"lastDigit"}
+            text={""}
+            value={codeFrags.lastDigit}
+            onChangeFn={handleChange}
+          />
+        </div>
         <CustomConfirmButton
           text={"CONTINUAR"}
           onClick={() => apiRequest(codeFrags)}
