@@ -1,6 +1,6 @@
 export function LoginPageHead({ icon, text }) {
   return (
-    <div className="relative flex items-center flex-col h-1/5 w-full sm:mt-6 md:mt-6 lg:mt-6">
+    <div className="relative flex items-center flex-col h-1/5 w-full mt-8 sm:mt-6 md:mt-6 lg:mt-6">
       <img
         className=" relative w-68 h-24 sm:w-80 md:w-80 lg:w-80"
         src={icon}

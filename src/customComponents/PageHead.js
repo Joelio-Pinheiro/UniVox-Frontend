@@ -1,4 +1,4 @@
-export default function CustomPageHead({ icon, text }) {
+export default function PageHead({ icon, text }) {
   return (
     <div className="relative flex items-center flex-col h-1/5 w-full sm:h-1/6 md:h-1/6 lg:h-1/6 mt-2 sm:mt-2 md:mt-2 lg:mt-2">
       <img

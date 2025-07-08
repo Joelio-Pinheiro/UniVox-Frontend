@@ -1,11 +1,11 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Checkbox, FormControlLabel } from "@mui/material";
 import { LoginPageFooter } from "./LoginPageFooter";
-import { PasswordField } from "./PasswordField";
-import CustomTextInput from "../../customComponents/CustomTextInputComponent";
-import CustomSnackbar from "../../customComponents/CustomSnackbar";
 import { LoginPageHead } from "./LoginPageHead";
+import { LoginPassword } from "./LoginPassword.js";
+import CustomTextInput from "../../customComponents/TextInputComponent";
+import Snackbar from "../../customComponents/CustomSnackbar.js";
 import authService from "../../services/authService";
 import UnivoxFullIcon from "../../assets/UnivoxFullIcon.png";
 
@@ -39,8 +39,8 @@ export function LoginPage() {
 
   return (
     <div className="absolute flex items-center flex-col -translate-x-1/2 left-1/2 h-screen w-screen bg-white">
-      <div className="relative flex items-center flex-col mt-12 sm:mt-2 md:mt-2 lg:mt-2 gap-[2vh] sm:gap-[4vh] md:gap-[4vh] lg:gap-[4vh] h-full w-10/12 sm:w-full md:w-full lg:w-6/12 bg-white">
-        <CustomSnackbar
+      <div className="relative flex items-center flex-col gap-[5vh] h-full w-10/12 sm:w-6/12 md:w-6/12 lg:w-6/12 bg-white">
+        <Snackbar
           open={state.open}
           message={state.text}
           onCloseFn={onCloseFn}
@@ -55,14 +55,14 @@ export function LoginPage() {
           onChangeFn={handleEmailChange}
         />
 
-        <PasswordField
+        <LoginPassword
           name={"password"}
           text={"Senha"}
           password={password}
           onChangeFn={handlePasswordChange}
         />
 
-        <div className="relative w-full sm:w-6/12 md:w-5/12 lg:w-7/12">
+        <div className="relative w-full sm:w-full md:w-full lg:w-9/12">
           <div className="relative float-start">
             <FormControlLabel
               control={<Checkbox defaultValue={false} />}

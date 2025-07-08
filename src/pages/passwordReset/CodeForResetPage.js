@@ -1,10 +1,10 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import CustomConfirmButton from "../../customComponents/CustomConfirmButton";
+import ConfirmButton from "../../customComponents/ConfirmButton";
 import authService from "../../services/authService";
-import CustomSnackbar from "../../customComponents/CustomSnackbar";
-import CustomCodeFragComponent from "../../customComponents/CustomCodeFragComponent";
-import CustomPageHead from "../../customComponents/CustomPageHead";
+import CustomSnackbar from "../../customComponents/CustomSnackbar.js";
+import ConfirmCodeInput from "../../customComponents/ConfirmCodeInput";
+import PageHead from "../../customComponents/PageHead";
 import UnivoxIcon from "../../assets/UnivoxIcon.png";
 
 export function CodeForResetPage() {
@@ -52,37 +52,34 @@ export function CodeForResetPage() {
           message={state.text}
           onCloseFn={onCloseFn}
         />
-        <CustomPageHead
-          icon={UnivoxIcon}
-          text={"Insira abaixo o código enviado"}
-        />
+        <PageHead icon={UnivoxIcon} text={"Insira abaixo o código enviado"} />
         <div className="relative flex items-center flex-row gap-4">
-          <CustomCodeFragComponent
+          <ConfirmCodeInput
             name={"firstDigit"}
             text={""}
             value={codeFrags.firstDigit}
             onChangeFn={handleChange}
           />
-          <CustomCodeFragComponent
+          <ConfirmCodeInput
             name={"secondDigit"}
             text={""}
             value={codeFrags.secondDigit}
             onChangeFn={handleChange}
           />
-          <CustomCodeFragComponent
+          <ConfirmCodeInput
             name={"thirdDigit"}
             text={""}
             value={codeFrags.thirdDigit}
             onChangeFn={handleChange}
           />
-          <CustomCodeFragComponent
+          <ConfirmCodeInput
             name={"lastDigit"}
             text={""}
             value={codeFrags.lastDigit}
             onChangeFn={handleChange}
           />
         </div>
-        <CustomConfirmButton
+        <ConfirmButton
           text={"CONTINUAR"}
           onClick={() => apiRequest(codeFrags)}
         />

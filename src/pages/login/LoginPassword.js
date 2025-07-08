@@ -1,14 +1,11 @@
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
 import { InputAdornment, TextField } from "@mui/material";
-import { IconSetter } from "../utils/iconSetter";
-import CustomPasswordHidingButton from "./CustomPasswordHidingButton";
+import { IconSetter } from "../../utils/iconSetter";
+import CustomPasswordHidingButton from "../../customComponents/PasswordHideBtn";
+import PasswordComponent from "../../customComponents/PasswordComponent";
 
-export default function CustomPasswordComponent({
-  name,
-  text,
-  password,
-  onChangeFn,
-}) {
+export function LoginPassword({ name, text, password, onChangeFn }) {
   const icon = IconSetter(name);
 
   const [visible, setVisible] = useState("visible");
@@ -18,11 +15,11 @@ export default function CustomPasswordComponent({
   }
 
   return (
-    <div className="w-full flex items-center flex-col">
-      <div className=" relative w-full sm:w-6/12 md:w-5/12 lg:w-7/12">
+    <div className="relative flex items-center flex-col w-full">
+      <div className="relative w-full sm:w-full md:w-full lg:w-9/12">
         <p className=" text-gray-500 font-semibold">{text}</p>
         <TextField
-          className="w-full h-min sm:w-full md:w-full lg:w-full bg-white"
+          className="w-full h-min bg-white"
           name={name}
           value={password}
           onChange={onChangeFn}
@@ -44,6 +41,14 @@ export default function CustomPasswordComponent({
             },
           }}
         />
+        <div className="relative float-end">
+          <Link
+            className="text-[#106FE2] font-semibold text-base sm:text-lg md:text-lg lg:text-lg"
+            to="/emailfornewpass"
+          >
+            Esqueceu a senha?
+          </Link>
+        </div>
       </div>
     </div>
   );

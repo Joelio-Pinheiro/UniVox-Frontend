@@ -1,11 +1,11 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import CustomTextInput from "../../customComponents/CustomTextInputComponent";
-import CustomPassword from "../../customComponents/CustomPasswordComponent";
-import CustomSnackbar from "../../customComponents/CustomSnackbar";
+import { CreateUserPageHead } from "./CreateUserPageHead";
+import TextInputComponent from "../../customComponents/TextInputComponent";
+import PasswordComponent from "../../customComponents/PasswordComponent";
+import CustomSnackbar from "../../customComponents/CustomSnackbar.js";
+import ConfirmButton from "../../customComponents/ConfirmButton";
 import authService from "../../services/authService";
-import CustomConfirmButton from "../../customComponents/CustomConfirmButton";
-import CustomPageHead from "../../customComponents/CustomPageHead";
 import UnivoxIcon from "../../assets/UnivoxIcon.png";
 
 export function CreateUserPage() {
@@ -43,50 +43,47 @@ export function CreateUserPage() {
 
   return (
     <div className="absolute flex items-center flex-col -translate-x-1/2 left-1/2 h-screen w-screen bg-white">
-      <div className="relative flex items-center flex-col gap-[1.5vh] sm:gap-[2.5vh] md:gap-[2.5vh] lg:gap-[2.5vh] h-full w-10/12 sm:w-full md:w-full lg:w-6/12 bg-white">
+      <div className="relative flex items-center flex-col gap-[1.5vh] sm:gap-[2.5vh] md:gap-[2.5vh] lg:gap-[2.5vh] h-full w-10/12 sm:w-6/12 md:w-6/12 lg:w-6/12 bg-white">
         <CustomSnackbar
           open={state.open}
           message={state.text}
           onCloseFn={onCloseFn}
         />
 
-        <CustomPageHead icon={UnivoxIcon} text={"Crie sua conta"} />
+        <CreateUserPageHead icon={UnivoxIcon} text={"Crie sua conta"} />
 
-        <CustomTextInput
+        <TextInputComponent
           name={"name"}
           text={"Nome de Usuário"}
           value={fields.name}
           onChangeFn={handleChange}
         />
-        <CustomTextInput
+        <TextInputComponent
           name={"email"}
           text={"Email"}
           value={fields.email}
           onChangeFn={handleChange}
         />
-        <CustomTextInput
+        <TextInputComponent
           name={"contact_number"}
           text={"Telefone com DDD"}
           value={fields.contact_number}
           onChangeFn={handleChange}
         />
-        <CustomPassword
+        <PasswordComponent
           name={"password"}
           text={"Senha"}
           value={fields.password}
           onChangeFn={handleChange}
         />
-        <CustomPassword
+        <PasswordComponent
           name={"password_confirmation"}
           text={"Confirmar senha"}
           value={fields.password_confirmation}
           onChangeFn={handleChange}
         />
 
-        <CustomConfirmButton
-          text={"Cadastrar"}
-          onClick={() => apiRequest(fields)}
-        />
+        <ConfirmButton text={"Cadastrar"} onClick={() => apiRequest(fields)} />
       </div>
     </div>
   );
