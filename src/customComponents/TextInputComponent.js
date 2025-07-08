@@ -5,6 +5,8 @@ export default function TextInputComponent({
   text,
   value,
   onChangeFn,
+  contentType,
+  visibility,
 }) {
   const icon = IconSetter(name);
 
@@ -17,6 +19,12 @@ export default function TextInputComponent({
           name={name}
           value={value}
           onChange={onChangeFn}
+          type={
+            contentType === "text" ||
+            (contentType === "password" && visibility === "visible")
+              ? "text"
+              : "password"
+          }
           variant="outlined"
           slotProps={
             icon && {

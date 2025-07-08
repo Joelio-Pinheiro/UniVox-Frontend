@@ -10,7 +10,6 @@ import UnivoxIcon from "../../assets/UnivoxIcon.png";
 
 export function CreateUserPage() {
   const navigate = useNavigate();
-  const [state, setState] = useState({ open: false, text: "" });
   const [fields, setFields] = useState({
     name: "",
     email: "",
@@ -18,6 +17,9 @@ export function CreateUserPage() {
     password: "",
     password_confirmation: "",
   });
+
+  const [state, setState] = useState({ open: false, text: "" });
+  const [visibility, setVisibility] = useState("invisible");
 
   function handleChange(e) {
     const { name, value } = e.target;
@@ -29,6 +31,11 @@ export function CreateUserPage() {
 
   function onCloseFn() {
     setState({ open: false });
+  }
+
+  function handleClick() {
+    //uso de string para aproveitar a função de ícone
+    setVisibility(visibility === "invisible" ? "visible" : "invisible");
   }
 
   async function apiRequest(fields) {
@@ -55,31 +62,42 @@ export function CreateUserPage() {
         <TextInputComponent
           name={"name"}
           text={"Nome de Usuário"}
+          contentType={"text"}
           value={fields.name}
           onChangeFn={handleChange}
         />
         <TextInputComponent
           name={"email"}
           text={"Email"}
+          contentType={"text"}
           value={fields.email}
           onChangeFn={handleChange}
         />
+
         <TextInputComponent
           name={"contact_number"}
           text={"Telefone com DDD"}
+          contentType={"text"}
           value={fields.contact_number}
           onChangeFn={handleChange}
         />
+
         <PasswordComponent
           name={"password"}
           text={"Senha"}
+          contentType={"password"}
           value={fields.password}
+          visibility={visibility}
           onChangeFn={handleChange}
+          onClickFn={handleClick}
         />
-        <PasswordComponent
+
+        <TextInputComponent
           name={"password_confirmation"}
           text={"Confirmar senha"}
+          contentType={"password"}
           value={fields.password_confirmation}
+          visibility={visibility}
           onChangeFn={handleChange}
         />
 

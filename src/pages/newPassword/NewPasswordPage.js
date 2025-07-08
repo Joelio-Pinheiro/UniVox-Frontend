@@ -6,21 +6,26 @@ import Snackbar from "../../customComponents/CustomSnackbar.js";
 import { NewPasswordPageHead } from "./NewPasswordPageHead.js";
 import authService from "../../services/authService.js";
 import UnivoxIcon from "../../assets/UnivoxIcon.png";
+import TextInputComponent from "../../customComponents/TextInputComponent.js";
 
 export function NewPasswordPage() {
   const navigate = useNavigate("");
   const [state, setState] = useState({ open: false, text: "" });
-  const [fields, setFields] = useState({
-    password: "",
-    passwordConfirm: "",
-  });
+  const [password, setPassword] = useState("");
+  const [passwordConfirm, setPasswordConfirm] = useState("");
 
+  const [visibility, setVisibility] = useState("visible");
+  
   function handleChange(e) {
-    const { name, value } = e.target;
-    setFields((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
+    setPassword(e.target.value);
+  }
+
+  function handleChange2(e) {
+    setPasswordConfirm(e.target.value);
+  }
+
+  function onClickFn() {
+    setVisibility(visibility === "visible" ? "invisible" : "visible");
   }
 
   function onCloseFn() {
@@ -53,20 +58,25 @@ export function NewPasswordPage() {
         <PasswordComponent
           name={"password"}
           text={"Nova senha"}
-          value={fields.password}
+          contentType={"password"}
+          value={password}
+          visibility={visibility}
           onChangeFn={handleChange}
+          onClickFn={onClickFn}
         />
 
-        <PasswordComponent
-          name={"password_confirmation"}
+        <TextInputComponent
+          name={"password"}
           text={"Confirmar senha"}
-          value={fields.passwordConfirm}
-          onChangeFn={handleChange}
+          contentType={"password"}
+          value={passwordConfirm}
+          visibility={visibility}
+          onChangeFn={handleChange2}
         />
 
         <CustomConfirmButton
           text={"CONFIRMAR"}
-          onClick={() => apiRequest(fields.password)}
+          onClick={() => apiRequest(password, passwordConfirm)}
         />
       </div>
     </div>

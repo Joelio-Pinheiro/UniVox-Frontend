@@ -1,9 +1,8 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { Link } from "react-router-dom";
 import { InputAdornment, TextField } from "@mui/material";
 import { IconSetter } from "../../utils/iconSetter";
 import CustomPasswordHidingButton from "../../customComponents/PasswordHideBtn";
-import PasswordComponent from "../../customComponents/PasswordComponent";
 
 export function LoginPassword({ name, text, password, onChangeFn }) {
   const icon = IconSetter(name);

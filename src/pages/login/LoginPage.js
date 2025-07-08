@@ -51,6 +51,7 @@ export function LoginPage() {
         <CustomTextInput
           name={"email"}
           text={"Email"}
+          contentType={"text"}
           email={email}
           onChangeFn={handleEmailChange}
         />
@@ -58,7 +59,9 @@ export function LoginPage() {
         <LoginPassword
           name={"password"}
           text={"Senha"}
+          contentType={"password"}
           password={password}
+          
           onChangeFn={handlePasswordChange}
         />
 

@@ -1,5 +1,4 @@
 import { InputAdornment, TextField } from "@mui/material";
-import { useState } from "react";
 import { IconSetter } from "../utils/iconSetter";
 import PasswordHideBtn from "./PasswordHideBtn";
 
@@ -8,38 +7,39 @@ export default function PasswordComponent({
   text,
   password,
   onChangeFn,
+  onClickFn,
+  visibility
 }) {
   const icon = IconSetter(name);
 
-  const [visible, setVisible] = useState("visible");
-
-  function onClickFn() {
-    setVisible(visible === "visible" ? "invisible" : "visible");
-  }
-
   return (
-      <TextField
-        className="w-full h-min bg-white"
-        name={name}
-        value={password}
-        onChange={onChangeFn}
-        type={visible === "visible" ? "text" : "password"}
-        variant="outlined"
-        slotProps={{
-          input: icon && {
-            startAdornment: (
-              <InputAdornment position="start">{icon}</InputAdornment>
-            ),
-            endAdornment: (
-              <InputAdornment position="end">
-                <PasswordHideBtn
-                  name={visible}
-                  onClickFn={() => onClickFn(visible)}
-                />
-              </InputAdornment>
-            ),
-          },
-        }}
-      />
+    <div className="relative w-full flex items-center flex-col">
+      <div className="relative w-full sm:w-full md:w-full lg:w-9/12">
+        <p className=" text-gray-500 font-semibold">{text}</p>
+        <TextField
+          className="w-full h-min bg-white"
+          name={name}
+          value={password}
+          onChange={onChangeFn}
+          type={visibility === "visible" ? "text" : "password"}
+          variant="outlined"
+          slotProps={{
+            input: {
+              startAdornment: (
+                <InputAdornment position="start">{icon}</InputAdornment>
+              ),
+              endAdornment: (
+                <InputAdornment position="end">
+                  <PasswordHideBtn
+                    name={visibility}
+                    onClickFn={() => onClickFn(visibility)}
+                  />
+                </InputAdornment>
+              ),
+            },
+          }}
+        />
+      </div>
+    </div>
   );
 }

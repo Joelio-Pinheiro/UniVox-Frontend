@@ -47,7 +47,7 @@ const authService = {
         throw new Error("Senha deve ter ao menos 8 caracteres");
       }
 
-      if (fields.password !== fields.passwordConfirmation) {
+      if (fields.password !== fields.password_confirmation) {
         throw new Error("As senhas não podem ser diferentes");
       }
 
@@ -101,7 +101,7 @@ const authService = {
       }
 
       const response = await apiProvider.post(
-        "users/newcodereq/",
+        "users/passwordresetresend/",
         { email },
         headers
       );
@@ -172,12 +172,14 @@ const authService = {
       }
 
       if (password !== passwordConfirm) {
+        console.log(password);
+        console.log(passwordConfirm);
         throw new Error("As senhas não podem ser diferentes");
       }
 
       const response = await apiProvider.post(
         "users/passwordresetnewpass/",
-        { password },
+        { email, password },
         headers
       );
 

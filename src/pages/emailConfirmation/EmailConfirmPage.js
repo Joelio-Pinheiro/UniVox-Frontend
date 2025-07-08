@@ -2,41 +2,27 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { EmailConfirmPageHead } from "./EmailConfirmPageHead.js";
 import ConfirmButton from "../../customComponents/ConfirmButton.js";
-import ConfirmCodeInput from "../../customComponents/ConfirmCodeInput.js";
 import CustomSnackbar from "../../customComponents/CustomSnackbar.js";
 import authService from "../../services/authService.js";
 import UnivoxIcon from "../../assets/UnivoxIcon.png";
+import TextInputComponent from "../../customComponents/TextInputComponent.js";
 
 export function EmailConfirmPage() {
   const navigate = useNavigate();
   const [state, setState] = useState({ open: false, text: "" });
-  const [codeFrags, setCodeFrags] = useState({
-    firstDigit: "",
-    secondDigit: "",
-    thirdDigit: "",
-    lastDigit: "",
-  });
+  const [confirmationcode, setConfirmationCode] = useState("");
 
   function handleChange(e) {
-    const { name, value } = e.target;
-    setCodeFrags((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
+    setConfirmationCode(e.target.value);
   }
 
   function onCloseFn() {
     setState({ open: false });
   }
 
-  async function apiRequest(codeFrags) {
+  async function apiRequest(confirmationcode) {
     try {
-      //construção do código
-      const code =
-        codeFrags.firstDigit +
-        codeFrags.secondDigit +
-        codeFrags.thirdDigit +
-        codeFrags.lastDigit;
+      const code = confirmationcode;
 
       await authService.accountConfirmation(code);
       navigate("/"); //redireciona para a home page, após o usuário terminar a verificação do email
@@ -67,36 +53,16 @@ export function EmailConfirmPage() {
           text={"Digite o código que enviamos para seu email"}
         />
 
-        <div className="relative grid grid-cols-4 h-1/6 w-9/12 gap-[3vh] sm:gap-[6vh] md:gap-[4vh] lg:gap-[4vh]">
-          <ConfirmCodeInput
-            name={"firstDigit"}
-            text={""}
-            value={codeFrags.firstDigit}
-            onChangeFn={handleChange}
-          />
-          <ConfirmCodeInput
-            name={"secondDigit"}
-            text={""}
-            value={codeFrags.secondDigit}
-            onChangeFn={handleChange}
-          />
-          <ConfirmCodeInput
-            name={"thirdDigit"}
-            text={""}
-            value={codeFrags.thirdDigit}
-            onChangeFn={handleChange}
-          />
-          <ConfirmCodeInput
-            name={"lastDigit"}
-            text={""}
-            value={codeFrags.lastDigit}
-            onChangeFn={handleChange}
-          />
-        </div>
+        <TextInputComponent
+          name={""}
+          text={""}
+          value={confirmationcode}
+          onChangeFn={handleChange}
+        />
 
         <ConfirmButton
           text={"CONTINUAR"}
-          onClick={() => apiRequest(codeFrags)}
+          onClick={() => apiRequest(confirmationcode)}
         />
 
         <div className="relative">
