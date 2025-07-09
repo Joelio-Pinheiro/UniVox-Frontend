@@ -4,7 +4,7 @@ import { Checkbox, FormControlLabel } from "@mui/material";
 import { LoginPageFooter } from "./LoginPageFooter";
 import { LoginPageHead } from "./LoginPageHead";
 import { LoginPassword } from "./LoginPassword.js";
-import CustomTextInput from "../../customComponents/TextInputComponent";
+import TextInputComponent from "../../customComponents/TextInputComponent";
 import Snackbar from "../../customComponents/CustomSnackbar.js";
 import authService from "../../services/authService";
 import UnivoxFullIcon from "../../assets/UnivoxFullIcon.png";
@@ -12,14 +12,19 @@ import UnivoxFullIcon from "../../assets/UnivoxFullIcon.png";
 export function LoginPage() {
   const navigate = useNavigate();
   const [state, setState] = useState({ open: false, text: "" });
-  const [password, setPassword] = useState("");
   const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
   function handleEmailChange(e) {
     setEmail(e.target.value);
   }
 
   function handlePasswordChange(e) {
+    //impede que usuário digite mais de 10 caracteres
+    if (e.target.value.length > 10) {
+      return;
+    }
+
     setPassword(e.target.value);
   }
 
@@ -46,9 +51,9 @@ export function LoginPage() {
           onCloseFn={onCloseFn}
         />
 
-        <LoginPageHead icon={UnivoxFullIcon} text={"Entre na sua conta"} />
+        <LoginPageHead icon={UnivoxFullIcon} title={"Entre na sua conta"} />
 
-        <CustomTextInput
+        <TextInputComponent
           name={"email"}
           text={"Email"}
           contentType={"text"}
@@ -61,7 +66,6 @@ export function LoginPage() {
           text={"Senha"}
           contentType={"password"}
           password={password}
-          
           onChangeFn={handlePasswordChange}
         />
 

@@ -75,7 +75,7 @@ const authService = {
       const email = localStorage.getItem("email");
 
       if (email === "") {
-        throw new Error("Por favor, faça o reenvio dos seus dados");
+        throw new Error("Por favor, digite um email válido");
       }
 
       const response = await apiProvider.post(
@@ -172,8 +172,6 @@ const authService = {
       }
 
       if (password !== passwordConfirm) {
-        console.log(password);
-        console.log(passwordConfirm);
         throw new Error("As senhas não podem ser diferentes");
       }
 

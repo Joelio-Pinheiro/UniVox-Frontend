@@ -1,11 +1,11 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import authService from "../../services/authService";
-import TextInputComponent from "../../customComponents/TextInputComponent";
-import ConfirmButton from "../../customComponents/ConfirmButton";
+import { EmailForResetPageHead } from "./EmailForResetPageHead.js";
+import TextInputComponent from "../../customComponents/TextInputComponent.js";
+import ConfirmButton from "../../customComponents/ConfirmButton.js";
 import CustomSnackbar from "../../customComponents/CustomSnackbar.js";
-import PageHead from "../../customComponents/PageHead";
-import UnivoxIcon from "../../assets/UnivoxIcon.png";
+import authService from "../../services/authService.js";
+import UnivoxIcon from "../../assets/UnivoxFullIcon.png";
 
 export function EmailForResetPage() {
   const navigate = useNavigate();
@@ -23,7 +23,7 @@ export function EmailForResetPage() {
   async function apiRequest(email) {
     try {
       await authService.accountEmailForRecovery(email);
-      navigate("/codeconfirm"); //redireciona para a página de entrada do código de confirmação do email para alteração de senha
+      navigate("/verify/password-reset"); //redireciona para a página de entrada do código de confirmação do email para alteração de senha
     } catch (error) {
       setState({ open: true, text: error.message });
     }
@@ -31,21 +31,22 @@ export function EmailForResetPage() {
 
   return (
     <div className="absolute flex items-center flex-col -translate-x-1/2 left-1/2 h-screen w-screen bg-white">
-      <div className="relative flex items-center flex-col gap-[4vh]h-full w-10/12 sm:w-full md:w-full lg:w-6/12 bg-white">
+      <div className="relative flex items-center flex-col gap-[12vh] h-full w-10/12 sm:w-6/12 md:w-6/12 lg:w-6/12 bg-white">
         <CustomSnackbar
           open={state.open}
           message={state.text}
           onCloseFn={onCloseFn}
         />
 
-        <PageHead
+        <EmailForResetPageHead
           icon={UnivoxIcon}
-          text={"Digite seu email para receber o código de confirmação"}
+          text={"Digite seu email cadastrado para verificação. Nós enviaremos um código de 4 dígitos para ele."}
         />
 
         <TextInputComponent
           name={"name"}
           text={"Email"}
+          contentType={"text"}
           value={email}
           onChangeFn={handleEmailChange}
         />

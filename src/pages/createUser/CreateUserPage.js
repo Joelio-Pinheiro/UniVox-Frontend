@@ -41,7 +41,7 @@ export function CreateUserPage() {
   async function apiRequest(fields) {
     try {
       await authService.createAccount(fields);
-      navigate("/verifyemail"); //redireciona para a página de verificação do email
+      navigate("/verify/email-confirm/"); //redireciona para a página de verificação do email
     } catch (error) {
       console.log(error);
       setState({ open: true, text: error.message });
@@ -57,7 +57,7 @@ export function CreateUserPage() {
           onCloseFn={onCloseFn}
         />
 
-        <CreateUserPageHead icon={UnivoxIcon} text={"Crie sua conta"} />
+        <CreateUserPageHead icon={UnivoxIcon} title={"Crie sua conta"} />
 
         <TextInputComponent
           name={"name"}

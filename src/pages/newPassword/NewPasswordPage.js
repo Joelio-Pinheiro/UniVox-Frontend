@@ -1,12 +1,12 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import PasswordComponent from "../../customComponents/PasswordComponent.js";
-import CustomConfirmButton from "../../customComponents/ConfirmButton.js";
-import Snackbar from "../../customComponents/CustomSnackbar.js";
 import { NewPasswordPageHead } from "./NewPasswordPageHead.js";
+import PasswordComponent from "../../customComponents/PasswordComponent.js";
+import TextInputComponent from "../../customComponents/TextInputComponent.js";
+import ConfirmButton from "../../customComponents/ConfirmButton.js";
+import Snackbar from "../../customComponents/CustomSnackbar.js";
 import authService from "../../services/authService.js";
 import UnivoxIcon from "../../assets/UnivoxIcon.png";
-import TextInputComponent from "../../customComponents/TextInputComponent.js";
 
 export function NewPasswordPage() {
   const navigate = useNavigate("");
@@ -15,12 +15,12 @@ export function NewPasswordPage() {
   const [passwordConfirm, setPasswordConfirm] = useState("");
 
   const [visibility, setVisibility] = useState("visible");
-  
-  function handleChange(e) {
+
+  function handlePasswordChange(e) {
     setPassword(e.target.value);
   }
 
-  function handleChange2(e) {
+  function handleConfirmationChange(e) {
     setPasswordConfirm(e.target.value);
   }
 
@@ -42,8 +42,8 @@ export function NewPasswordPage() {
   }
 
   return (
-    <div className="absolute flex items-center flex-col -translate-x-1/2 left-1/2 h-screen w-scren bg-white">
-      <div className="relative flex items-center flex-col gap-[8vh] h-full w-10/12 sm:w-full md:w-full lg:w-6/12 bg-white">
+    <div className="absolute flex items-center flex-col -translate-x-1/2 left-1/2 h-screen w-screen bg-white">
+      <div className="relative flex items-center flex-col gap-[6vh] h-full w-9/12 sm:w-6/12 md:w-6/12 lg:w-6/12 bg-white">
         <Snackbar
           open={state.open}
           message={state.text}
@@ -52,7 +52,8 @@ export function NewPasswordPage() {
 
         <NewPasswordPageHead
           icon={UnivoxIcon}
-          text={"Insira e confirme abaixo a nova senha"}
+          title={"Nova Senha"}
+          text={"Altere a senha e confirme"}
         />
 
         <PasswordComponent
@@ -61,7 +62,7 @@ export function NewPasswordPage() {
           contentType={"password"}
           value={password}
           visibility={visibility}
-          onChangeFn={handleChange}
+          onChangeFn={handlePasswordChange}
           onClickFn={onClickFn}
         />
 
@@ -71,13 +72,15 @@ export function NewPasswordPage() {
           contentType={"password"}
           value={passwordConfirm}
           visibility={visibility}
-          onChangeFn={handleChange2}
+          onChangeFn={handleConfirmationChange}
         />
 
-        <CustomConfirmButton
-          text={"CONFIRMAR"}
-          onClick={() => apiRequest(password, passwordConfirm)}
-        />
+        <div className="relative flex items-center flex-col w-full h-max mt-12">
+          <ConfirmButton
+            text={"CONFIRMAR"}
+            onClick={() => apiRequest(password, passwordConfirm)}
+          />
+        </div>
       </div>
     </div>
   );

@@ -1,11 +1,11 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { InputAdornment, TextField } from "@mui/material";
-import { IconSetter } from "../../utils/iconSetter";
+import { iconSetter } from "../../utils/iconSetter";
 import CustomPasswordHidingButton from "../../customComponents/PasswordHideBtn";
 
 export function LoginPassword({ name, text, password, onChangeFn }) {
-  const icon = IconSetter(name);
+  const icon = iconSetter(name);
 
   const [visible, setVisible] = useState("visible");
 
@@ -18,7 +18,7 @@ export function LoginPassword({ name, text, password, onChangeFn }) {
       <div className="relative w-full sm:w-full md:w-full lg:w-9/12">
         <p className=" text-gray-500 font-semibold">{text}</p>
         <TextField
-          className="w-full h-min bg-white"
+          className="w-full h-min"
           name={name}
           value={password}
           onChange={onChangeFn}
@@ -37,6 +37,7 @@ export function LoginPassword({ name, text, password, onChangeFn }) {
                   />
                 </InputAdornment>
               ),
+              style: {fontSize: "16px"}
             },
           }}
         />

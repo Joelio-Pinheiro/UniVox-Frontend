@@ -3,7 +3,6 @@ import { useNavigate } from "react-router-dom";
 import ConfirmButton from "../../customComponents/ConfirmButton";
 import authService from "../../services/authService";
 import CustomSnackbar from "../../customComponents/CustomSnackbar.js";
-import PageHead from "../../customComponents/PageHead";
 import UnivoxIcon from "../../assets/UnivoxIcon.png";
 import TextInputComponent from "../../customComponents/TextInputComponent.js";
 
@@ -47,7 +46,6 @@ export function CodeForResetPage() {
           message={state.text}
           onCloseFn={onCloseFn}
         />
-        <PageHead icon={UnivoxIcon} text={"Insira abaixo o código enviado"} />
 
         <TextInputComponent
           name={""}
