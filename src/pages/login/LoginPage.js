@@ -5,6 +5,7 @@ import { CustomSnackbar } from "../../customComponents/CustomSnackbar";
 import { LoginConfirmButton } from "./LoginConfirmButton";
 import { TextInputContainer } from "../../customComponents/TextInputContainer";
 import { PasswordContainer } from "./PasswordContainer";
+import authService from "../../services/authService";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 
@@ -15,21 +16,9 @@ export function LoginPage() {
   const [email, setEmail] = useState("");
 
   function dataValidation(email, password) {
-    if (!email || !password) {
-      setState(
-        {open: true, text: "Email e Senha obrigatórios"}
-      );
-
-      return;
-    }
-
-    const formData = new FormData();
-
-    formData.append("email", email);
-    formData.append("password", password);
-
-    LoginConfirmation(formData);
+    LoginConfirmation(email, password);
   }
+
 
   function handleEmailChange(e) {
     setEmail(e.target.value);
@@ -40,20 +29,18 @@ export function LoginPage() {
   }
 
   function onCloseFn() {
-    setState({open: false});
+    setState({ open: false });
   }
 
-  async function LoginConfirmation(formData) {
-    await axios
-      .post("https://univox-backend.onrender.com/login/", formData, {
-      })
-      .then(() => {
-        setState({open: true, text: "Login bem sucedido."});
-        navigate("/home");
-      })
-      .catch((err) => {
-        console.log(err.message);
-      });
+  async function LoginConfirmation(email, password) {
+    try {
+      await authService.login({ email, password });
+      setState({ open: true, text: "Login bem sucedido." });
+      navigate("/home");
+    } catch (err) {
+      console.error("Erro ao fazer login:", err.message);
+      setState({ open: true, text: err.message});
+    }
   }
 
   return (
