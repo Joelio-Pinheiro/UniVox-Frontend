@@ -9,18 +9,18 @@ import UnivoxFullIcon from '../icons/UnivoxFullIcon.png';
 import UnivoxIcon from '../icons/UnivoxIcon.png';
 import Sidebar from './Sidebar';
 import BasicMenu from './ProfileField';
-import useMediaQuery from '@mui/material/useMediaQuery';
 import { useTheme } from '@mui/material/styles';
 import { MdSearch } from "react-icons/md";
 import { TextField, InputAdornment } from '@mui/material';
 import { FaBell } from "react-icons/fa";
 import Box from '@mui/material/Box';
+import useMediaQuery from '@mui/material/useMediaQuery';
 
 
-const Header = () => {
+const Header = ({isMobile}) => {
     const [open, setOpen] = React.useState(false);
-    const theme = useTheme();
-    const isMobile = useMediaQuery(theme.breakpoints.down('md'));
+    // const theme = useTheme();
+    // const isMobile = useMediaQuery(theme.breakpoints.down('md'));
 
     const toggleDrawer = (newOpen) => () => {
         setOpen(newOpen);

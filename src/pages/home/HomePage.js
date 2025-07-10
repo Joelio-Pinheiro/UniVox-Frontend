@@ -1,13 +1,15 @@
 import React from 'react';
 import Header from '../../layout/Header';
+import MainLayout from '../../layout/MainLayout';
 
 function HomePage() {
   return (
     <>
-      <Header />
-      <div className="home-container">
-        <h1>Olá!</h1>
-      </div>
+      <MainLayout>
+        <div className="home-container">
+          <h1>Olá!</h1>
+        </div>
+      </MainLayout>
     </>
   );
 }
