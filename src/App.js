@@ -5,6 +5,7 @@ import { CreateUserPage } from "./pages/createUser/CreateUserPage";
 import { EmailForResetPage } from "./pages/emailForReset/EmailForResetPage";
 import { NewPasswordPage } from "./pages/newPassword/NewPasswordPage";
 import { EmailCodePage } from "./pages/emailCode/EmailCodePage";
+import { ProfilePage } from "./pages/profile/ProfilePage";
 
 export function App() {
   return (
@@ -17,6 +18,7 @@ export function App() {
           <Route path="verify/:type" element={<EmailCodePage />} />
           <Route path="emailfornewpass" element={<EmailForResetPage />} />
           <Route path="newpassword" element={<NewPasswordPage />} />
+          <Route path="profile" element={<ProfilePage />} />
         </Route>
       </Routes>
     </BrowserRouter>

@@ -62,7 +62,7 @@ export function LoginPage() {
         />
 
         <LoginPassword
-          name={"password"}
+          name={"senha"}
           text={"Senha"}
           contentType={"password"}
           password={password}

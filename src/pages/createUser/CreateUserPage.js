@@ -23,6 +23,11 @@ export function CreateUserPage() {
 
   function handleChange(e) {
     const { name, value } = e.target;
+
+    if(name === "telefone" && value.length > 11){
+      return;
+    }
+    
     setFields((prev) => ({
       ...prev,
       [name]: value,
@@ -60,7 +65,7 @@ export function CreateUserPage() {
         <CreateUserPageHead icon={UnivoxIcon} title={"Crie sua conta"} />
 
         <TextInputComponent
-          name={"name"}
+          name={"nome"}
           text={"Nome de Usuário"}
           contentType={"text"}
           value={fields.name}
@@ -75,7 +80,7 @@ export function CreateUserPage() {
         />
 
         <TextInputComponent
-          name={"contact_number"}
+          name={"telefone"}
           text={"Telefone com DDD"}
           contentType={"text"}
           value={fields.contact_number}
@@ -83,7 +88,7 @@ export function CreateUserPage() {
         />
 
         <PasswordComponent
-          name={"password"}
+          name={"senha"}
           text={"Senha"}
           contentType={"password"}
           value={fields.password}
@@ -93,7 +98,7 @@ export function CreateUserPage() {
         />
 
         <TextInputComponent
-          name={"password_confirmation"}
+          name={"confirma_senha"}
           text={"Confirmar senha"}
           contentType={"password"}
           value={fields.password_confirmation}

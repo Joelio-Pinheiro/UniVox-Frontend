@@ -40,11 +40,13 @@ export function EmailForResetPage() {
 
         <EmailForResetPageHead
           icon={UnivoxIcon}
-          text={"Digite seu email cadastrado para verificação. Nós enviaremos um código de 4 dígitos para ele."}
+          text={
+            "Digite seu email cadastrado para verificação. Nós enviaremos um código de 4 dígitos para ele."
+          }
         />
 
         <TextInputComponent
-          name={"name"}
+          name={"email"}
           text={"Email"}
           contentType={"text"}
           value={email}

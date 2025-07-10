@@ -13,10 +13,10 @@ export function EmailCodePage() {
   const navigate = useNavigate();
   const email = localStorage.getItem("email");
 
-  if(email === null){
+  if (email === null) {
     navigate("/login");
   }
-  
+
   const routeParam = useParams();
   const [state, setState] = useState({ open: false, text: "" });
   const [code, setCode] = useState({

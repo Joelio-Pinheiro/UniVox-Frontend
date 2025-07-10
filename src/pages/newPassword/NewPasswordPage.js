@@ -14,7 +14,7 @@ export function NewPasswordPage() {
   const [password, setPassword] = useState("");
   const [passwordConfirm, setPasswordConfirm] = useState("");
 
-  const [visibility, setVisibility] = useState("visible");
+  const [visibility, setVisibility] = useState("invisivel");
 
   function handlePasswordChange(e) {
     setPassword(e.target.value);
@@ -25,7 +25,7 @@ export function NewPasswordPage() {
   }
 
   function onClickFn() {
-    setVisibility(visibility === "visible" ? "invisible" : "visible");
+    setVisibility(visibility === "invisivel" ? "visivel" : "invisivel");
   }
 
   function onCloseFn() {
@@ -57,7 +57,7 @@ export function NewPasswordPage() {
         />
 
         <PasswordComponent
-          name={"password"}
+          name={"senha"}
           text={"Nova senha"}
           contentType={"password"}
           value={password}
@@ -67,7 +67,7 @@ export function NewPasswordPage() {
         />
 
         <TextInputComponent
-          name={"password"}
+          name={"confirma_senha"}
           text={"Confirmar senha"}
           contentType={"password"}
           value={passwordConfirm}

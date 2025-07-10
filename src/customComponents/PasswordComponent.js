@@ -21,7 +21,7 @@ export default function PasswordComponent({
           name={name}
           value={password}
           onChange={onChangeFn}
-          type={visibility === "visible" ? "text" : "password"}
+          type={visibility === "visivel" ? "text" : "password"}
           variant="outlined"
           slotProps={{
             input: {

@@ -21,7 +21,7 @@ export default function TextInputComponent({
           onChange={onChangeFn}
           type={
             contentType === "text" ||
-            (contentType === "password" && visibility === "visible") //oculta senhas, se exigido
+            (contentType === "password" && visibility === "visivel") //oculta senhas, se exigido
               ? "text"
               : "password"
           }

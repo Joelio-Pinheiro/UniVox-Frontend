@@ -1,6 +1,5 @@
 import {
   AccountCircle,
-  Clear,
   LockRounded,
   Mail,
   PhoneAndroid,
@@ -11,22 +10,20 @@ import {
 //fornece ícones para input de texto baseado na propriedade name
 export function iconSetter(name) {
   switch (name) {
-    case "name":
+    case "nome":
       return <AccountCircle sx={{ color: "#106FE2" }} />;
     case "email":
       return <Mail sx={{ color: "#106FE2" }} />;
-    case "contact_number":
+    case "telefone":
       return <PhoneAndroid sx={{ color: "#106FE2" }} />;
-    case "password":
+    case "senha":
       return <LockRounded sx={{ color: "#106FE2" }} />;
-    case "password_confirmation":
+    case "confirma_senha":
       return <LockRounded sx={{ color: "#106FE2" }} />;
-    case "visible":
+    case "visivel":
       return <Visibility sx={{ color: "#808080" }} />;
-    case "invisible":
+    case "invisivel":
       return <VisibilityOff sx={{ color: "#808080" }} />;
-    case "clear":
-      return <Clear sx={{ color: "#A9A9A9" }} />;
     default:
       return;
   }
