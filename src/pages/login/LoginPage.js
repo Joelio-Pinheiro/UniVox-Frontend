@@ -30,6 +30,7 @@ export function LoginPage() {
 
   function onCloseFn() {
     setState({ open: false });
+    setState({ open: false });
   }
 
   async function apiRequest(email, password) {

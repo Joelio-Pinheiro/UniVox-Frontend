@@ -3,6 +3,7 @@ import FormGroup from '@mui/material/FormGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Switch from '@mui/material/Switch';
 
+
 const MaterialUISwitch = styled(Switch)(({ theme }) => ({
   width: 62,
   height: 34,
@@ -59,11 +60,14 @@ const MaterialUISwitch = styled(Switch)(({ theme }) => ({
   },
 }));
 
-export default function ThemeButton() {
+export default function ThemeButton({ size = 'medium' }) {
+  const scaleValue = size === 'small' ? 0.8 : 1;
+
   return (
-    <FormGroup>
+    <FormGroup sx={{ transform: `scale(${scaleValue})`, transformOrigin: 'left center' }}>
       <FormControlLabel
-        control={<MaterialUISwitch sx={{ m: 1 }} defaultChecked />}
+        control={<MaterialUISwitch sx={{ m: 0.5 }} defaultChecked />}
+        label=""
       />
     </FormGroup>
   );
