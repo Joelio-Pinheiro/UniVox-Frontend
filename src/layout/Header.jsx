@@ -6,12 +6,16 @@ import Drawer from '@mui/material/Drawer';
 import { MdMenuOpen } from "react-icons/md";
 import { IoIosSearch } from "react-icons/io";
 import UnivoxFullIcon from '../icons/UnivoxFullIcon.png';
+import UnivoxIcon from '../icons/UnivoxIcon.png';
 import Sidebar from './Sidebar';
+import BasicMenu from './ProfileField';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { useTheme } from '@mui/material/styles';
 import { MdSearch } from "react-icons/md";
 import { TextField, InputAdornment } from '@mui/material';
 import { FaBell } from "react-icons/fa";
+import Box from '@mui/material/Box';
+
 
 const Header = () => {
     const [open, setOpen] = React.useState(false);
@@ -27,22 +31,31 @@ const Header = () => {
                 <div>
                     <AppBar position='static' className="!shadow-sm !bg-white" elevation={0}>
                         <Toolbar className="flex justify-between items-center px-3 sm:px-6 py-2 sm:py-4">
+                            <div className="flex items-center">
+                                <IconButton edge="start" color="inherit" onClick={toggleDrawer(true)} className="p-1 sm:p-2">
+                                    <MdMenuOpen className="text-3xl sm:text-4xl text-black" />
+                                </IconButton>
 
-                            <IconButton edge="start" color="inherit" onClick={toggleDrawer(true)} className="p-1 sm:p-2">
-                                <MdMenuOpen className="text-3xl sm:text-4xl text-black" />
-                            </IconButton>
-
-                            <div className="flex items-center justify-center">
-                                <img
-                                    src={UnivoxFullIcon}
-                                    alt="Univox Logo"
-                                    className="h-10 sm:h-10 md:h-14 object-contain"
-                                />
+                                <Box className="flex items-center justify-center">
+                                    <img
+                                        src={UnivoxFullIcon}
+                                        alt="Univox Logo"
+                                        className="h-10 sm:h-10 md:h-14 object-contain"
+                                    />
+                                </Box>
                             </div>
 
-                            <IconButton className="p-1 sm:p-2">
-                                <IoIosSearch className="text-2xl sm:text-3xl text-black" />
-                            </IconButton>
+
+                            <div className='flex items-center justify-center gap-3 w-1/2'>
+                                <IconButton className="p-1 sm:p-2">
+                                    <IoIosSearch className="text-2xl sm:text-3xl text-black" />
+                                </IconButton>
+                                <IconButton className="p-1 sm:p-2">
+                                    <FaBell className='text-2xl sm:text-3xl text-black' />
+                                </IconButton>
+                                <BasicMenu />
+                            </div>
+
                         </Toolbar>
                     </AppBar>
                     <Drawer anchor="left" open={open} onClose={toggleDrawer(false)}>
@@ -85,11 +98,12 @@ const Header = () => {
                                     }}
                                 />
                             </div>
-
-                            <IconButton className="p-1 sm:p-2">
-                                {/* <IoIosSearch className="text-2xl sm:text-3xl text-black" /> */}
-                                <FaBell className='text-2xl sm:text-3xl text-black' />
-                            </IconButton>
+                            <div className='flex items-center gap-1 '>
+                                <IconButton className="p-1 sm:p-2">
+                                    <FaBell className='text-2xl sm:text-3xl text-black' />
+                                </IconButton>
+                                <BasicMenu />
+                            </div>
                         </Toolbar>
                     </AppBar>
                     <div className="hidden md:block fixed left-0 h-full w-64 bg-white shadow-md z-10 border-t-0">
