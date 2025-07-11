@@ -3,6 +3,7 @@ import {
   MilitaryTechOutlined,
   MilitaryTechRounded,
   MilitaryTechTwoTone,
+  WorkspacePremium,
 } from "@mui/icons-material";
 
 export function rankIconSetter(rank) {
@@ -15,7 +16,7 @@ export function rankIconSetter(rank) {
       return (
         <MilitaryTechOutlined
           className="!h-full !w-full"
-          sx={{ color: "silver" }}
+          sx={{ color: "#E5E4E2" }}
         />
       );
     case "ouro":
@@ -25,9 +26,12 @@ export function rankIconSetter(rank) {
           sx={{ color: "gold" }}
         />
       );
-    case "o-favorito":
+    case "maximo":
       return (
-        <MilitaryTechTwoTone className="!h-full !w-full" sx={{ color: "blueviolet" }} />
+        <WorkspacePremium
+          className="!h-full !w-full"
+          sx={{ color: "#9c27b0" }}
+        />
       );
     default:
       return;
