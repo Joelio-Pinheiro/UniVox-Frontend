@@ -9,17 +9,10 @@ import Divider from '@mui/material/Divider';
 import Avatar from '@mui/material/Avatar';
 import Collapse from '@mui/material/Collapse';
 import { MdMenuOpen, MdExpandLess, MdExpandMore, MdQuestionAnswer } from "react-icons/md";
-import { useTheme } from '@mui/material/styles';
-import useMediaQuery from '@mui/material/useMediaQuery';
 import { FaHome } from "react-icons/fa";
-import { MdDarkMode } from "react-icons/md";
-import { FaBell } from "react-icons/fa";
-import ThemeButton from '../layout/ThemeButton';
 
 
-const Sidebar = ({ toggleDrawer }) => {
-  const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down('md'));
+const Sidebar = ({ toggleDrawer, isMobile }) => {
   const [openTopics, setOpenTopics] = React.useState(true);
 
   const handleClose = () => {
