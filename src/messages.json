@@ -1,13 +1,9 @@
 {
-  "userProfileSections": {
-    "emptyPostsSection":"O usuário ainda não fez nenhuma postagem",
-    "emptyCommentsSection": "O usuário ainda não fez nenhum comentário",
-    "emptyLikesSection": "O usuário ainda não deu like em nenhuma postagem",
-    "emptyDeslikesSection": "O usuário ainda não deu deslike em nenhuma postagem"
-  },
-  "authNotifications":{
-    "emptyFields": "Não pode haver campo(s) vazio(s)",
-    "invalidCode": "Código inválido",
-    "expiredCode": "O código já expirou"
-  }
+  "emptyPostsSection": "O usuário ainda não fez nenhuma postagem",
+  "emptyCommentsSection": "O usuário ainda não fez nenhum comentário",
+  "emptyLikesSection": "O usuário ainda não deu like em nenhuma postagem",
+  "emptyDeslikesSection": "O usuário ainda não deu deslike em nenhuma postagem",
+  "emptyFields": "Não pode haver campo(s) vazio(s)",
+  "invalidCode": "Código inválido",
+  "expiredCode": "O código já expirou"
 }

@@ -1,6 +1,6 @@
-import { TextField } from "@mui/material";
+import {TextField} from "@mui/material";
 
-export default function CodeInputComponent({ name, value, onChangeFn }) {
+export default function CodeInputComponent({name, value, onChangeFn}) {
   return (
     <TextField
       name={name}
@@ -8,7 +8,7 @@ export default function CodeInputComponent({ name, value, onChangeFn }) {
       onChange={onChangeFn}
       fullWidth
       variant="outlined"
-      sx={{ "& input": { textAlign: "center", fontSize: "32px" } }}
+      sx={{"& input": {textAlign: "center", fontSize: "32px"}}}
     />
   );
 }

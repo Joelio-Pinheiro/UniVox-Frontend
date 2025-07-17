@@ -1,7 +1,7 @@
-import { LinearProgress } from "@mui/material";
-import { rankIconSetter } from "../../utils/rankIconSetter";
+import {LinearProgress} from "@mui/material";
+import {rankIconSetter} from "../../utils/iconSetters";
 
-export function ProfileRank({ rank, level }) {
+export function ProfileRank({rank, level}) {
   const userRank = rankIconSetter(rank);
   return (
     <div className="relative flex items-center flex-col w-full h-1/4">
