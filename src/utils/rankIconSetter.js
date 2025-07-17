@@ -10,26 +10,26 @@ export function rankIconSetter(rank) {
   switch (rank) {
     case "cobre":
       return (
-        <MilitaryTech className="!h-full !w-full" sx={{ color: "#b87333" }} />
+        <MilitaryTech className="!h-3/4 !w-3/4" sx={{ color: "#b87333" }} />
       );
     case "prata":
       return (
         <MilitaryTechOutlined
-          className="!h-full !w-full"
+          className="!h-full !w-3/4"
           sx={{ color: "#E5E4E2" }}
         />
       );
     case "ouro":
       return (
         <MilitaryTechRounded
-          className="!h-full !w-full"
+          className="!h-full !w-3/4"
           sx={{ color: "gold" }}
         />
       );
     case "maximo":
       return (
         <WorkspacePremium
-          className="!h-full !w-full"
+          className="!h-full !w-3/4"
           sx={{ color: "#9c27b0" }}
         />
       );

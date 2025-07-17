@@ -6,6 +6,7 @@ import { EmailForResetPage } from "./pages/emailForReset/EmailForResetPage";
 import { NewPasswordPage } from "./pages/newPassword/NewPasswordPage";
 import { EmailCodePage } from "./pages/emailCode/EmailCodePage";
 import { ProfilePage } from "./pages/profile/ProfilePage";
+import MainLayout from "./layout/MainLayout";
 
 export function App() {
   return (
@@ -13,12 +14,15 @@ export function App() {
       <Routes>
         <Route exact path="/" element={<Outlet />}>
           <Route index element={<HomePage />} />
-          <Route path="login" element={<LoginPage />} /> 
+          <Route path="login" element={<LoginPage />} />
           <Route path="register" element={<CreateUserPage />} />
           <Route path="verify/:type" element={<EmailCodePage />} />
           <Route path="emailfornewpass" element={<EmailForResetPage />} />
           <Route path="newpassword" element={<NewPasswordPage />} />
-          <Route path="profile" element={<ProfilePage />} />
+          <Route
+            path="profile"
+            element={<MainLayout children={<ProfilePage />} />}
+          />
         </Route>
       </Routes>
     </BrowserRouter>

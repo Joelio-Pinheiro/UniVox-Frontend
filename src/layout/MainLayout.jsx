@@ -10,7 +10,7 @@ const MainLayout = ({ children }) => {
         <>
             <Header isMobile={isMobile} />
             <div
-                className={`p-4 transition-all duration-300 ease-in-out 
+                className={`fixed h-full w-full transition-all duration-300 ease-in-out 
                     ${!isMobile ? 'ml-64' : ''}`
                 }
             >

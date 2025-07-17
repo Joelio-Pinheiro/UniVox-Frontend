@@ -20,16 +20,10 @@ export function LoginPage() {
   }
 
   function handlePasswordChange(e) {
-    //impede que usuário digite mais de 10 caracteres
-    if (e.target.value.length > 10) {
-      return;
-    }
-
     setPassword(e.target.value);
   }
 
   function onCloseFn() {
-    setState({ open: false });
     setState({ open: false });
   }
 
@@ -88,3 +82,5 @@ export function LoginPage() {
     </div>
   );
 }
+
+
