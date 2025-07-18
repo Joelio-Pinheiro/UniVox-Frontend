@@ -1,5 +1,5 @@
-import { InputAdornment, TextField } from "@mui/material";
-import { iconSetter } from "../utils/iconSetter";
+import {InputAdornment, TextField} from "@mui/material";
+import {inputIconSetter} from "../utils/iconSetters";
 import PasswordHideBtn from "./PasswordHideBtn";
 
 export default function PasswordComponent({
@@ -10,7 +10,7 @@ export default function PasswordComponent({
   onClickFn,
   visibility,
 }) {
-  const icon = iconSetter(name);
+  const icon = inputIconSetter(name);
 
   return (
     <div className="relative w-full flex items-center flex-col">
@@ -36,7 +36,7 @@ export default function PasswordComponent({
                   />
                 </InputAdornment>
               ),
-              style: { fontSize: "16px" },
+              style: {fontSize: "16px"},
             },
           }}
         />

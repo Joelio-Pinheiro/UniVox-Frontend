@@ -9,13 +9,13 @@ export function ProfileRank({rank, level}) {
         <div className="relative w-2/12 h-full flex items-center flex-col rounded-md bg-gray-300">
           {userRank}
         </div>
-        <div className="relative flex items-start flex-col gap-4 w-3/4 h-full mt-4">
+        <div className="relative flex items-start flex-col gap-4 w-3/4 h-full mt-0 sm:mt-2 md:mt-2 lg:mt-2">
           <p className="text-xl">
             {rank === "maximo" ? "Rank máximo" : "Seu rank é: " + rank}
           </p>
 
           <LinearProgress
-            className="relative w-8/12 !py-1.5 rounded-md"
+            className="relative w-10/12 !py-1.5 rounded-md"
             color={
               rank === "cobre"
                 ? "warning"

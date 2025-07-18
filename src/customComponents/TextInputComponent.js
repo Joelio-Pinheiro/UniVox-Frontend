@@ -1,5 +1,5 @@
 import {InputAdornment, TextField} from "@mui/material";
-import {iconSetter} from "../utils/iconSetters";
+import {inputIconSetter} from "../utils/iconSetters";
 export default function TextInputComponent({
   name,
   text,
@@ -8,7 +8,7 @@ export default function TextInputComponent({
   contentType,
   visibility,
 }) {
-  const icon = iconSetter(name);
+  const icon = inputIconSetter(name);
 
   return (
     <div className="relative w-full flex items-center flex-col">
