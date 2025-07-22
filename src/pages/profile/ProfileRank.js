@@ -4,9 +4,9 @@ import {rankIconSetter} from "../../utils/iconSetters";
 export function ProfileRank({rank, level}) {
   const userRank = rankIconSetter(rank);
   return (
-    <div className="relative flex items-center flex-col w-full h-1/4">
-      <div className="relative flex items-start flex-row gap-6 w-full h-full">
-        <div className="relative w-2/12 h-full flex items-center flex-col rounded-md bg-gray-300">
+    <div className="relative w-full h-1/4 flex items-center flex-col">
+      <div className="relative w-full h-full flex items-start flex-row gap-6">
+        <div className="relative w-2/12 sm:w-2/12 md:w-2/12 lg:w-1/12 h-full flex items-center flex-col rounded-md bg-gray-300">
           {userRank}
         </div>
         <div className="relative flex items-start flex-col gap-4 w-3/4 h-full mt-0 sm:mt-2 md:mt-2 lg:mt-2">

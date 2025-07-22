@@ -1,4 +1,4 @@
-import InteractionButton from "../../customComponents/InteractionButton";
+import InteractionButton from "../../customComponents/buttons/InteractionButton";
 import message from "../../messages.json";
 import {profileIconSetter} from "../../utils/iconSetters";
 import {rankIconSetter} from "../../utils/iconSetters";
@@ -23,7 +23,7 @@ export function ProfileSection({section, data}) {
   }
 
   return (
-    <div className="relative w-full h-full flex items-center flex-col sm:w-9/12 md:w-9/12 lg:w-9/12 bg-gray-300">
+    <div className="relative w-full h-full flex items-center flex-col bg-gray-300">
       {/*se não houver nada para mostrar, exibe mensagem de erro */}
       {data.length === 0 ? (
         <div className="relative w-full h-full">

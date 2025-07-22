@@ -46,15 +46,15 @@ export function inputIconSetter(name) {
 export function buttonIconSetter(type) {
   switch (type) {
     case "likes":
-      return <ThumbUpSharp />;
+      return <ThumbUpSharp sx={{color: "black"}} />;
     case "dislikes":
-      return <ThumbDownSharp />;
+      return <ThumbDownSharp sx={{color: "black"}} />;
     case "comment":
-      return <ChatBubbleOutlineOutlined />;
+      return <ChatBubbleOutlineOutlined sx={{color: "black"}} />;
     case "options":
       return <MoreVert />;
     case "edit":
-      return <BorderColorOutlined />;
+      return <BorderColorOutlined sx={{color: "black"}} />;
     default:
       return;
   }
