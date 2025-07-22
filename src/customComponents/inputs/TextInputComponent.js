@@ -1,5 +1,5 @@
 import {InputAdornment, TextField} from "@mui/material";
-import {inputIconSetter} from "../utils/iconSetters";
+import {inputIconSetter} from "../../utils/iconSetters";
 export default function TextInputComponent({
   name,
   text,

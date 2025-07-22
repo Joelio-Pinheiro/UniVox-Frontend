@@ -1,11 +1,11 @@
-import { useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
-import { EmailCodePageHead } from "./EmailCodePageHead.js";
-import ConfirmButton from "../../customComponents/ConfirmButton.js";
+import {useState} from "react";
+import {useNavigate, useParams} from "react-router-dom";
+import {EmailCodePageHead} from "./EmailCodePageHead.js";
+import ConfirmButton from "../../customComponents/buttons/ConfirmButton.js";
 import CustomSnackbar from "../../customComponents/CustomSnackbar.js";
 import authService from "../../services/authService.js";
 import UnivoxIcon from "../../assets/UnivoxIcon.png";
-import CodeInputComponent from "../../customComponents/CodeInputComponent.js";
+import CodeInputComponent from "../../customComponents/inputs/CodeInputComponent.js";
 
 //essa página é usada tanto na confirmação do email
 //após criação de conta; quanto para recuperação de senha
@@ -18,7 +18,7 @@ export function EmailCodePage() {
   }
 
   const routeParam = useParams();
-  const [state, setState] = useState({ open: false, text: "" });
+  const [state, setState] = useState({open: false, text: ""});
   const [code, setCode] = useState({
     firstDigit: "",
     secondDigit: "",
@@ -27,7 +27,7 @@ export function EmailCodePage() {
   });
 
   function handleChange(e) {
-    const { name, value } = e.target;
+    const {name, value} = e.target;
     if (value.length > 1) {
       //impede que usuário digite mais de um caractere por input
       return;
@@ -40,7 +40,7 @@ export function EmailCodePage() {
   }
 
   function onCloseFn() {
-    setState({ open: false });
+    setState({open: false});
   }
 
   async function apiRequest(path) {
@@ -51,7 +51,7 @@ export function EmailCodePage() {
       await authService.accountCodeForRecovery(confirmationCode);
       navigate(path); //redireciona para a home page, após o usuário terminar a verificação do email
     } catch (error) {
-      setState({ open: true, text: error.message });
+      setState({open: true, text: error.message});
     }
   }
 
@@ -59,7 +59,7 @@ export function EmailCodePage() {
     try {
       await authService.accountNewCodeRequest();
     } catch (error) {
-      setState({ open: true, text: error.message });
+      setState({open: true, text: error.message});
     }
   }
 
@@ -126,8 +126,7 @@ export function EmailCodePage() {
             Não recebeu o código?
             <span
               className="text-[#106FE2] font-semibold"
-              onClick={() => apiNewCodeRequest()}
-            >
+              onClick={() => apiNewCodeRequest()}>
               Reenviar
             </span>
           </p>

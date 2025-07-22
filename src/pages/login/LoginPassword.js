@@ -2,7 +2,7 @@ import {useState} from "react";
 import {Link} from "react-router-dom";
 import {InputAdornment, TextField} from "@mui/material";
 import {inputIconSetter} from "../../utils/iconSetters";
-import CustomPasswordHidingButton from "../../customComponents/PasswordHideBtn";
+import CustomPasswordHidingButton from "../../customComponents/buttons/PasswordHideBtn";
 
 export function LoginPassword({name, text, password, onChangeFn}) {
   const icon = inputIconSetter(name);

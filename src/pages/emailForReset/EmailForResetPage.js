@@ -1,15 +1,15 @@
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { EmailForResetPageHead } from "./EmailForResetPageHead.js";
-import TextInputComponent from "../../customComponents/TextInputComponent.js";
-import ConfirmButton from "../../customComponents/ConfirmButton.js";
+import {useState} from "react";
+import {useNavigate} from "react-router-dom";
+import {EmailForResetPageHead} from "./EmailForResetPageHead.js";
+import TextInputComponent from "../../customComponents/inputs/TextInputComponent.js";
+import ConfirmButton from "../../customComponents/buttons/ConfirmButton.js";
 import CustomSnackbar from "../../customComponents/CustomSnackbar.js";
 import authService from "../../services/authService.js";
 import UnivoxIcon from "../../assets/UnivoxFullIcon.png";
 
 export function EmailForResetPage() {
   const navigate = useNavigate();
-  const [state, setState] = useState({ open: false, text: "" });
+  const [state, setState] = useState({open: false, text: ""});
   const [email, setEmail] = useState("");
 
   function handleEmailChange(e) {
@@ -17,7 +17,7 @@ export function EmailForResetPage() {
   }
 
   function onCloseFn() {
-    setState({ open: false });
+    setState({open: false});
   }
 
   async function apiRequest(email) {
@@ -25,7 +25,7 @@ export function EmailForResetPage() {
       await authService.accountEmailForRecovery(email);
       navigate("/verify/password-reset"); //redireciona para a página de entrada do código de confirmação do email para alteração de senha
     } catch (error) {
-      setState({ open: true, text: error.message });
+      setState({open: true, text: error.message});
     }
   }
 

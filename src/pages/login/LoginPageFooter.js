@@ -1,7 +1,7 @@
-import { Link } from "react-router-dom";
-import CustomConfirmButton from "../../customComponents/ConfirmButton";
+import {Link} from "react-router-dom";
+import CustomConfirmButton from "../../customComponents/buttons/ConfirmButton";
 
-export function LoginPageFooter({ onClickFn }) {
+export function LoginPageFooter({onClickFn}) {
   return (
     <div className="relative flex items-center flex-col gap-[3vh]">
       <div className="relative">

@@ -1,6 +1,6 @@
 import {InputAdornment, TextField} from "@mui/material";
-import {inputIconSetter} from "../utils/iconSetters";
-import PasswordHideBtn from "./PasswordHideBtn";
+import {inputIconSetter} from "../../utils/iconSetters";
+import PasswordHideBtn from "../buttons/PasswordHideBtn";
 
 export default function PasswordComponent({
   name,

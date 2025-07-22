@@ -1,10 +1,10 @@
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { CreateUserPageHead } from "./CreateUserPageHead";
-import TextInputComponent from "../../customComponents/TextInputComponent";
-import PasswordComponent from "../../customComponents/PasswordComponent";
+import {useState} from "react";
+import {useNavigate} from "react-router-dom";
+import {CreateUserPageHead} from "./CreateUserPageHead";
+import TextInputComponent from "../../customComponents/inputs/TextInputComponent";
+import PasswordComponent from "../../customComponents/inputs/PasswordComponent.js";
 import CustomSnackbar from "../../customComponents/CustomSnackbar.js";
-import ConfirmButton from "../../customComponents/ConfirmButton";
+import ConfirmButton from "../../customComponents/buttons/ConfirmButton.js";
 import authService from "../../services/authService";
 import UnivoxIcon from "../../assets/UnivoxIcon.png";
 
@@ -18,16 +18,16 @@ export function CreateUserPage() {
     password_confirmation: "",
   });
 
-  const [state, setState] = useState({ open: false, text: "" });
+  const [state, setState] = useState({open: false, text: ""});
   const [visibility, setVisibility] = useState("invisible");
 
   function handleChange(e) {
-    const { name, value } = e.target;
+    const {name, value} = e.target;
 
-    if(name === "telefone" && value.length > 11){
+    if (name === "telefone" && value.length > 11) {
       return;
     }
-    
+
     setFields((prev) => ({
       ...prev,
       [name]: value,
@@ -35,7 +35,7 @@ export function CreateUserPage() {
   }
 
   function onCloseFn() {
-    setState({ open: false });
+    setState({open: false});
   }
 
   function handleClick() {
@@ -49,7 +49,7 @@ export function CreateUserPage() {
       navigate("/verify/email-confirm/"); //redireciona para a página de verificação do email
     } catch (error) {
       console.log(error);
-      setState({ open: true, text: error.message });
+      setState({open: true, text: error.message});
     }
   }
 

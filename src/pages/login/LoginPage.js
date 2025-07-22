@@ -1,17 +1,17 @@
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { Checkbox, FormControlLabel } from "@mui/material";
-import { LoginPageFooter } from "./LoginPageFooter";
-import { LoginPageHead } from "./LoginPageHead";
-import { LoginPassword } from "./LoginPassword.js";
-import TextInputComponent from "../../customComponents/TextInputComponent";
+import {useState} from "react";
+import {useNavigate} from "react-router-dom";
+import {Checkbox, FormControlLabel} from "@mui/material";
+import {LoginPageFooter} from "./LoginPageFooter";
+import {LoginPageHead} from "./LoginPageHead";
+import {LoginPassword} from "./LoginPassword.js";
+import TextInputComponent from "../../customComponents/inputs/TextInputComponent";
 import Snackbar from "../../customComponents/CustomSnackbar.js";
 import authService from "../../services/authService";
 import UnivoxFullIcon from "../../assets/UnivoxFullIcon.png";
 
 export function LoginPage() {
   const navigate = useNavigate();
-  const [state, setState] = useState({ open: false, text: "" });
+  const [state, setState] = useState({open: false, text: ""});
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -24,7 +24,7 @@ export function LoginPage() {
   }
 
   function onCloseFn() {
-    setState({ open: false });
+    setState({open: false});
   }
 
   async function apiRequest(email, password) {
@@ -33,7 +33,7 @@ export function LoginPage() {
       navigate("/"); //redireciona para a home page
     } catch (error) {
       console.log(error);
-      setState({ open: true, text: error.message });
+      setState({open: true, text: error.message});
     }
   }
 
@@ -82,5 +82,3 @@ export function LoginPage() {
     </div>
   );
 }
-
-
