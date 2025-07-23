@@ -8,7 +8,7 @@ export default function InteractionButton({counter, type, hidden, onClickFn}) {
       className="!w-min !h-min !border-black"
       variant={type === "comment" ? "text" : "outlined"}
       hidden={hidden}
-      startIcon={counter ? "" : icon}
+      startIcon={counter !== null ? "" : icon}
       endIcon={counter !== null ? icon : ""}
       onClick={onClickFn}>
       {<p className="text-xs text-black">{counter}</p>}

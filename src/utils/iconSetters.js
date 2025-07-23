@@ -64,7 +64,9 @@ export function buttonIconSetter(type) {
 export function rankIconSetter(rank) {
   switch (rank) {
     case "cobre":
-      return <MilitaryTech className="!h-3/4 !w-3/4" sx={{color: "#B87333"}} />;
+      return (
+        <MilitaryTech className="!h-full !w-3/4" sx={{color: "#B87333"}} />
+      );
     case "prata":
       return (
         <MilitaryTechOutlined

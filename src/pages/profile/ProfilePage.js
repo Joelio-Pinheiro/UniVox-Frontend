@@ -6,11 +6,22 @@ import {ProfilePageHead} from "./ProfilePageHead";
 import authService from "../../services/authService";
 import {ProfileSection} from "./ProfileSection";
 import {SectionBar} from "../../customComponents/SectionBar";
+import {useNavigate} from "react-router-dom";
 
 export function ProfilePage() {
+  const email = localStorage.getItem("email");
+  const navigate = useNavigate();
+
+  //avoids access by url when user has no active session
+  // useEffect(() => {
+  //   if (email == null) {
+  //     return navigate("/");
+  //   }
+  // });
+
   let response;
   let content;
-  const email = localStorage.getItem("email");
+
   const [section, setSection] = useState("posts");
 
   //must find a way to only render header section data once
@@ -34,7 +45,7 @@ export function ProfilePage() {
   //   }
   // }
 
-  let data = [
+  const data = [
     {
       name: "Guilherme Monteiro",
       pictureType: 1,
@@ -46,22 +57,22 @@ export function ProfilePage() {
       date: "Publicado algum dia",
       id: "",
     },
-    // {
-    //   name: "Luiz Eduardo",
-    //   picture: 2,
-    //   rank: "prata",
-    //   tags: "",
-    //   likes: 1,
-    //   dislikes: 0,
-    //   text: "I like monkeys :)",
-    //   date: "Publicado outro dia",
-    //   id: "",
-    // },
+    {
+      name: "Luiz Eduardo",
+      pictureType: 2,
+      rank: "prata",
+      tags: "",
+      likes: 1,
+      dislikes: 0,
+      text: "I like monkeys :)",
+      date: "Publicado outro dia",
+      id: "",
+    },
   ];
 
   return (
-    <div className="relative h-full w-full flex items-center sm:items-start md:items-start lg:items-start flex-col ml-0 sm:ml-2 md:ml-2 lg:ml-2">
-      <div className="relative h-full w-full sm:w-9/12 md:w-9/12 lg:w-9/12 flex items-center flex-col gap-[1vh] bg-white">
+    <div className="relative h-full w-full flex items-center sm:items-start md:items-start lg:items-start flex-col ml-0 lg:ml-2">
+      <div className="relative h-full w-full lg:w-9/12 flex items-center flex-col gap-[1vh] bg-white">
         <ProfilePageHead
           //original profile will use props given by API request on page render
           // profilePic={header.picture}
@@ -76,38 +87,42 @@ export function ProfilePage() {
           level={30}
         />
 
-        <div className="relative w-11/12 h-max">
+        <div className="relative w-11/12 h-min">
           <div className="relative w-full h-full grid grid-cols-4 gap-[2vh]">
             <Button
-              className="!border-gray-500"
-              variant="outlined"
+              className="!border-gray-500 !h-min"
+              variant="text"
+              size="small"
               onClick={() => handleSectionChange("posts")}>
               {<p className="text-xs text-gray-500">Postagens</p>}
             </Button>
 
             <Button
-              className="!border-gray-500"
-              variant="outlined"
+              className="!border-gray-500 !h-min"
+              variant="text"
+              size="small"
               onClick={() => handleSectionChange("comments")}>
               {<p className="text-xs text-gray-500">Comentários</p>}
             </Button>
 
             <Button
-              className="!border-gray-500"
-              variant="outlined"
+              className="!border-gray-500 !h-min"
+              variant="text"
+              size="small"
               onClick={() => handleSectionChange("liked")}>
-              {<p className="text-xs text-gray-500">Curtidos</p>}
+              {<p className="text-xs text-gray-500">Likes</p>}
             </Button>
 
             <Button
-              className="!border-gray-500"
-              variant="outlined"
+              className="!border-gray-500 !h-min"
+              variant="text"
+              size="small"
               onClick={() => handleSectionChange("disliked")}>
-              {<p className="text-xs text-gray-500">Não Curtidos</p>}
+              {<p className="text-xs text-gray-500">Deslikes</p>}
             </Button>
           </div>
+          <SectionBar section={section} />
         </div>
-        <SectionBar section={section} />
 
         <ProfileSection data={data} section={section} />
       </div>
