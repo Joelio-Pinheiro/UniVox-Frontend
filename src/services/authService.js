@@ -29,6 +29,17 @@ const authService = {
       throw error;
     }
   },
+  logout: async () => {
+    try {
+      const response = await apiProvider.post(
+        "users/logout/", 
+        {}, 
+        headers);
+      return response;  
+    } catch (error) {
+      throw error;
+    }
+  },
 
   //rota da Api para envio dos dados de criação da conta
   createAccount: async (fields) => {
