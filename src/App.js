@@ -6,7 +6,9 @@ import { EmailForResetPage } from "./pages/emailForReset/EmailForResetPage";
 import { NewPasswordPage } from "./pages/newPassword/NewPasswordPage";
 import { EmailCodePage } from "./pages/emailCode/EmailCodePage";
 import { ProfilePage } from "./pages/profile/ProfilePage";
+import { CreatePostPage } from "./pages/createPost/CreatePostPage";
 import MainLayout from "./layout/MainLayout";
+import { FaqPage } from "./pages/faq/faqPage";
 
 export function App() {
   return (
@@ -22,6 +24,14 @@ export function App() {
           <Route
             path="profile"
             element={<MainLayout children={<ProfilePage />} />}
+          />
+          <Route
+            path="create-post"
+            element={<MainLayout children={<CreatePostPage />} />}
+          />
+          <Route 
+            path="faq"
+            element={<MainLayout children={<FaqPage />} />}
           />
         </Route>
       </Routes>
