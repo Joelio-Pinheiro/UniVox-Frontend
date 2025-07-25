@@ -7,7 +7,7 @@ import { NewPasswordPage } from "./pages/newPassword/NewPasswordPage";
 import { EmailCodePage } from "./pages/emailCode/EmailCodePage";
 import { ProfilePage } from "./pages/profile/ProfilePage";
 import { CreatePostPage } from "./pages/createPost/CreatePostPage";
-import MainLayout from "./layout/MainLayout";
+import MainLayout from "./layout2/MainLayout";
 import { FaqPage } from "./pages/faq/faqPage";
 
 export function App() {

@@ -44,7 +44,7 @@ export function CreatePostPage() {
   return (
     // <div className="flex flex-col justify-center max-w-3xl p-4 min-h-screen overflow-y-auto gap-2">
     // mexer nesse tamanho de div, principal problema de responsividade
-    <div className="flex flex-col justify-center sm:w-4/5 w-full p-4 mt-4 min-h-screen gap-2 shadow-md rounded-xl border border-gray-200">
+    <div className="flex flex-col justify-center sm:w-4/5 w-full p-4 mt-4 h-full gap-2 shadow-md rounded-xl border border-gray-200">
       <h1 className="text-2xl font-semibold mb-4">Criar post</h1>
 
       {/* Anônimo toggle */}

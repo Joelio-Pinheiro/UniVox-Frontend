@@ -84,14 +84,10 @@ const Header = ({isMobile}) => {
                         </div>
                     </Toolbar>
                 </AppBar>
-                {isMobile ? (
+                {isMobile && (
                     <Drawer anchor="left" open={open} onClose={toggleDrawer(false)}>
                         <Sidebar isMobile={true} toggleDrawer={toggleDrawer} />
                     </Drawer>
-                ) : (
-                    <div className="fixed left-0 h-full w-64 bg-white shadow-md z-10 border-t-0">
-                        <Sidebar isMobile={false} />
-                    </div>
                 )}
 
             </div>

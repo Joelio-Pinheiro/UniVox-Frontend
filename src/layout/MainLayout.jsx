@@ -10,12 +10,11 @@ const MainLayout = ({ children }) => {
       <Header isMobile={isMobile}
       />
       <div
-        className={`fixed h-full w-full transition-all duration-300 ease-in-out
-                    ${!isMobile ? "ml-72" : ""}`}
+        className={`fixed h-full w-full transition-all duration-300 ease-in-out`}
         style={{ minHeight: "200px", maxHeight: "600px", overflowY: "auto" }}
       >
-        {/* mexer nesse tamanho de div, principal problema de responsividade */}
-        <div className="sm:w-4/5 w-full flex flex-col items-center justify-center">
+        <div className="w-full flex flex-row items-center">
+          Sidebar
           {children}
         </div>
       </div>
