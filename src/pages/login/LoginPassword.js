@@ -7,10 +7,10 @@ import CustomPasswordHidingButton from "../../customComponents/buttons/PasswordH
 export function LoginPassword({name, text, password, onChangeFn}) {
   const icon = inputIconSetter(name);
 
-  const [visible, setVisible] = useState("invisivel");
+  const [visible, setVisible] = useState("invisible");
 
   function onClickFn() {
-    setVisible(visible === "invisivel" ? "visivel" : "invisivel");
+    setVisible(visible === "invisible" ? "visible" : "invisible");
   }
 
   return (
@@ -22,7 +22,7 @@ export function LoginPassword({name, text, password, onChangeFn}) {
           name={name}
           value={password}
           onChange={onChangeFn}
-          type={visible === "visivel" ? "text" : "password"}
+          type={visible === "visible" ? "text" : "password"}
           variant="outlined"
           slotProps={{
             input: {

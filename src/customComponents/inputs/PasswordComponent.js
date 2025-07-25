@@ -1,5 +1,5 @@
-import {InputAdornment, TextField} from "@mui/material";
-import {inputIconSetter} from "../../utils/iconSetters";
+import { InputAdornment, TextField } from "@mui/material";
+import { inputIconSetter } from "../../utils/iconSetters";
 import PasswordHideBtn from "../buttons/PasswordHideBtn";
 
 export default function PasswordComponent({
@@ -21,7 +21,7 @@ export default function PasswordComponent({
           name={name}
           value={password}
           onChange={onChangeFn}
-          type={visibility === "visivel" ? "text" : "password"}
+          type={visibility === "visible" ? "text" : "password"}
           variant="outlined"
           slotProps={{
             input: {
@@ -36,7 +36,7 @@ export default function PasswordComponent({
                   />
                 </InputAdornment>
               ),
-              style: {fontSize: "16px"},
+              style: { fontSize: "16px" },
             },
           }}
         />
