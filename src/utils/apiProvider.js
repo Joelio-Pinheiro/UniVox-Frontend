@@ -1,6 +1,5 @@
 import axios from "axios";
-// const BASE_API_URL = "https://univox-backend.onrender.com/";
-const BASE_API_URL = "http://127.0.0.1:8000/";
+const BASE_API_URL = "https://univox-backend.onrender.com/";
 
 class ApiProvider {
   constructor() {
