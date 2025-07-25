@@ -23,6 +23,7 @@ const authService = {
       );
 
       console.log("Login response:", response);
+      localStorage.setItem("email", email);
       return response;
     } catch (error) {
       console.error("Erro no login:", error);
