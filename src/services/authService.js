@@ -33,13 +33,13 @@ const authService = {
   },
   logout: async () => {
     try {
-      const response = await apiProvider.post("users/logout/", {}, headers);
-
-      return response;
+      const response = await apiProvider.post(
+        "users/logout/", 
+        {}, 
+        headers);
+      return response;  
     } catch (error) {
       throw error;
-    } finally {
-      localStorage.removeItem("id");
     }
   },
 

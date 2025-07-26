@@ -1,25 +1,26 @@
 import Header from "./Header";
+import Sidebar from "./Sidebar";
 import { useTheme } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
 
 const MainLayout = ({ children }) => {
   const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down("lg"));
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
+
   return (
-    <>
-      <Header isMobile={isMobile}
-      />
-      <div
-        className={`fixed h-full w-full transition-all duration-300 ease-in-out
-                    ${!isMobile ? "ml-72" : ""}`}
-        style={{ minHeight: "200px", maxHeight: "600px", overflowY: "auto" }}
-      >
-        {/* mexer nesse tamanho de div, principal problema de responsividade */}
-        <div className="sm:w-4/5 w-full flex flex-col items-center justify-center">
-          {children}
-        </div>
+    <div className="flex flex-col min-h-screen bg-gray-50 w-screen overflow-x-hidden">
+      <Header isMobile={isMobile} />
+      <div className="flex flex-1 overflow-hidden">
+        {!isMobile && (
+          <aside className="w-72 bg-white border-r border-gray-200 shadow-sm">
+            <Sidebar isMobile={false} />
+          </aside>
+        )}
+        <main className="flex-1 overflow-y-auto p-4">
+          <div className="flex justify-center max-w-7xl mx-auto w-full">{children}</div>
+        </main>
       </div>
-    </>
+    </div>
   );
 };
 

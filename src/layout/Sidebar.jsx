@@ -1,5 +1,4 @@
 import React from 'react';
-import Box from '@mui/material/Box';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
@@ -10,17 +9,11 @@ import Avatar from '@mui/material/Avatar';
 import Collapse from '@mui/material/Collapse';
 import { MdMenuOpen, MdExpandLess, MdExpandMore, MdQuestionAnswer } from "react-icons/md";
 import { FaHome } from "react-icons/fa";
+import { useNavigate } from "react-router-dom";
 
-
-const Sidebar = ({ toggleDrawer, isMobile }) => {
+const Sidebar = ({ isMobile, onClose }) => {
   const [openTopics, setOpenTopics] = React.useState(true);
-
-  const handleClose = () => {
-    if (typeof toggleDrawer === 'function') {
-      toggleDrawer(false)();
-    }
-  };
-
+  const navigate = useNavigate();
 
   const topics = [
     { name: "r/anime", avatar: "/path/to/anime.jpg" },
@@ -39,7 +32,8 @@ const Sidebar = ({ toggleDrawer, isMobile }) => {
       <Collapse in={open} timeout="auto" unmountOnExit>
         <List component="div" disablePadding>
           {items.map((item, idx) => (
-            <ListItemButton key={idx} className="pl-6 gap-3">
+            <ListItemButton key={idx} className="pl-6 gap-3"
+            onClick={() => navigate(`/topic/${item.name.replace('r/', '')}`)}>
               <Avatar alt={item.name} src={item.avatar} sx={{ width: 24, height: 24 }} />
               <ListItemText primary={item.name} />
             </ListItemButton>
@@ -48,55 +42,39 @@ const Sidebar = ({ toggleDrawer, isMobile }) => {
       </Collapse>
     </>
   );
-
   return (
-    <Box
-      sx={{ width: isMobile ? 250 : 260 }}
-      className="flex flex-col h-full justify-between bg-white border-r border-gray-200 shadow-md"
-    >
-      <div>
-        {isMobile && (
+    <nav className="flex flex-col px-2 text-gray-800">
+      <List>
+      {isMobile && (
           <div className="flex items-center h-16 px-4">
-            <IconButton edge="start" onClick={handleClose}>
+            <IconButton edge="start" onClick={onClose}>
               <MdMenuOpen className="text-3xl text-black" />
             </IconButton>
           </div>
         )}
+        <ListItem disablePadding>
+          <ListItemButton className="flex items-center gap-3 w-full h-12"
+          onClick={() => navigate('/')}>
+            <div className="w-6 flex justify-center">
+              <FaHome className="text-xl" />
+            </div>
+            <ListItemText primary="Tela Inicial" />
+          </ListItemButton>
+        </ListItem>
 
-        <List>
-          <ListItem disablePadding>
-            <ListItemButton className="flex items-center gap-3 w-full h-12">
-              <div className="w-6 flex justify-center">
-                <FaHome className="text-xl" />
-              </div>
-              <ListItemText primary="Tela Inicial" />
-            </ListItemButton>
-          </ListItem>
-
-          {/* {isMobile && (
-            <ListItem disablePadding>
-              <ListItemButton className="flex items-center gap-3 w-full h-12">
-                <div className="w-6 flex justify-center">
-                  <FaBell className='text-xl text-black' />
-                </div>
-                <ListItemText primary="Notificações" />
-              </ListItemButton>
-            </ListItem>
-          )} */}
-          <ListItem disablePadding>
-            <ListItemButton className="flex items-center gap-3 w-full h-12">
-              <div className="w-6 flex justify-center">
-                <MdQuestionAnswer className="text-xl" />
-              </div>
-              <ListItemText primary="FAQ" />
-            </ListItemButton>
-          </ListItem>
-          <Divider sx={{ my: 1 }} />
-          {renderSection("Tópicos", openTopics, setOpenTopics, topics)}
-        </List>
-
-      </div>
-    </Box>
+        <ListItem disablePadding>
+          <ListItemButton className="flex items-center gap-3 w-full h-12"
+          onClick={() => navigate('/faq')}>
+            <div className="w-6 flex justify-center">
+              <MdQuestionAnswer className="text-xl" />
+            </div>
+            <ListItemText primary="FAQ" />
+          </ListItemButton>
+        </ListItem>
+        <Divider sx={{ my: 1 }} />
+        {renderSection("Tópicos", openTopics, setOpenTopics, topics)}
+      </List>
+    </nav>
   );
 };
 

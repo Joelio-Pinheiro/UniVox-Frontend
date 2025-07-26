@@ -1,6 +1,4 @@
-// src/pages/FAQ.tsx
-import React from 'react';
-import { Typography, Divider } from '@mui/material';
+import { Divider } from '@mui/material';
 
 const faqItems = [
   {
