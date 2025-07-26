@@ -3,12 +3,10 @@ import FloatingActionButtons from '../../customComponents/buttons/CreatePostButt
 function HomePage() {
   return (
     <>
-        <FloatingActionButtons />
-        <div className="home-container ">
-          <div className="home-content">
-            teste
-          </div>
-        </div>
+      <FloatingActionButtons />
+      <div className="home-container">
+        <h1>teste</h1>
+      </div>
     </>
   );
 }

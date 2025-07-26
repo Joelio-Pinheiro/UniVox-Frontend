@@ -1,4 +1,5 @@
 import apiProvider from "../utils/apiProvider";
+const USER_DATA = "user_data";
 
 const headers = {
   "Content-type": "application/json",
@@ -22,8 +23,9 @@ const authService = {
         headers
       );
 
-      console.log("Login response:", response);
-      localStorage.setItem("id", id);
+      const userId = response.user_id;
+
+      await authService.getUserById(userId);
 
       return response;
     } catch (error) {
@@ -33,12 +35,33 @@ const authService = {
   },
   logout: async () => {
     try {
-      const response = await apiProvider.post(
-        "users/logout/", 
-        {}, 
-        headers);
-      return response;  
+      const response = await apiProvider.post("users/logout/", {}, headers);
+
+      return response;
     } catch (error) {
+      throw error;
+    } finally {
+      localStorage.removeItem(USER_DATA);
+    }
+  },
+  getUserById: async (userId) => {
+    try {
+      const response = await apiProvider.get(`users/`, headers);
+
+      if (!Array.isArray(response)) {
+        throw new Error("Resposta inesperada da API.");
+      }
+
+      const user = response.find((u) => u.id === Number(userId));
+
+      if (!user) {
+        throw new Error("Usuário não encontrado.");
+      }
+
+      localStorage.setItem(USER_DATA, JSON.stringify(user));
+      return user;
+    } catch (error) {
+      console.error("Erro ao buscar usuário:", error);
       throw error;
     }
   },

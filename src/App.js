@@ -9,32 +9,43 @@ import { ProfilePage } from "./pages/profile/ProfilePage";
 import { CreatePostPage } from "./pages/createPost/CreatePostPage";
 import MainLayout from "./layout/MainLayout";
 import { FaqPage } from "./pages/faq/faqPage";
+import { AlertProvider } from "./context/AlertContext";
 
 export function App() {
   return (
     <BrowserRouter>
-      <Routes>
-        <Route exact path="/" element={<Outlet />}>
-          <Route index element={<HomePage />} />
-          <Route path="login" element={<LoginPage />} />
-          <Route path="register" element={<CreateUserPage />} />
-          <Route path="verify/:type" element={<EmailCodePage />} />
-          <Route path="emailfornewpass" element={<EmailForResetPage />} />
-          <Route path="newpassword" element={<NewPasswordPage />} />
-          <Route
-            path="profile"
-            element={<MainLayout children={<ProfilePage />} />}
-          />
-          <Route
-            path="create-post"
-            element={<MainLayout children={<CreatePostPage />} />}
-          />
-          <Route 
-            path="faq"
-            element={<MainLayout children={<FaqPage />} />}
-          />
-        </Route>
-      </Routes>
-    </BrowserRouter>
+      <AlertProvider>
+        <Routes>
+          <Route exact path="/" element={<Outlet />}>
+            <Route index element={<MainLayout children={<HomePage />} />} />
+            <Route path="login" element={<LoginPage />} />
+            <Route path="register" element={<CreateUserPage />} />
+            <Route path="verify/:type" element={<EmailCodePage />} />
+            <Route path="emailfornewpass" element={<EmailForResetPage />} />
+            <Route path="newpassword" element={<NewPasswordPage />} />
+            <Route
+              path="profile/:id"
+              element={<MainLayout children={<ProfilePage />} />}
+            />
+            <Route
+              path="create-post"
+              element={<MainLayout children={<CreatePostPage />} />}
+            />
+            <Route
+              path="faq"
+              element={<MainLayout children={<FaqPage />} />}
+            />
+            <Route
+              path="create-post"
+              element={<MainLayout children={<CreatePostPage />} />}
+            />
+            <Route
+              path="faq"
+              element={<MainLayout children={<FaqPage />} />}
+            />
+          </Route>
+        </Routes>
+      </AlertProvider>
+    </BrowserRouter >
   );
 }
