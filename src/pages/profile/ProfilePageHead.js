@@ -1,7 +1,7 @@
-import {profileIconSetter} from "../../utils/iconSetters";
-import {ProfileRank} from "./ProfileRank";
+import { profileIconSetter } from "../../utils/iconSetters";
+import { ProfileRank } from "./ProfileRank";
 
-export function ProfilePageHead({type, userName, profileDesc, rank, level}) {
+export function ProfilePageHead({ type, userName, profileDesc, rank, level }) {
   return (
     <div className="relative flex flex-col w-11/12 h-1/4 gap-6 mt-2 sm:mt-0 md:mt-0 lg:mt-0">
       {/*foto e descrição de perfil */}

@@ -6,7 +6,7 @@ const headers = {
 
 const authService = {
   //rota da Api para login de usuário
-  login: async (email, password) => {
+  login: async (email, password, id) => {
     try {
       if (!email || !password) {
         throw new Error("Nenhum campo deve ser vazio");
@@ -23,7 +23,8 @@ const authService = {
       );
 
       console.log("Login response:", response);
-      localStorage.setItem("email", email);
+      localStorage.setItem("id", id);
+
       return response;
     } catch (error) {
       console.error("Erro no login:", error);
@@ -32,13 +33,13 @@ const authService = {
   },
   logout: async () => {
     try {
-      const response = await apiProvider.post(
-        "users/logout/", 
-        {}, 
-        headers);
-      return response;  
+      const response = await apiProvider.post("users/logout/", {}, headers);
+
+      return response;
     } catch (error) {
       throw error;
+    } finally {
+      localStorage.removeItem("id");
     }
   },
 
@@ -74,6 +75,7 @@ const authService = {
 
       const response = await apiProvider.post("users/create/", json, headers);
       console.log("Conta necessita de verificação");
+
       return response;
     } catch (error) {
       console.log("Erro na criação da conta:", error);

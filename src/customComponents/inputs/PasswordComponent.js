@@ -1,6 +1,6 @@
 import { InputAdornment, TextField } from "@mui/material";
 import { inputIconSetter } from "../../utils/iconSetters";
-import PasswordHideBtn from "../buttons/PasswordHideBtn";
+import PasswordHideButton from "../buttons/PasswordHideButton";
 
 export default function PasswordComponent({
   name,
@@ -30,7 +30,7 @@ export default function PasswordComponent({
               ),
               endAdornment: (
                 <InputAdornment position="end">
-                  <PasswordHideBtn
+                  <PasswordHideButton
                     name={visibility}
                     onClickFn={() => onClickFn(visibility)}
                   />

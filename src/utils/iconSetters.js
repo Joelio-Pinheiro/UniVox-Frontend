@@ -1,6 +1,5 @@
 import {
   AccountCircle,
-  BorderColorOutlined,
   ChatBubbleOutlineOutlined,
   Face2TwoTone,
   Face3TwoTone,
@@ -52,9 +51,7 @@ export function buttonIconSetter(type) {
     case "comment":
       return <ChatBubbleOutlineOutlined sx={{ color: "black" }} />;
     case "options":
-      return <MoreVert />;
-    case "edit":
-      return <BorderColorOutlined sx={{ color: "black" }} />;
+      return <MoreVert sx={{ color: "black" }} />;
     default:
       return;
   }

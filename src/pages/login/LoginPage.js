@@ -27,9 +27,9 @@ export function LoginPage() {
     setState({ open: false });
   }
 
-  async function apiRequest(email, password) {
+  async function apiRequest(email, password, id) {
     try {
-      await authService.login(email, password);
+      await authService.login(email, password, id);
       navigate("/"); //redireciona para a home page
     } catch (error) {
       console.log(error);
@@ -77,7 +77,7 @@ export function LoginPage() {
           </div>
         </div>
 
-        <LoginPageFooter onClickFn={() => apiRequest(email, password)} />
+        <LoginPageFooter onClickFn={() => apiRequest(email, password, 3)} />
       </div>
     </div>
   );

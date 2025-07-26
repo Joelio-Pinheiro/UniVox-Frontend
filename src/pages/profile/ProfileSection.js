@@ -1,21 +1,21 @@
 import InteractionButton from "../../customComponents/buttons/InteractionButton";
 import message from "../../messages.json";
-import {profileIconSetter} from "../../utils/iconSetters";
-import {rankIconSetter} from "../../utils/iconSetters";
-export function ProfileSection({section, data}) {
+import { profileIconSetter } from "../../utils/iconSetters";
+import { rankIconSetter } from "../../utils/iconSetters";
+export function ProfileSection({ section, data }) {
   let warningMessage = "";
 
   switch (section) {
     case "posts":
       warningMessage = message.emptyPostsSection;
       break;
-    case "comentarios":
+    case "comments":
       warningMessage = message.emptyCommentsSection;
       break;
-    case "likes":
+    case "liked":
       warningMessage = message.emptyLikesSection;
       break;
-    case "deslikes":
+    case "disliked":
       warningMessage = message.emptyDeslikesSection;
       break;
     default:
@@ -33,7 +33,7 @@ export function ProfileSection({section, data}) {
           {data.map((item) => (
             <div className="relative w-full h-min flex flex-col mt-2 bg-white rounded-lg">
               {/**header do post/comentário, com nome, foto de perfil, etc */}
-              <div className="relative w-9/12 sm:w-2/3 md:w-2/3 lg:w-2/5 h-12 flex flex-row">
+              <div className="relative w-9/12 sm:w-2/3 md:w-2/3 lg:w-3/5 h-12 flex flex-row">
                 <div className="w-1/3 h-3/4 mt-2">
                   {profileIconSetter(item.pictureType)}
                 </div>
