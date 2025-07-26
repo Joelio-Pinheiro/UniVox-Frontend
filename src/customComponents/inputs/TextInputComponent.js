@@ -1,6 +1,8 @@
-import {InputAdornment, TextField} from "@mui/material";
-import {inputIconSetter} from "../../utils/iconSetters";
+import { InputAdornment, TextField } from "@mui/material";
+import { inputIconSetter } from "../../utils/iconSetters";
+
 export default function TextInputComponent({
+  disabled,
   name,
   text,
   value,
@@ -15,7 +17,8 @@ export default function TextInputComponent({
       <div className="relative w-full sm:w-full md:w-full lg:w-9/12">
         {text && <p className=" text-gray-500 font-semibold">{text}</p>}
         <TextField
-          className="w-full h-min"
+          disabled={disabled}
+          className="w-full h-min "
           name={name}
           value={value}
           onChange={onChangeFn}
@@ -32,7 +35,7 @@ export default function TextInputComponent({
                 startAdornment: (
                   <InputAdornment position="start">{icon}</InputAdornment>
                 ),
-                style: {fontSize: "16px"},
+                style: { fontSize: "16px" },
               },
             }
           }

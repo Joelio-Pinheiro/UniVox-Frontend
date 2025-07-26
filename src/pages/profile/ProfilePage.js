@@ -54,7 +54,7 @@ export function ProfilePage() {
       dislikes: 2,
       text: "Manel pai do ano ?",
       date: "27/06/2025",
-      id: "2",
+      id: 2,
     },
     {
       name: "Luiz Felipe",
@@ -65,13 +65,13 @@ export function ProfilePage() {
       dislikes: 0,
       text: "Eu gosto de macacos :)",
       date: "25/07/2024",
-      id: "1",
+      id: 1,
     },
   ];
 
   return (
     <div className="relative h-full w-full flex items-center sm:items-start md:items-start lg:items-start flex-col ml-0 lg:ml-2">
-      <div className="relative h-full w-full lg:w-9/12 flex items-center flex-col gap-[1vh] bg-white">
+      <div className="relative h-full w-full lg:w-9/12 flex items-center flex-col gap-[1vh] rounded-md shadow-lg border-2 border-gray-400 bg-white">
         <ProfilePageHead
           // original profile will use props given by API request on page render
           // profilePic={header.picture}
@@ -79,7 +79,7 @@ export function ProfilePage() {
           // profileDesc={header.desc}
           // rank={header.rank}
           // level={header.level}
-          type={1}
+          pictureType={1}
           userName={"Jhon_Jhon"}
           profileDesc={"Estudante de finanças"}
           rank={"prata"}

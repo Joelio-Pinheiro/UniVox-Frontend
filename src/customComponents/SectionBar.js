@@ -1,4 +1,4 @@
-export function SectionBar({section}) {
+export function SectionBar({ section }) {
   console.log(section);
   return (
     <div className="w-full h-1.5 grid grid-cols-4 gap-1 rounded-md border-black bg-blue-900 ">

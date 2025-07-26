@@ -90,6 +90,7 @@ export function rankIconSetter(rank) {
   }
 }
 
+//fornece ícone de perfil do usuário
 export function profileIconSetter(type) {
   switch (type) {
     case 1:
