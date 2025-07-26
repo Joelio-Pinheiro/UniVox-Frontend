@@ -7,7 +7,9 @@ import { NewPasswordPage } from "./pages/newPassword/NewPasswordPage";
 import { EmailCodePage } from "./pages/emailCode/EmailCodePage";
 import { ProfilePage } from "./pages/profile/ProfilePage";
 import { CreatePostPage } from "./pages/createPost/CreatePostPage";
+import { CreatePostPage } from "./pages/createPost/CreatePostPage";
 import MainLayout from "./layout/MainLayout";
+import { FaqPage } from "./pages/faq/faqPage";
 import { FaqPage } from "./pages/faq/faqPage";
 
 export function App() {
@@ -22,7 +24,7 @@ export function App() {
             <Route path="emailfornewpass" element={<EmailForResetPage />} />
             <Route path="newpassword" element={<NewPasswordPage />} />
             <Route
-              path="profile"
+              path="profile/:id"
               element={<MainLayout children={<ProfilePage />} />}
             />
             <Route
@@ -33,7 +35,15 @@ export function App() {
               path="faq"
               element={<MainLayout children={<FaqPage />} />}
             />
-          </Route>
+            <Route
+            path="create-post"
+            element={<MainLayout children={<CreatePostPage />} />}
+          />
+          <Route 
+            path="faq"
+            element={<MainLayout children={<FaqPage />} />}
+          />
+        </Route>
         </Routes>
     </BrowserRouter>
   );

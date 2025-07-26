@@ -1,6 +1,5 @@
 import {
   AccountCircle,
-  BorderColorOutlined,
   ChatBubbleOutlineOutlined,
   Face2TwoTone,
   Face3TwoTone,
@@ -23,20 +22,20 @@ import {
 //fornece ícones para input de texto baseado na propriedade name
 export function inputIconSetter(name) {
   switch (name) {
-    case "nome":
-      return <AccountCircle sx={{color: "#106FE2"}} />;
+    case "name":
+      return <AccountCircle sx={{ color: "#106FE2" }} />;
     case "email":
-      return <Mail sx={{color: "#106FE2"}} />;
-    case "telefone":
-      return <PhoneAndroid sx={{color: "#106FE2"}} />;
-    case "senha":
-      return <LockRounded sx={{color: "#106FE2"}} />;
-    case "confirma_senha":
-      return <LockRounded sx={{color: "#106FE2"}} />;
-    case "visivel":
-      return <Visibility sx={{color: "#808080"}} />;
-    case "invisivel":
-      return <VisibilityOff sx={{color: "#808080"}} />;
+      return <Mail sx={{ color: "#106FE2" }} />;
+    case "contact_number":
+      return <PhoneAndroid sx={{ color: "#106FE2" }} />;
+    case "password":
+      return <LockRounded sx={{ color: "#106FE2" }} />;
+    case "password_confirmation":
+      return <LockRounded sx={{ color: "#106FE2" }} />;
+    case "visible":
+      return <Visibility sx={{ color: "#808080" }} />;
+    case "invisible":
+      return <VisibilityOff sx={{ color: "#808080" }} />;
     default:
       return;
   }
@@ -46,15 +45,13 @@ export function inputIconSetter(name) {
 export function buttonIconSetter(type) {
   switch (type) {
     case "likes":
-      return <ThumbUpSharp sx={{color: "black"}} />;
+      return <ThumbUpSharp sx={{ color: "black" }} />;
     case "dislikes":
-      return <ThumbDownSharp sx={{color: "black"}} />;
+      return <ThumbDownSharp sx={{ color: "black" }} />;
     case "comment":
-      return <ChatBubbleOutlineOutlined sx={{color: "black"}} />;
+      return <ChatBubbleOutlineOutlined sx={{ color: "black" }} />;
     case "options":
-      return <MoreVert />;
-    case "edit":
-      return <BorderColorOutlined sx={{color: "black"}} />;
+      return <MoreVert sx={{ color: "black" }} />;
     default:
       return;
   }
@@ -64,24 +61,29 @@ export function buttonIconSetter(type) {
 export function rankIconSetter(rank) {
   switch (rank) {
     case "cobre":
-      return <MilitaryTech className="!h-3/4 !w-3/4" sx={{color: "#B87333"}} />;
+      return (
+        <MilitaryTech className="!h-full !w-3/4" sx={{ color: "#B87333" }} />
+      );
     case "prata":
       return (
         <MilitaryTechOutlined
           className="!h-full !w-3/4"
-          sx={{color: "#E5E4E2"}}
+          sx={{ color: "#E5E4E2" }}
         />
       );
     case "ouro":
       return (
         <MilitaryTechRounded
           className="!h-full !w-3/4"
-          sx={{color: "#FFD700"}}
+          sx={{ color: "#FFD700" }}
         />
       );
     case "maximo":
       return (
-        <WorkspacePremium className="!h-full !w-3/4" sx={{color: "#9C27B0"}} />
+        <WorkspacePremium
+          className="!h-full !w-3/4"
+          sx={{ color: "#9C27B0" }}
+        />
       );
     default:
       return;

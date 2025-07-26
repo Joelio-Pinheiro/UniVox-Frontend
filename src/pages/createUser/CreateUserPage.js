@@ -24,7 +24,7 @@ export function CreateUserPage() {
   function handleChange(e) {
     const {name, value} = e.target;
 
-    if (name === "telefone" && value.length > 11) {
+    if (name === "contact_number" && value.length > 11) {
       return;
     }
 
@@ -65,12 +65,13 @@ export function CreateUserPage() {
         <CreateUserPageHead icon={UnivoxIcon} title={"Crie sua conta"} />
 
         <TextInputComponent
-          name={"nome"}
+          name={"name"}
           text={"Nome de Usuário"}
           contentType={"text"}
           value={fields.name}
           onChangeFn={handleChange}
         />
+        
         <TextInputComponent
           name={"email"}
           text={"Email"}
@@ -80,7 +81,7 @@ export function CreateUserPage() {
         />
 
         <TextInputComponent
-          name={"telefone"}
+          name={"contact_number"}
           text={"Telefone com DDD"}
           contentType={"text"}
           value={fields.contact_number}
@@ -88,7 +89,7 @@ export function CreateUserPage() {
         />
 
         <PasswordComponent
-          name={"senha"}
+          name={"password"}
           text={"Senha"}
           contentType={"password"}
           value={fields.password}
@@ -98,7 +99,7 @@ export function CreateUserPage() {
         />
 
         <TextInputComponent
-          name={"confirma_senha"}
+          name={"password_confirmation"}
           text={"Confirmar senha"}
           contentType={"password"}
           value={fields.password_confirmation}

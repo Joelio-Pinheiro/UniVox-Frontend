@@ -3,7 +3,7 @@ import Sidebar from "./Sidebar";
 import { useTheme } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
 
-const MainLayout = ({ children }) => {
+const MainLayout = ({children}) => {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
