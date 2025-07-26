@@ -7,14 +7,14 @@ import { NewPasswordPage } from "./pages/newPassword/NewPasswordPage";
 import { EmailCodePage } from "./pages/emailCode/EmailCodePage";
 import { ProfilePage } from "./pages/profile/ProfilePage";
 import { CreatePostPage } from "./pages/createPost/CreatePostPage";
-import { CreatePostPage } from "./pages/createPost/CreatePostPage";
 import MainLayout from "./layout/MainLayout";
 import { FaqPage } from "./pages/faq/faqPage";
-import { FaqPage } from "./pages/faq/faqPage";
+import { AlertProvider } from "./context/AlertContext";
 
 export function App() {
   return (
     <BrowserRouter>
+      <AlertProvider>
         <Routes>
           <Route exact path="/" element={<Outlet />}>
             <Route index element={<MainLayout children={<HomePage />} />} />
@@ -36,15 +36,16 @@ export function App() {
               element={<MainLayout children={<FaqPage />} />}
             />
             <Route
-            path="create-post"
-            element={<MainLayout children={<CreatePostPage />} />}
-          />
-          <Route 
-            path="faq"
-            element={<MainLayout children={<FaqPage />} />}
-          />
-        </Route>
+              path="create-post"
+              element={<MainLayout children={<CreatePostPage />} />}
+            />
+            <Route
+              path="faq"
+              element={<MainLayout children={<FaqPage />} />}
+            />
+          </Route>
         </Routes>
-    </BrowserRouter>
+      </AlertProvider>
+    </BrowserRouter >
   );
 }

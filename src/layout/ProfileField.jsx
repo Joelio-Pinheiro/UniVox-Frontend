@@ -7,22 +7,39 @@ import ListItemIcon from '@mui/material/ListItemIcon';
 import Divider from '@mui/material/Divider';
 import IconButton from '@mui/material/IconButton';
 import Tooltip from '@mui/material/Tooltip';
-import Settings from '@mui/icons-material/Settings';
 import Logout from '@mui/icons-material/Logout';
 import { MdDarkMode } from "react-icons/md";
 import ThemeButton from './ThemeButton';
+import authService from "../services/authService";
+import { useNavigate } from "react-router-dom";
+import { useAlert } from "../context/AlertContext";
 
 
 
 export default function BasicMenu() {
     const [anchorEl, setAnchorEl] = React.useState(null);
+    const navigate = useNavigate();
     const open = Boolean(anchorEl);
+    const { show } = useAlert();
+
     const handleClick = (event) => {
         setAnchorEl(event.currentTarget);
     };
     const handleClose = () => {
         setAnchorEl(null);
     };
+
+    async function logout() {
+        handleClose();
+        try {
+            const response = await authService.logout();
+            show("success", response.message || "Deslogado com sucesso!");
+            navigate("/login");
+        } catch (error) {
+            show("error", "Erro ao deslogar");
+        }
+    }
+
     return (
         <React.Fragment>
             <Box sx={{ display: 'flex', alignItems: 'center', textAlign: 'center' }}>
@@ -76,7 +93,7 @@ export default function BasicMenu() {
             >
                 <MenuItem onClick={handleClose}>
                     <Avatar /> Profile
-                </MenuItem>     
+                </MenuItem>
                 <Divider />
                 <MenuItem>
                     <ListItemIcon>
@@ -88,7 +105,7 @@ export default function BasicMenu() {
                     </div>
                 </MenuItem>
 
-                <MenuItem onClick={handleClose}>
+                <MenuItem onClick={logout}>
                     <ListItemIcon>
                         <Logout fontSize="small" />
                     </ListItemIcon>

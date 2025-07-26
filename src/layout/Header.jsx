@@ -16,7 +16,7 @@ import { useNavigate } from "react-router-dom";
 
 
 const Header = ({ isMobile }) => {
-    const isAuthenticated = true;
+    const isAuthenticated = localStorage.getItem("user_data") !== null;
     const [drawerOpen, setDrawerOpen] = React.useState(false);
     const navigate = useNavigate();
 
