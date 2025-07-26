@@ -24,7 +24,7 @@ export function App() {
             <Route path="emailfornewpass" element={<EmailForResetPage />} />
             <Route path="newpassword" element={<NewPasswordPage />} />
             <Route
-              path="profile/:id"
+              path="profile"
               element={<MainLayout children={<ProfilePage />} />}
             />
             <Route

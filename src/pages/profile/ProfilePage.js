@@ -71,7 +71,7 @@ export function ProfilePage() {
 
   return (
     <div className="relative h-full w-full flex items-center sm:items-start md:items-start lg:items-start flex-col ml-0 lg:ml-2">
-      <div className="relative h-full w-full lg:w-9/12 flex items-center flex-col gap-[1vh] bg-white">
+      <div className="relative h-full w-full lg:w-9/12 flex items-center flex-col gap-[1vh] rounded-md shadow-lg border-2 border-gray-400 bg-white">
         <ProfilePageHead
           // original profile will use props given by API request on page render
           // profilePic={header.picture}
@@ -86,7 +86,7 @@ export function ProfilePage() {
           level={90}
         />
 
-        <div className="relative w-full h-min">
+        <div className="relative w-11/12 h-min">
           <div className="relative w-full h-full grid grid-cols-4 gap-[2vh]">
             <ProfileSectionsButton
               sectionChange={handleSectionChange}
