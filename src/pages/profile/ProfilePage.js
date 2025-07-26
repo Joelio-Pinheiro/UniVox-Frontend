@@ -54,7 +54,7 @@ export function ProfilePage() {
       dislikes: 2,
       text: "Manel pai do ano ?",
       date: "27/06/2025",
-      id: "2",
+      id: 2,
     },
     {
       name: "Luiz Felipe",
@@ -65,7 +65,7 @@ export function ProfilePage() {
       dislikes: 0,
       text: "Eu gosto de macacos :)",
       date: "25/07/2024",
-      id: "1",
+      id: 1,
     },
   ];
 
@@ -79,14 +79,14 @@ export function ProfilePage() {
           // profileDesc={header.desc}
           // rank={header.rank}
           // level={header.level}
-          type={1}
+          pictureType={1}
           userName={"Jhon_Jhon"}
           profileDesc={"Estudante de finanças"}
           rank={"prata"}
           level={90}
         />
 
-        <div className="relative w-11/12 h-min">
+        <div className="relative w-full h-min">
           <div className="relative w-full h-full grid grid-cols-4 gap-[2vh]">
             <ProfileSectionsButton
               sectionChange={handleSectionChange}

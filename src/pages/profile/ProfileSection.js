@@ -22,7 +22,7 @@ export function ProfileSection({ section, data }) {
       return;
   }
   return (
-    <div className="relative w-full sm:w-full md:w-full lg:w-11/12 h-full flex items-center flex-col bg-gray-300">
+    <div className="relative w-full h-full flex items-center flex-col bg-gray-300">
       {/*se não houver nada para mostrar, exibe mensagem de erro */}
       {data.length === 0 ? (
         <div className="relative w-full h-full">
@@ -33,7 +33,7 @@ export function ProfileSection({ section, data }) {
           {data.map((item) => (
             <div className="relative w-full h-min flex flex-col mt-2 bg-white rounded-lg">
               {/**header do post/comentário, com nome, foto de perfil, etc */}
-              <div className="relative w-9/12 sm:w-2/3 md:w-2/3 lg:w-3/5 h-12 flex flex-row">
+              <div className="relative w-11/12 sm:w-11/12 md:w-11/12 lg:w-3/5 h-12 flex flex-row">
                 <div className="w-1/3 h-3/4 mt-2">
                   {profileIconSetter(item.pictureType)}
                 </div>
@@ -67,8 +67,8 @@ export function ProfileSection({ section, data }) {
 
                   {/**data do comentário, exclusivo da aba de comentários do usuário*/}
                   {section === "comments" && (
-                    <div className="relative w-min h-min float-end">
-                      <p className="font-light">Postado em {item.date}</p>
+                    <div className="relative w-full h-min">
+                      <p className="font-normal text-base float-end">Postado em {item.date}</p>
                     </div>
                   )}
                 </div>
