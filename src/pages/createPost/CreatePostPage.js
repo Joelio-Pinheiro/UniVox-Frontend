@@ -1,8 +1,12 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import MDEditor, { commands } from "@uiw/react-md-editor";
 import { TextField, Button, Chip, Switch, FormControlLabel } from "@mui/material";
 import Avatar from '@mui/material/Avatar';
 import Autocomplete from "@mui/material/Autocomplete";
+import postService from "../../services/postService";
+import topicService from "../../services/topicService";
+import { useNavigate } from "react-router-dom";
+import { useAlert } from "../../context/AlertContext";
 
 
 
@@ -13,63 +17,61 @@ const user = {
 }
 
 const topics = [
-  { id: 1, name: "r/anime", avatar: "/path/to/anime.jpg" },
-  { id: 2, name: "r/anime_irl", avatar: "/path/to/animeirl.jpg" },
-  { id: 3, name: "r/BaldursGate3", avatar: "/path/to/baldur.jpg" },
-  { id: 4, name: "r/books", avatar: "/path/to/books.jpg" },
-  { id: 5, name: "r/investimentos", avatar: "/path/to/invest.jpg" },
-  { id: 6, name: "r/tecnologia", avatar: "/path/to/tech.jpg" },
-  { id: 7, name: "r/filmes", avatar: "/path/to/movies.jpg" },
-  { id: 8, name: "r/series", avatar: "/path/to/series.jpg" },
-  { id: 9, name: "r/games", avatar: "/path/to/games.jpg" },
-  { id: 10, name: "r/musica", avatar: "/path/to/music.jpg" }
+  { id: 1, name: "r/anime" },
+  { id: 2, name: "r/anime_irl" },
+  { id: 3, name: "r/BaldursGate3" },
+  { id: 4, name: "r/books" },
+  { id: 5, name: "r/investimentos" },
+  { id: 6, name: "r/tecnologia" },
+  { id: 7, name: "r/filmes" },
+  { id: 8, name: "r/series" },
+  { id: 9, name: "r/games" },
+  { id: 10, name: "r/musica" }
 ];
 
 export function CreatePostPage() {
+  const navigate = useNavigate();
+  const { show } = useAlert();
   const [title, setTitle] = useState("");
   const [body, setBody] = useState("");
+  const [allTopics, setAllTopics] = useState([]);
   const [tags, setTags] = useState([]);
-  const [tagInput, setTagInput] = useState("");
   const [anonymous, setAnonymous] = useState(false);
 
   const handleRemoveTag = (tagToDelete) => {
-    setTags(tags.filter(tag => tag !== tagToDelete));
+    setTags(tags.filter(tag => tag.id !== tagToDelete.id));
   };
 
-  const handleSubmit = () => {
-    // lógica de envio
-    console.log({ title, body, tags, anonymous });
+  useEffect(() => {
+    const fetchTopics = async () => {
+      try {
+        const data = await topicService.getTopics();
+        setAllTopics(data); 
+      } catch (error) {
+        show("error", "Erro ao carregar tópicos");
+      }
+    };
+
+    fetchTopics();
+  }, []);
+
+
+  const handleSubmit = async () => {
+    try {
+      const topicIds = tags.map(t => t.name);
+      const response = await postService.createPost(title, body, topicIds, anonymous);
+
+      show("success", response.message || "Post criado com sucesso!");
+      navigate("/");
+    } catch (error) {
+      show("error", error.message || "Erro ao criar o post.");
+    }
   };
 
   return (
     <div className="flex flex-col bg-white justify-center sm:w-4/5 w-full p-4 mt-4 h-full gap-2 shadow-md rounded-xl border border-gray-200">
       <h1 className="text-2xl font-semibold mb-4">Criar post</h1>
 
-      {/* Anônimo toggle */}
-      <div className="flex items-center gap-12 mb-4">
-        <div className="flex items-center gap-3">
-          {/* <img
-            src={user.img}
-            alt={user.name}
-            className="w-10 h-10 rounded-full mr-2"
-          /> */}
-          <Avatar>M</Avatar>
-          <h4>
-            {user.name}
-          </h4>
-        </div>
-        <div className="flex items-center justify-end">
-          <FormControlLabel
-            control={
-              <Switch
-                checked={anonymous}
-                onChange={(e) => setAnonymous(e.target.checked)}
-              />
-            }
-            label="Postar anonimamente"
-          />
-        </div>
-      </div>
 
       {/* Título */}
       <TextField
@@ -125,14 +127,12 @@ export function CreatePostPage() {
       <div className="mb-4">
         <div className="flex gap-2 mb-2 w-full">
           <Autocomplete
-            options={topics
-              .map((topic) => topic.name)
-              .filter((name) => !tags.includes(name))}
-            value={tagInput}
+            options={allTopics.filter(topic => !tags.find(t => t.id === topic.id))}
+            getOptionLabel={(option) => option.name}
+            value={null}
             onChange={(e, newValue) => {
               if (newValue && tags.length < 5) {
                 setTags([...tags, newValue]);
-                setTagInput("");
               }
             }}
             renderInput={(params) => (
@@ -141,21 +141,33 @@ export function CreatePostPage() {
             className="!w-full"
           />
 
-          {/* <Button variant="contained" onClick={handleAddTag}>
-            Adicionar
-          </Button> */}
         </div>
         <div className="flex flex-wrap gap-2 mt-2">
           {tags.map((tag, idx) => (
             <Chip
               key={idx}
-              label={`#${tag}`}
+              label={`#${tag.name}`}
               onDelete={() => handleRemoveTag(tag)}
               color="primary"
             />
           ))}
+
         </div>
         <p className="text-sm text-gray-500 mt-2">Limite de Tópicos: {tags.length}/5</p>
+      </div>
+      {/* Anônimo toggle */}
+      <div className="flex items-center gap-12 mb-4">
+        <div className="flex items-center justify-end">
+          <FormControlLabel
+            control={
+              <Switch
+                checked={anonymous}
+                onChange={(e) => setAnonymous(e.target.checked)}
+              />
+            }
+            label="Postar anonimamente"
+          />
+        </div>
       </div>
 
       {/* Botão de postar */}
