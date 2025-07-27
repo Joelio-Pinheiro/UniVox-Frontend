@@ -37,7 +37,7 @@ export default function TopicActionsBox({ post, onEdit, onDelete }) {
     };
 
     const handleCopyLink = () => {
-        navigator.clipboard.writeText(`${window.location.origin}/post/${post.id}`);
+        navigator.clipboard.writeText(`${window.location.origin}/posts/${post.id}`);
         show("success", "Link copiado para a área de transferência!");
         handleMenuClose();
     };
