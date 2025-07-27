@@ -1,33 +1,11 @@
 import { useState, useEffect } from "react";
 import MDEditor, { commands } from "@uiw/react-md-editor";
 import { TextField, Button, Chip, Switch, FormControlLabel } from "@mui/material";
-import Avatar from '@mui/material/Avatar';
 import Autocomplete from "@mui/material/Autocomplete";
 import postService from "../../services/postService";
 import topicService from "../../services/topicService";
 import { useNavigate } from "react-router-dom";
 import { useAlert } from "../../context/AlertContext";
-
-
-
-const user = {
-  id: "12345",
-  name: "John Doe",
-  img: "https://via.placeholder.com/150"
-}
-
-const topics = [
-  { id: 1, name: "r/anime" },
-  { id: 2, name: "r/anime_irl" },
-  { id: 3, name: "r/BaldursGate3" },
-  { id: 4, name: "r/books" },
-  { id: 5, name: "r/investimentos" },
-  { id: 6, name: "r/tecnologia" },
-  { id: 7, name: "r/filmes" },
-  { id: 8, name: "r/series" },
-  { id: 9, name: "r/games" },
-  { id: 10, name: "r/musica" }
-];
 
 export function CreatePostPage() {
   const navigate = useNavigate();
@@ -46,14 +24,14 @@ export function CreatePostPage() {
     const fetchTopics = async () => {
       try {
         const data = await topicService.getTopics();
-        setAllTopics(data); 
+        setAllTopics(data);
       } catch (error) {
         show("error", "Erro ao carregar tópicos");
       }
     };
 
     fetchTopics();
-  }, []);
+  }, [show]);
 
 
   const handleSubmit = async () => {
@@ -81,7 +59,9 @@ export function CreatePostPage() {
         required
         inputProps={{ maxLength: 300 }}
         value={title}
-        onChange={(e) => setTitle(e.target.value)}
+        onChange={(e) => {
+          if (!e.target.value || e.target.value.length <= 300) setTitle(e.target.value);
+        }}
         className="mb-4"
       />
       <p className="text-sm text-gray-500 mb-2">
@@ -97,7 +77,9 @@ export function CreatePostPage() {
         <MDEditor
           aria-label="Escreva seu post aqui"
           value={body}
-          onChange={setBody}
+          onChange={(val) => {
+            if (!val || val.length <= 2000) setBody(val);
+          }}
           height={300}
           preview="edit"
           commands={
