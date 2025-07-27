@@ -10,6 +10,7 @@ import { CreatePostPage } from "./pages/createPost/CreatePostPage";
 import MainLayout from "./layout/MainLayout";
 import { FaqPage } from "./pages/faq/faqPage";
 import { AlertProvider } from "./context/AlertContext";
+import DetailPage from "./pages/detailPage/detailPage";
 
 export function App() {
   return (
@@ -36,12 +37,12 @@ export function App() {
               element={<MainLayout children={<FaqPage />} />}
             />
             <Route
-              path="create-post"
-              element={<MainLayout children={<CreatePostPage />} />}
+              path="post/:id"
+              element={<MainLayout children={<DetailPage />} />}
             />
             <Route
-              path="faq"
-              element={<MainLayout children={<FaqPage />} />}
+              path="create-post"
+              element={<MainLayout children={<CreatePostPage />} />}
             />
           </Route>
         </Routes>

@@ -39,7 +39,7 @@ const postService = {
     
     async deletePost(postId) {
         try {
-        const response = await apiProvider.delete(`posts/${postId}`, { headers });
+        const response = await apiProvider.delete(`posts/${postId}/delete/`, { headers });
         return response;
         } catch (error) {
             throw error;
@@ -54,7 +54,7 @@ const postService = {
                 topics,
                 is_anonymous
             };
-            const response = await apiProvider.patch(`posts/${postId}/`, postData, { headers });
+            const response = await apiProvider.patch(`posts/${postId}/update/`, postData, { headers });
             return response;
         } catch (error) {
             throw error;
@@ -86,8 +86,10 @@ const postService = {
         try {
             const commentData = { content };
             const response = await apiProvider.patch(`comments/${commentId}/update/`, commentData, { headers });
+            console.log("Update response:", response);
             return response;
         } catch (error) {
+            console.error("Error updating comment:", error);
             throw error;
         }
     },
