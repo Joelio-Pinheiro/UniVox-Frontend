@@ -7,10 +7,10 @@ import PasswordHideButton from "../../customComponents/buttons/PasswordHideButto
 export function LoginPassword({ name, text, password, onChangeFn }) {
   const icon = inputIconSetter(name);
 
-  const [visible, setVisible] = useState("invisible");
+  const [visibility, setVisibility] = useState("invisible");
 
   function onClickFn() {
-    setVisible(visible === "invisible" ? "visible" : "invisible");
+    setVisibility(visibility === "invisible" ? "visible" : "invisible");
   }
 
   return (
@@ -22,7 +22,7 @@ export function LoginPassword({ name, text, password, onChangeFn }) {
           name={name}
           value={password}
           onChange={onChangeFn}
-          type={visible === "visible" ? "text" : "password"}
+          type={visibility === "visible" ? "text" : "password"}
           variant="outlined"
           slotProps={{
             input: {
@@ -32,8 +32,8 @@ export function LoginPassword({ name, text, password, onChangeFn }) {
               endAdornment: (
                 <InputAdornment position="end">
                   <PasswordHideButton
-                    name={visible}
-                    onClickFn={() => onClickFn(visible)}
+                    name={visibility}
+                    onClickFn={() => onClickFn(visibility)}
                   />
                 </InputAdornment>
               ),

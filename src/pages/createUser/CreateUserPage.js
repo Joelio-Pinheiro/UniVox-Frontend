@@ -26,8 +26,6 @@ export function CreateUserPage() {
   function handleChange(e) {
     const { name, value } = e.target;
 
-
-
     setFields((prev) => ({
       ...prev,
       [name]: value,

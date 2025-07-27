@@ -30,8 +30,8 @@ export function ProfilePage() {
   }
 
   async function apiRequest(userSection) {
+    setIsLoading(true);
     try {
-      setIsLoading(true);
       const response = await authService.contentRequest(userSection);
       setContent(response);
     } catch (err) {

@@ -1,25 +1,9 @@
 import Content from "../../customComponents/Content";
-import message from "../../messages.json";
+import { emptySectionMessage } from "../../utils/messageSetters";
 
 export function ProfileSection({ section, data, loading }) {
-  let warningMessage = "";
+  const warningMessage = emptySectionMessage(section);
 
-  switch (section) {
-    case "posts":
-      warningMessage = message.warningMessages.emptyPostsSection;
-      break;
-    case "comments":
-      warningMessage = message.warningMessages.emptyCommentsSection;
-      break;
-    case "upvoted":
-      warningMessage = message.warningMessages.emptyLikesSection;
-      break;
-    case "downvoted":
-      warningMessage = message.warningMessages.emptyDeslikesSection;
-      break;
-    default:
-      return;
-  }
   return (
     <div className="relative w-full h-full flex items-center flex-col rounded-md ">
       {/*se não houver nada para mostrar, exibe mensagem*/}

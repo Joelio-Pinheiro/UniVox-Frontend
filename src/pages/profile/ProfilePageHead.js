@@ -3,22 +3,30 @@ import {
   Avatar,
   Box,
   Button,
+  InputAdornment,
   Modal,
   TextField,
   Typography,
 } from "@mui/material";
 import EditProfileButton from "../../customComponents/buttons/EditProfileButton";
+import PasswordHideButton from "../../customComponents/buttons/PasswordHideButton";
 
 export function ProfilePageHead({ user }) {
   const [userInfo, setUserInfo] = useState({
     name: user.name,
-    user_name: user.user_name,
+    userName: user.user_name,
     email: user.email,
-    password: user.password,
     description: user.description,
+    password: "",
+    newPassword: "",
   });
 
   const [editMode, setEditMode] = useState(false);
+  const [visibility, setVisibility] = useState("invisible");
+
+  function onClickFn() {
+    setVisibility(visibility === "invisible" ? "visible" : "invisible");
+  }
 
   function handleEditClick() {
     setEditMode(!editMode);
@@ -53,7 +61,7 @@ export function ProfilePageHead({ user }) {
       <div className="relative flex items-center flex-row w-11/12 gap-2">
         <div className="relative flex items-start flex-row w-1/3 h-16 sm:h-32 md:h-32 lg:h-32 ">
           <Avatar className="!w-5/6 !h-5/6 ">
-            {userInfo.user_name.charAt(1).toUpperCase()}
+            {userInfo.userName.charAt(1).toUpperCase()}
           </Avatar>
         </div>
 
@@ -76,10 +84,27 @@ export function ProfilePageHead({ user }) {
           <Typography variant="h6">Editar perfil</Typography>
 
           <TextField
-            className="w-full h-min"
-            label="Nome"
             variant="outlined"
             size="small"
+            label="Nome de usuário"
+            name={"userName"}
+            value={userInfo.userName}
+            onChange={handleChange}
+          />
+
+          <TextField
+            label="Email"
+            variant="outlined"
+            size="small"
+            name={"email"}
+            value={userInfo.email}
+            onChange={handleChange}
+          />
+
+          <TextField
+            variant="outlined"
+            size="small"
+            label="Nome"
             name={"name"}
             value={userInfo.name}
             onChange={handleChange}
@@ -89,10 +114,10 @@ export function ProfilePageHead({ user }) {
           </p>
 
           <TextField
-            className="w-full h-min"
-            label="Descrição"
-            variant="outlined"
+            className="!h-40"
             size="small"
+            variant="outlined"
+            label="Descrição"
             name={"description"}
             value={userInfo.description}
             onChange={handleChange}
@@ -102,22 +127,34 @@ export function ProfilePageHead({ user }) {
           </p>
 
           <TextField
-            className="w-full h-min"
-            label="Nome de usuário"
+            label="Senha"
             variant="outlined"
             size="small"
-            name={"user_name"}
-            value={userInfo.user_name}
+            name={"password"}
+            value={userInfo.password}
+            type={visibility === "visible" ? "text" : "password"}
             onChange={handleChange}
+            slotProps={{
+              input: {
+                endAdornment: (
+                  <InputAdornment position="end">
+                    <PasswordHideButton
+                      name={visibility}
+                      onClickFn={() => onClickFn(visibility)}
+                    />
+                  </InputAdornment>
+                ),
+              },
+            }}
           />
 
           <TextField
-            className="w-full h-min"
-            label="Email"
+            label="Senha"
             variant="outlined"
             size="small"
-            name={"email"}
-            value={userInfo.email}
+            name={"newPassword"}
+            value={userInfo.newPassword}
+            type={visibility === "visible" ? "text" : "password"}
             onChange={handleChange}
           />
 

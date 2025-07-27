@@ -1,6 +1,6 @@
 import { inputIconSetter } from "../../utils/iconSetters";
 
-export default function PasswordHideBtn({ name, onClickFn }) {
+export default function PasswordHideButton({ name, onClickFn }) {
   const icon = inputIconSetter(name);
 
   return (
