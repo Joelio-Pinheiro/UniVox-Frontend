@@ -10,32 +10,30 @@ import Collapse from '@mui/material/Collapse';
 import { MdMenuOpen, MdExpandLess, MdExpandMore, MdQuestionAnswer } from "react-icons/md";
 import { FaHome } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
-// import topicService from "../../services/topicService";
-// import { useEffect, useState } from "react";
+import topicService from "../services/topicService"; // Assuming you have a service to fetch topics
+import { useEffect, useState } from "react";
 
 const Sidebar = ({ isMobile, onClose }) => {
   const [openTopics, setOpenTopics] = React.useState(true);
+  const [topics, setTopics] = useState([]);
   const navigate = useNavigate();
 
-  //  useEffect(() => {
-  //     const fetchTopics = async () => {
-  //       try {
-  //         const data = await topicService.getTopics();
-  //         setAllTopics(data);
-  //       } catch (error) {
-  //         show("error", "Erro ao carregar tópicos");
-  //       }
-  //     };
-  
-  //     fetchTopics();
-  //   }, [show]); 
-  const topics = [
-    { name: "r/anime", avatar: "/path/to/anime.jpg" },
-    { name: "r/anime_irl", avatar: "/path/to/animeirl.jpg" },
-    { name: "r/BaldursGate3", avatar: "/path/to/baldur.jpg" },
-    { name: "r/books", avatar: "/path/to/books.jpg" },
-    { name: "r/investimentos", avatar: "/path/to/invest.jpg" }
-  ];
+  useEffect(() => {
+    const fetchTopics = async () => {
+      try {
+        const data = await topicService.getTopics();
+        setTopics(data.slice(0, 10).map(topic => ({
+          ...topic,
+        })));
+      } catch (error) {
+        console.error("Erro ao carregar tópicos:", error);
+      }
+    };
+
+    fetchTopics();
+  }, []);
+
+
 
   const renderSection = (title, open, setOpen, items) => (
     <>
@@ -47,8 +45,10 @@ const Sidebar = ({ isMobile, onClose }) => {
         <List component="div" disablePadding>
           {items.map((item, idx) => (
             <ListItemButton key={idx} className="pl-6 gap-3"
-            onClick={() => navigate(`/topic/${item.name.replace('r/', '')}`)}>
-              <Avatar alt={item.name} src={item.avatar} sx={{ width: 24, height: 24 }} />
+              onClick={() => navigate(`/topic/${item.name.replace('r/', '')}`)}>
+              <Avatar sx={{ width: 24, height: 24, fontSize: 12 }}>
+                {item.name?.[1]?.toUpperCase() || "?"}
+              </Avatar>
               <ListItemText primary={item.name} />
             </ListItemButton>
           ))}
@@ -59,7 +59,7 @@ const Sidebar = ({ isMobile, onClose }) => {
   return (
     <nav className="flex flex-col px-2 text-gray-800">
       <List>
-      {isMobile && (
+        {isMobile && (
           <div className="flex items-center h-16 px-4">
             <IconButton edge="start" onClick={onClose}>
               <MdMenuOpen className="text-3xl text-black" />
@@ -68,7 +68,7 @@ const Sidebar = ({ isMobile, onClose }) => {
         )}
         <ListItem disablePadding>
           <ListItemButton className="flex items-center gap-3 w-full h-12"
-          onClick={() => navigate('/')}>
+            onClick={() => navigate('/')}>
             <div className="w-6 flex justify-center">
               <FaHome className="text-xl" />
             </div>
@@ -78,7 +78,7 @@ const Sidebar = ({ isMobile, onClose }) => {
 
         <ListItem disablePadding>
           <ListItemButton className="flex items-center gap-3 w-full h-12"
-          onClick={() => navigate('/faq')}>
+            onClick={() => navigate('/faq')}>
             <div className="w-6 flex justify-center">
               <MdQuestionAnswer className="text-xl" />
             </div>
