@@ -102,7 +102,7 @@ export default function PostForm({
         />
         <div className="flex flex-wrap gap-2 mt-2">
           {tags.map((tag, idx) => (
-            <Chip key={idx} label={`#${tag.name}`} onDelete={() => handleRemoveTag(tag)} color="primary" />
+            <Chip key={idx} label={`${tag.name}`} onDelete={() => handleRemoveTag(tag)} color="primary" />
           ))}
         </div>
         <p className="text-sm text-gray-500 mt-2">Limite de Tópicos: {tags.length}/5</p>

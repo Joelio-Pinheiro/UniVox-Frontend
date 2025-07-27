@@ -45,7 +45,7 @@ const Sidebar = ({ isMobile, onClose }) => {
         <List component="div" disablePadding>
           {items.map((item, idx) => (
             <ListItemButton key={idx} className="pl-6 gap-3"
-              onClick={() => navigate(`/topic/${item.name.replace('r/', '')}`)}>
+              onClick={() => navigate(`/posts?topics=${encodeURIComponent(item.name)}`)}>
               <Avatar sx={{ width: 24, height: 24, fontSize: 12 }}>
                 {item.name?.[1]?.toUpperCase() || "?"}
               </Avatar>
