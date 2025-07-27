@@ -1,23 +1,21 @@
-import InteractionButton from "../../customComponents/buttons/InteractionButton";
 import Content from "../../customComponents/Content";
 import message from "../../messages.json";
-import { profileIconSetter } from "../../utils/iconSetters";
-import { rankIconSetter } from "../../utils/iconSetters";
+
 export function ProfileSection({ section, data }) {
   let warningMessage = "";
-
+  
   switch (section) {
     case "posts":
-      warningMessage = message.emptyPostsSection;
+      warningMessage = message.warningMessages.emptyPostsSection;
       break;
     case "comments":
-      warningMessage = message.emptyCommentsSection;
+      warningMessage = message.warningMessages.emptyCommentsSection;
       break;
-    case "liked":
-      warningMessage = message.emptyLikesSection;
+    case "upvoted":
+      warningMessage = message.warningMessages.emptyLikesSection;
       break;
-    case "disliked":
-      warningMessage = message.emptyDeslikesSection;
+    case "downvoted":
+      warningMessage = message.warningMessages.emptyDeslikesSection;
       break;
     default:
       return;
@@ -25,14 +23,16 @@ export function ProfileSection({ section, data }) {
   return (
     <div className="relative w-full h-full flex items-center flex-col rounded-md bg-gray-300">
       {/*se não houver nada para mostrar, exibe mensagem de erro */}
-      {data.length === 0 ? (
-        <div className="relative w-full h-full">
-          <p>{warningMessage}</p>
+      {!data || data.length === 0 ? (
+        <div className="relative w-full h-96 flex items-center flex-col rounded-md bg-white">
+          <h1 className="text-gray-700 text-center font-semibold text-2xl mt-44">
+            {warningMessage}
+          </h1>
         </div>
       ) : (
         <div className="relative w-11/12 h-full">
           {data.map((item) => (
-            <Content item={item} section={section}/>
+            <Content item={item} section={section} />
           ))}
         </div>
       )}

@@ -225,6 +225,22 @@ const authService = {
       throw error;
     }
   },
+  contentRequest: async (section) => {
+    try {
+      let response;
+      
+      if (section === "upvoted" || section === "downvoted") {
+        response = await apiProvider.get(`users/me/posts/${section}/`);
+      } else {
+        response = await apiProvider.get(`users/me/${section}/`);
+      }
+
+      return response;
+    } catch (error) {
+      console.log("Erro na solicitação");
+      throw error;
+    }
+  },
 };
 
 export default authService;

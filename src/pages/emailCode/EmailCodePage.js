@@ -43,18 +43,6 @@ export function EmailCodePage() {
     setState({open: false});
   }
 
-  async function apiRequest(path) {
-    try {
-      const confirmationCode =
-        code.firstDigit + code.secondDigit + code.thirdDigit + code.lastDigit;
-
-      await authService.accountCodeForRecovery(confirmationCode);
-      navigate(path); //redireciona para a home page, após o usuário terminar a verificação do email
-    } catch (error) {
-      setState({open: true, text: error.message});
-    }
-  }
-
   async function apiNewCodeRequest() {
     try {
       await authService.accountNewCodeRequest();
@@ -63,16 +51,27 @@ export function EmailCodePage() {
     }
   }
 
-  function handleRouteParam() {
-    switch (routeParam.type) {
-      case "email-confirm":
-        apiRequest("/");
-        break;
-      case "password-reset":
-        apiRequest("/newpassword");
-        break;
-      default:
-        return;
+  async function handleRouteParam() {
+    let path;
+    try{
+       const confirmationCode =
+         code.firstDigit + code.secondDigit + code.thirdDigit + code.lastDigit;
+
+      switch (routeParam.type) {
+        case "email-confirm":
+          await authService.accountConfirmation(confirmationCode);
+          path = "/login";
+          break;
+        case "password-reset":
+          await authService.accountCodeForRecovery(confirmationCode);
+          path = "/newpassword";
+          break;
+        default:
+          return;
+      }
+      navigate(path);
+    }catch(error){
+      console.log(error.message);
     }
   }
 

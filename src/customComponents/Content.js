@@ -3,7 +3,7 @@ import InteractionButton from "./buttons/InteractionButton";
 
 export default function Content({ item, section }) {
   return (
-    <div className="relative w-full h-min flex flex-col mt-2 bg-white rounded-lg">
+    <div className="relative w-full h-min flex flex-col mt-2 mb-2 bg-white rounded-lg">
       {/**header do post/comentário, com nome, foto de perfil, etc */}
       <div className="relative w-11/12 sm:w-11/12 md:w-11/12 lg:w-3/5 h-12 flex flex-row">
         <div className="w-1/3 h-3/4 mt-2">
@@ -37,7 +37,7 @@ export default function Content({ item, section }) {
           {/**data do comentário, exclusivo da aba de comentários do usuário*/}
           {section === "comments" && (
             <div className="relative w-full h-min">
-              <p className="font-normal text-base float-end">
+              <p className="font-normal text-xs float-end">
                 Postado em {item.date}
               </p>
             </div>

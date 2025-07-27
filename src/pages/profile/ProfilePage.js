@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { SectionBar } from "../../customComponents/SectionBar";
 import { ProfileSection } from "./ProfileSection";
@@ -7,115 +7,76 @@ import ProfileSectionsButton from "../../customComponents/buttons/ProfileSection
 import authService from "../../services/authService";
 
 export function ProfilePage() {
-  const email = localStorage.getItem("email");
   const navigate = useNavigate();
 
-  // avoids access by url when user has no active session
-  // useEffect(() => {
-  //   if (email === "") {
-  //     return navigate("/");
-  //   }
-  // });
-
-  let response;
   let content;
-
-  
-  //must find a way to only render header section data once
-  // useEffect(() => {
-    //   response = authService.userDataRequest();
-    // }, []);
-    
+  const user = JSON.parse(localStorage.getItem("user_data"));
   const [section, setSection] = useState("posts");
-  
+
+  useEffect(() => {
+    if (user.email === "") {
+      return navigate("/");
+    }
+  });
+
   function handleSectionChange(userSection) {
     if (section === userSection) {
       return;
     }
+
     setSection(userSection);
+    apiRequest(userSection);
   }
 
-  // async function apiRequest(userSection) {
-  //   handleSectionChange(userSection);
-  //   try {
-  //     content = await authService.contentRequest(email, userSection);
-  //   } catch (err) {
-  //     console.log(err.message);
-  //   }
-  // }
-
-  const data = [
-    {
-      name: "Guilherme Monteiro",
-      pictureType: 1,
-      rank: "maximo",
-      tags: "",
-      likes: 2,
-      dislikes: 2,
-      text: "Manel pai do ano ?",
-      date: "27/06/2025",
-      id: 2,
-    },
-    {
-      name: "Luiz Felipe",
-      pictureType: 2,
-      rank: "prata",
-      tags: "",
-      likes: 1,
-      dislikes: 0,
-      text: "Eu gosto de macacos :)",
-      date: "25/07/2024",
-      id: 1,
-    },
-  ];
+  async function apiRequest(userSection) {
+    try {
+      content = await authService.contentRequest(userSection);
+    } catch (err) {
+      console.log(err.message);
+    }
+  }
 
   return (
-    <div className="relative h-full w-full flex items-center sm:items-start md:items-start lg:items-start flex-col ml-0 lg:ml-2">
-      <div className="relative h-full w-full lg:w-9/12 flex items-center flex-col gap-[1vh] rounded-md shadow-lg border-2 border-gray-400 bg-white">
+    <div className="relative h-full w-full flex items-center sm:items-start md:items-start lg:items-start flex-col">
+      <div className="relative h-full w-full flex items-center flex-col gap-[1vh] rounded-md shadow-lg border-gray-400 bg-white">
         <ProfilePageHead
-          // original profile will use props given by API request on page render
-          // profilePic={header.picture}
-          // userName={header.name}
-          // profileDesc={header.desc}
-          // rank={header.rank}
-          // level={header.level}
-          pictureType={1}
-          userName={"Jhon_Jhon"}
-          profileDesc={"Estudante de finanças"}
-          rank={"prata"}
-          level={90}
+          pictureType={user.avatar_id}
+          userName={user.name}
+          profileDesc={user.description}
+          rank={user.rank}
+          level={user.level}
         />
 
         <div className="relative w-11/12 h-min">
-          <div className="relative w-full h-full grid grid-cols-4 gap-[2vh]">
+          <div className="relative w-full h-full grid grid-cols-4">
             <ProfileSectionsButton
-              sectionChange={handleSectionChange}
+              text={"Posts"}
               section={"posts"}
-              text={"Postagens"}
+              sectionChange={handleSectionChange}
             />
 
             <ProfileSectionsButton
-              sectionChange={handleSectionChange}
-              section={"comments"}
               text={"Comentários"}
+              section={"comments"}
+              sectionChange={handleSectionChange}
             />
 
             <ProfileSectionsButton
-              sectionChange={handleSectionChange}
-              section={"liked"}
               text={"Likes"}
+              section={"upvoted"}
+              sectionChange={handleSectionChange}
             />
 
             <ProfileSectionsButton
-              sectionChange={handleSectionChange}
-              section={"disliked"}
               text={"Deslikes"}
+              section={"downvoted"}
+              sectionChange={handleSectionChange}
             />
           </div>
           <SectionBar section={section} />
         </div>
 
-        <ProfileSection data={data} section={section} />
+        <ProfileSection data={content} section={section} />
       </div>
     </div>
   );

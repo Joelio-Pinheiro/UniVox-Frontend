@@ -1,9 +1,7 @@
 import { useState } from "react";
 import { profileIconSetter } from "../../utils/iconSetters";
-import { ProfileRank } from "./ProfileRank";
-import TextInputComponent from "../../customComponents/inputs/TextInputComponent";
-import EditProfileButton from "../../customComponents/buttons/EditProfileButton";
 import { TextField } from "@mui/material";
+import EditProfileButton from "../../customComponents/buttons/EditProfileButton";
 
 export function ProfilePageHead({
   pictureType,
@@ -42,23 +40,26 @@ export function ProfilePageHead({
   }
 
   return (
-    <div className="relative flex flex-col w-11/12 h-1/4 gap-6 mt-2 sm:mt-0 md:mt-0 lg:mt-0">
+    <div className="relative flex items-center flex-col w-11/12 h-1/4 gap-6">
       {/*foto e descrição de perfil */}
-      <div className="relative w-full h-min">
+      <div className="relative w-9/12 h-min">
         <EditProfileButton onClickFn={handleEditClick} />
       </div>
 
-      <div className="relative flex items-center flex-row w-full h-3/5 gap-6">
-        <div className="relative flex items-start flex-row w-2/12 sm:w-2/12 md:w-2/12 lg:w-2/12 h-min">
+      <div className="relative flex items-center flex-row w-9/12 h-3/5 gap-6">
+        <div className="relative flex items-start flex-row w-2/5 lg:w-1/5 h-min">
           {profileIconSetter(profileInfo.picture)}
         </div>
+
         <div className="relative flex flex-row w-full h-full">
-          <div className="relative flex flex-col w-full md:w-9/12 lg:w-9/12 h-1/2 gap-4">
+          <div className="relative flex flex-col w-full h-1/2 gap-4">
             <TextField
               className="w-full h-min"
-              disabled={!editMode}
+              variant={!editMode ? "standard" : "outlined"}
+              size="small"
               name={"userName"}
               value={profileInfo.userName}
+              disabled={!editMode}
               onChange={handleChange}
             />
             <p
@@ -71,9 +72,11 @@ export function ProfilePageHead({
 
             <TextField
               className="w-full h-min"
-              disabled={!editMode}
+              variant={!editMode ? "standard" : "outlined"}
+              size="small"
               name={"description"}
               value={profileInfo.description}
+              disabled={!editMode}
               onChange={handleChange}
             />
             <p
@@ -83,12 +86,11 @@ export function ProfilePageHead({
             >
               {profileInfo.description.length}/40
             </p>
-
           </div>
         </div>
       </div>
 
-      <ProfileRank rank={rank} level={level} />
+      {/* <ProfileRank rank={rank} level={level} /> */}
     </div>
   );
 }
