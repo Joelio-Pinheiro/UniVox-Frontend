@@ -141,14 +141,17 @@ export default function Comment({ comment, postId, onUpdate }) {
             type="likes"
             counter={localComment.upvotes}
             onClickFn={() => handleVote(1)}
+            active={localComment.user_vote === 1}
           />
           <InteractionButton
             type="dislikes"
-            counter={localComment.downvotes}
+            // counter={localComment.downvotes}
             onClickFn={() => handleVote(-1)}
+            active={localComment.user_vote === -1}
           />
           <InteractionButton
             type="comment"
+            counter={localComment.replies?.length || 0}
             onClickFn={() => setReplyOpen(true)}
           />
         </div>

@@ -119,7 +119,7 @@ export default function Content({ itemId, section, isFeed = false }) {
               if (!isFeed && section === "comments") {
                 navigate("/");
               } else {
-                window.location.reload(); 
+                window.location.reload();
               }
             } catch (err) {
               show("error", "Erro ao deletar o post.");
@@ -158,11 +158,14 @@ export default function Content({ itemId, section, isFeed = false }) {
       <div className="flex gap-4 mt-2">
         <div className="text-sm text-gray-700 hover:text-blue-600">
           <InteractionButton type="likes" counter={postDetails.upvotes} onClickFn={() => handleVote(1)}
-            active={postDetails.current_user_vote === 1} />
+            active={postDetails.user_vote === 1} />
         </div>
         <div className="text-sm text-gray-700 hover:text-red-600">
-          <InteractionButton type="dislikes" counter={postDetails.downvotes} onClickFn={() => handleVote(-1)}
-            active={postDetails.current_user_vote === -1} />
+          <InteractionButton type="dislikes"
+            // counter={postDetails.downvotes} 
+            onClickFn={() => handleVote(-1)}
+            active={postDetails.user_vote === -1}
+          />
         </div>
         <div className="text-sm text-gray-700 hover:text-green-600">
           <InteractionButton type="comment" counter={postDetails.comment_count} onClickFn={() => setCommentOpen(true)} />

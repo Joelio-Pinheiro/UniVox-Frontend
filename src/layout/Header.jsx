@@ -27,7 +27,7 @@ const Header = ({ isMobile }) => {
             navigate(`/posts?search=${encodeURIComponent(searchValue.trim())}`);
         }
     };
-
+    
 
     return (
         <>
