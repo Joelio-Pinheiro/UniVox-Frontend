@@ -10,11 +10,25 @@ import Collapse from '@mui/material/Collapse';
 import { MdMenuOpen, MdExpandLess, MdExpandMore, MdQuestionAnswer } from "react-icons/md";
 import { FaHome } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
+// import topicService from "../../services/topicService";
+// import { useEffect, useState } from "react";
 
 const Sidebar = ({ isMobile, onClose }) => {
   const [openTopics, setOpenTopics] = React.useState(true);
   const navigate = useNavigate();
 
+  //  useEffect(() => {
+  //     const fetchTopics = async () => {
+  //       try {
+  //         const data = await topicService.getTopics();
+  //         setAllTopics(data);
+  //       } catch (error) {
+  //         show("error", "Erro ao carregar tópicos");
+  //       }
+  //     };
+  
+  //     fetchTopics();
+  //   }, [show]); 
   const topics = [
     { name: "r/anime", avatar: "/path/to/anime.jpg" },
     { name: "r/anime_irl", avatar: "/path/to/animeirl.jpg" },

@@ -14,18 +14,18 @@ function HomePage() {
         const postsData = await postService.getPosts();
         const formattedPosts = postsData.map(post => ({
           id: post.id,
-          creator: {
-            id: post.creator.id,
-            name: post.creator.user_name,
-          },
-          title: post.title,
-          upvotes: post.upvotes,
-          downvotes: post.downvotes,
-          comment_count: post.comment_count,
-          topics: post.topics.map(topic => ({
-            id: topic.id,
-            name: topic.name,
-          })),
+          // creator: {
+          //   id: post.creator.id,
+          //   name: post.creator.user_name,
+          // },
+          // title: post.title,
+          // upvotes: post.upvotes,
+          // downvotes: post.downvotes,
+          // comment_count: post.comment_count,
+          // topics: post.topics.map(topic => ({
+            // id: topic.id,
+            // name: topic.name,
+          // })),
         }));
         setPosts(formattedPosts);
       } catch (error) {
@@ -41,7 +41,7 @@ function HomePage() {
       {/* <div className="flex flex-col justify-center sm:w-4/5 w-full p-4 mt-4 h-full gap-2 shadow-md rounded-xl border bg-white border-gray-200"> */}
       <div className="flex flex-col justify-center sm:w-4/5 w-full p-4 mt-4 h-full gap-2">
         {posts.map((post, index) => (
-          <Content key={index} item={post} section={"feed"} />
+          <Content key={index} item={post.id} section={"feed"} />
         ))}
       </div>
     </>

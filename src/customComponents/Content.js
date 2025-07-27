@@ -8,7 +8,6 @@ import Modal from "@mui/material/Modal";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import MDEditor, { commands } from "@uiw/react-md-editor";
-import TextField from "@mui/material/TextField";
 
 export default function Content({ item, section }) {
   const { show } = useAlert();
@@ -19,7 +18,7 @@ export default function Content({ item, section }) {
   useEffect(() => {
     const fetchPostDetails = async () => {
       try {
-        const data = await postService.getPostById(item.id);
+        const data = await postService.getPostById(item);
         setPostDetails(data);
       } catch (error) {
         show("error", `Erro ao carregar detalhes do post`);
@@ -27,12 +26,12 @@ export default function Content({ item, section }) {
     };
 
     fetchPostDetails();
-  }, [item.id, show]);
+  }, [item, show]);
 
   const handleVote = async (voteType) => {
     try {
-      await postService.likePost(item.id, "post", voteType);
-      const updated = await postService.getPostById(item.id);
+      await postService.likePost(item, "post", voteType);
+      const updated = await postService.getPostById(item);
       setPostDetails(updated);
     } catch (error) {
       show("error", "Erro ao votar no post.");
@@ -40,11 +39,12 @@ export default function Content({ item, section }) {
   };
   const handleCreateComment = async () => {
     try {
-      await postService.CreateComment(item.id, commentContent);
+      await postService.CreateComment(item, commentContent);
       setCommentOpen(false);
       setCommentContent("");
-      const updated = await postService.getPostById(item.id);
+      const updated = await postService.getPostById(item);
       setPostDetails(updated);
+      show("success", "Comentário criado com sucesso!");
     } catch (error) {
       show("error", "Erro ao comentar.");
     }
@@ -74,7 +74,7 @@ export default function Content({ item, section }) {
 
       {/* Corpo em Markdown */}
       <div data-color-mode="light" className="prose prose-sm max-w-full text-sm text-gray-800 mb-2 p-2">
-        <MDEditor.Markdown source={postDetails.content}/>
+        <MDEditor.Markdown source={postDetails.content} />
       </div>
 
       {/* Tópicos */}
@@ -91,15 +91,17 @@ export default function Content({ item, section }) {
 
       {/* Botões de interação */}
       <div className="flex gap-4 mt-2">
-        <button onClick={() => handleVote(1)} className="text-sm text-gray-700 hover:text-blue-600">
-          <InteractionButton type="likes" counter={postDetails.upvotes}/>
-        </button>
-        <button onClick={() => handleVote(-1)} className="text-sm text-gray-700 hover:text-red-600">
-          <InteractionButton type="dislikes" counter={postDetails.downvotes} />
-        </button>
-        <button onClick={() => setCommentOpen(true)} className="text-sm text-gray-700 hover:text-green-600">
-          <InteractionButton type="comment" counter={postDetails.comment_count} />
-        </button>
+        <div className="text-sm text-gray-700 hover:text-blue-600">
+          <InteractionButton type="likes" counter={postDetails.upvotes} onClickFn={() => handleVote(1)} 
+            active={postDetails.current_user_vote === 1}/>
+        </div>
+        <div className="text-sm text-gray-700 hover:text-red-600">
+          <InteractionButton type="dislikes" counter={postDetails.downvotes} onClickFn={() => handleVote(-1)} 
+            active={postDetails.current_user_vote === -1}/>
+        </div>
+        <div className="text-sm text-gray-700 hover:text-green-600">
+          <InteractionButton type="comment" counter={postDetails.comment_count} onClickFn={() => setCommentOpen(true)} />
+        </div>
         {section === "comments" && (
           <p className="ml-auto text-xs text-gray-500 mt-1">
             Postado em {new Date(postDetails.created_at).toLocaleDateString()}
@@ -109,42 +111,35 @@ export default function Content({ item, section }) {
 
       {/* Modal de comentário */}
       <Modal open={isCommentOpen} onClose={() => setCommentOpen(false)}>
-        <Box className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-96 bg-white rounded-lg shadow-lg p-6 flex flex-col gap-4">
+        <Box className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[90vw] max-w-md bg-white rounded-lg shadow-lg p-6 flex flex-col gap-4">
           <Typography variant="h6">Comentar</Typography>
-          {/* <TextField
-            fullWidth
-            multiline
-            rows={4}
-            value={commentContent}
-            onChange={(e) => setCommentContent(e.target.value)}
-            placeholder="Digite seu comentário aqui..."
-          /> */}
           <MDEditor
-                    aria-label="Escreva seu post aqui"
-                    value={commentContent}
-                    onChange={(val) => {
-                      if (!val || val.length <= 2000) setCommentContent(val);
-                    }}
-                    height={300}
-                    preview="edit"
-                    commands={
-                      [commands.bold,
-                      commands.italic,
-                      commands.strikethrough,
-                      commands.link,
-                      commands.quote,
-                      commands.code,
-                      commands.checkedListCommand,
-                      commands.unorderedListCommand,
-                      commands.orderedListCommand,
-                      ]
-                    }
-                    extraCommands={[
-                      commands.codeEdit,
-                      commands.codeLive,
-                      commands.codePreview,
-                    ]}
-                  />
+            aria-label="Escreva seu post aqui"
+            value={commentContent}
+            onChange={(val) => {
+              if (!val || val.length <= 2000) setCommentContent(val);
+            }}
+            height={300}
+            preview="edit"
+            commands={
+              [commands.bold,
+              commands.italic,
+              commands.strikethrough,
+              commands.link,
+              commands.quote,
+              commands.code,
+              commands.checkedListCommand,
+              commands.unorderedListCommand,
+              commands.orderedListCommand,
+              ]
+            }
+            extraCommands={[
+              commands.codeEdit,
+              commands.codeLive,
+              commands.codePreview,
+            ]}
+            data-color-mode="light"
+          />
           <div className="flex justify-end gap-2">
             <Button variant="outlined" onClick={() => setCommentOpen(false)}>Cancelar</Button>
             <Button variant="contained" onClick={handleCreateComment}>Enviar</Button>

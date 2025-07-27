@@ -6,15 +6,17 @@ export default function InteractionButton({
   type,
   hidden,
   onClickFn,
+  active = false,
 }) {
   const icon = buttonIconSetter(type);
   return (
     <Button
-      className="!w-min !h-min !border-black"
+      className={`!w-min !h-min ${
+        active ? "!border-blue-600 !text-blue-600" : "!border-black !text-black"
+      }`}
       variant={type === "comment" ? "text" : "outlined"}
       hidden={hidden}
       //TO DO: refatorar essa lógica estranha
-      startIcon={counter !== null ? "" : icon}
       endIcon={counter !== null ? icon : ""}
       onClick={onClickFn}
     >
