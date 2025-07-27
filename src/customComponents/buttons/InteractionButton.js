@@ -11,16 +11,17 @@ export default function InteractionButton({
   const icon = buttonIconSetter(type);
   return (
     <Button
-      className={`!w-min !h-min ${
-        active ? "!border-blue-600 !text-blue-600" : "!border-black !text-black"
-      }`}
-      variant={type === "comment" ? "text" : "outlined"}
+      className={`
+        !min-w-0 !p-1 !m-0 !h-auto !rounded-md 
+        sm:!px-2 sm:!py-1 
+        ${active ? "!border-blue-600 !text-blue-600" : "!border-black !text-black"}
+      `}
+      variant="outlined"
       hidden={hidden}
-      //TO DO: refatorar essa lógica estranha
-      endIcon={counter !== null ? icon : ""}
+      endIcon={counter !== null ? icon : null}
       onClick={onClickFn}
     >
-      {<p className="text-xs text-black">{counter}</p>}
+      <span className="text-[10px] sm:text-xs text-black">{counter}</span>
     </Button>
   );
 }

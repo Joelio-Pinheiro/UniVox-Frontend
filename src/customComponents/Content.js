@@ -8,8 +8,11 @@ import Modal from "@mui/material/Modal";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import MDEditor, { commands } from "@uiw/react-md-editor";
+import { useNavigate } from "react-router-dom";
+import Comment from "../pages/detailPage/comment";
 
-export default function Content({ item, section }) {
+export default function Content({ itemId, section, isFeed = false }) {
+  const navigate = useNavigate();
   const { show } = useAlert();
   const [postDetails, setPostDetails] = useState(null);
   const [isCommentOpen, setCommentOpen] = useState(false);
@@ -18,7 +21,7 @@ export default function Content({ item, section }) {
   useEffect(() => {
     const fetchPostDetails = async () => {
       try {
-        const data = await postService.getPostById(item);
+        const data = await postService.getPostById(itemId);
         setPostDetails(data);
       } catch (error) {
         show("error", `Erro ao carregar detalhes do post`);
@@ -26,12 +29,21 @@ export default function Content({ item, section }) {
     };
 
     fetchPostDetails();
-  }, [item, show]);
+  }, [itemId, show]);
+  const refreshPost = async () => {
+    try {
+      const updated = await postService.getPostById(itemId);
+      setPostDetails(updated);
+    } catch (error) {
+      show("error", "Erro ao atualizar o post.");
+    }
+  };
+
 
   const handleVote = async (voteType) => {
     try {
-      await postService.likePost(item, "post", voteType);
-      const updated = await postService.getPostById(item);
+      await postService.likePost(itemId, "post", voteType);
+      const updated = await postService.getPostById(itemId);
       setPostDetails(updated);
     } catch (error) {
       show("error", "Erro ao votar no post.");
@@ -39,10 +51,10 @@ export default function Content({ item, section }) {
   };
   const handleCreateComment = async () => {
     try {
-      await postService.CreateComment(item, commentContent);
+      await postService.CreateComment(itemId, commentContent);
       setCommentOpen(false);
       setCommentContent("");
-      const updated = await postService.getPostById(item);
+      const updated = await postService.getPostById(itemId);
       setPostDetails(updated);
       show("success", "Comentário criado com sucesso!");
     } catch (error) {
@@ -62,19 +74,25 @@ export default function Content({ item, section }) {
     <div className="flex flex-col gap-2 w-full bg-white border border-gray-300 rounded-xl p-4 mb-4 shadow-sm">
       {/* Header */}
       <div className="flex items-center justify-between mb-2">
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2 cursor-pointer"
+          onClick={() => navigate(`/profile/${postDetails.creator.id}`)}
+        >
           <Avatar>{postDetails.creator.user_name.charAt(1)}</Avatar>
           <span className="font-semibold text-sm">{postDetails.creator.user_name}</span>
         </div>
         <div className="text-gray-500 text-lg cursor-pointer">⋮</div>
       </div>
 
-      {/* Título */}
-      <Typography variant="h6" component="h6" className="!font-semibold !text-gray-900">{postDetails.title}</Typography>
+      <div className="flex flex-col cursor-pointer"
+        onClick={() => isFeed ? navigate(`/post/${postDetails.id}`) : null}>
+        {/* Título */}
+        <Typography variant="h6" component="h6" className="!font-semibold !text-gray-900"
+        >{postDetails.title}</Typography>
 
-      {/* Corpo em Markdown */}
-      <div data-color-mode="light" className="prose prose-sm max-w-full text-sm text-gray-800 mb-2 p-2">
-        <MDEditor.Markdown source={postDetails.content} />
+        {/* Corpo em Markdown */}
+        <div data-color-mode="light" className="prose prose-sm max-w-full text-sm text-gray-800 mb-2 p-2">
+          <MDEditor.Markdown source={postDetails.content} />
+        </div>
       </div>
 
       {/* Tópicos */}
@@ -92,19 +110,25 @@ export default function Content({ item, section }) {
       {/* Botões de interação */}
       <div className="flex gap-4 mt-2">
         <div className="text-sm text-gray-700 hover:text-blue-600">
-          <InteractionButton type="likes" counter={postDetails.upvotes} onClickFn={() => handleVote(1)} 
-            active={postDetails.current_user_vote === 1}/>
+          <InteractionButton type="likes" counter={postDetails.upvotes} onClickFn={() => handleVote(1)}
+            active={postDetails.current_user_vote === 1} />
         </div>
         <div className="text-sm text-gray-700 hover:text-red-600">
-          <InteractionButton type="dislikes" counter={postDetails.downvotes} onClickFn={() => handleVote(-1)} 
-            active={postDetails.current_user_vote === -1}/>
+          <InteractionButton type="dislikes" counter={postDetails.downvotes} onClickFn={() => handleVote(-1)}
+            active={postDetails.current_user_vote === -1} />
         </div>
         <div className="text-sm text-gray-700 hover:text-green-600">
           <InteractionButton type="comment" counter={postDetails.comment_count} onClickFn={() => setCommentOpen(true)} />
         </div>
         {section === "comments" && (
           <p className="ml-auto text-xs text-gray-500 mt-1">
-            Postado em {new Date(postDetails.created_at).toLocaleDateString()}
+            Postado em {new Date(postDetails.created_at).toLocaleDateString("pt-BR", {
+              day: "2-digit",
+              month: "2-digit",
+              year: "numeric",
+              hour: "2-digit",
+              minute: "2-digit"
+            })}
           </p>
         )}
       </div>
@@ -117,7 +141,7 @@ export default function Content({ item, section }) {
             aria-label="Escreva seu post aqui"
             value={commentContent}
             onChange={(val) => {
-              if (!val || val.length <= 2000) setCommentContent(val);
+              if (!val || val.length <= 300) setCommentContent(val);
             }}
             height={300}
             preview="edit"
@@ -140,12 +164,27 @@ export default function Content({ item, section }) {
             ]}
             data-color-mode="light"
           />
+          <p className="text-sm text-gray-500">
+            Limite de caracteres: {commentContent.length}/300
+          </p>
           <div className="flex justify-end gap-2">
             <Button variant="outlined" onClick={() => setCommentOpen(false)}>Cancelar</Button>
             <Button variant="contained" onClick={handleCreateComment}>Enviar</Button>
           </div>
         </Box>
       </Modal>
+
+      {/* Lista de Comentários */}
+      {section === "comments" && postDetails.comments?.length > 0 && (
+        <div className="mt-4 border-t border-gray-200 pt-4">
+          <h3 className="text-md font-semibold text-gray-800 mb-3">Comentários</h3>
+          <div className="flex flex-col gap-3">
+            {postDetails.comments.map((comment) => (
+              <Comment key={comment.id} comment={comment} postId={itemId} onUpdate={refreshPost} />
+            ))}
+          </div>
+        </div>
+      )}
     </div>
   );
 }
