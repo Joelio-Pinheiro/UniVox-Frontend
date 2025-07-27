@@ -228,7 +228,9 @@ const authService = {
         response = await apiProvider.get(`users/me/${section}/`);
       }
 
+      console.log(response);
       return response;
+
     } catch (error) {
       console.log("Erro na solicitação");
       throw error;

@@ -9,9 +9,10 @@ import authService from "../../services/authService";
 export function ProfilePage() {
   const navigate = useNavigate();
 
-  let content;
-  const user = JSON.parse(localStorage.getItem("user_data"));
+  const [content, setContent] = useState([{}]);
   const [section, setSection] = useState("posts");
+  const [isLoading, setIsLoading] = useState(true);
+  const user = JSON.parse(localStorage.getItem("user_data"));
 
   useEffect(() => {
     if (user.email === "") {
@@ -30,9 +31,13 @@ export function ProfilePage() {
 
   async function apiRequest(userSection) {
     try {
-      content = await authService.contentRequest(userSection);
+      setIsLoading(true);
+      const response = await authService.contentRequest(userSection);
+      setContent(response);
     } catch (err) {
       console.log(err.message);
+    } finally {
+      setIsLoading(false);
     }
   }
 
@@ -52,31 +57,31 @@ export function ProfilePage() {
             <ProfileSectionsButton
               text={"Posts"}
               section={"posts"}
-              sectionChange={handleSectionChange}
+              sectionChange={() => handleSectionChange("posts")}
             />
 
             <ProfileSectionsButton
               text={"Comentários"}
               section={"comments"}
-              sectionChange={handleSectionChange}
+              sectionChange={() => handleSectionChange("comments")}
             />
 
             <ProfileSectionsButton
               text={"Likes"}
               section={"upvoted"}
-              sectionChange={handleSectionChange}
+              sectionChange={() => handleSectionChange("upvoted")}
             />
 
             <ProfileSectionsButton
               text={"Deslikes"}
               section={"downvoted"}
-              sectionChange={handleSectionChange}
+              sectionChange={() => handleSectionChange("downvoted")}
             />
           </div>
           <SectionBar section={section} />
         </div>
 
-        <ProfileSection data={content} section={section} />
+        <ProfileSection data={content} loading={isLoading} section={section} />
       </div>
     </div>
   );
