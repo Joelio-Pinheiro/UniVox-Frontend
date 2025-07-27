@@ -10,7 +10,7 @@ import Collapse from '@mui/material/Collapse';
 import { MdMenuOpen, MdExpandLess, MdExpandMore, MdQuestionAnswer } from "react-icons/md";
 import { FaHome } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
-import topicService from "../services/topicService"; // Assuming you have a service to fetch topics
+import topicService from "../services/topicService";
 import { useEffect, useState } from "react";
 
 const Sidebar = ({ isMobile, onClose }) => {
