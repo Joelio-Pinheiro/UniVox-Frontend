@@ -27,10 +27,18 @@ export default function InteractionButton({
       `}
       variant="outlined"
       hidden={hidden}
-      endIcon={counter !== null ? icon : null}
       onClick={onClickFn}
     >
-      <span className="text-[10px] sm:text-xs">{counter}</span>
+      {counter !== null ? (
+        <>
+          <span className="text-[10px] sm:text-xs mr-1">{counter}</span>
+          {icon}
+        </>
+      ) : (
+        <div className="flex justify-center items-center w-4 h-4 sm:w-5 sm:h-5">
+          {icon}
+        </div>
+      )}
     </Button>
   );
 }
