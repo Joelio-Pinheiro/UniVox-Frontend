@@ -15,13 +15,13 @@ export function SectionBar({ section }) {
 
       <div
         className={`w-full rounded-md border-black ${
-          section === "liked" ? "bg-blue-950" : "bg-blue-900"
+          section === "upvoted" ? "bg-blue-950" : "bg-blue-900"
         }`}
       />
 
       <div
         className={`w-full rounded-md border-black ${
-          section === "disliked" ? "bg-blue-950" : "bg-blue-900"
+          section === "downvoted" ? "bg-blue-950" : "bg-blue-900"
         }`}
       />
     </div>
