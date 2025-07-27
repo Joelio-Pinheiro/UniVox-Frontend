@@ -47,6 +47,6 @@ export function App() {
           </Route>
         </Routes>
       </AlertProvider>
-    </BrowserRouter >
+    </BrowserRouter>
   );
 }

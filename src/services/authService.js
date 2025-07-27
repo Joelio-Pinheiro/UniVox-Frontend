@@ -13,10 +13,6 @@ const authService = {
         throw new Error("Nenhum campo deve ser vazio");
       }
 
-      if (password.length < 8) {
-        throw new Error("Senha não deve ter menos de 8 caracteres");
-      }
-
       const response = await apiProvider.post(
         "users/login/",
         { email, password },
@@ -79,8 +75,9 @@ const authService = {
         throw new Error("Número de Telefone inválido");
       }
 
-      if (fields.password.length < 8) {
-        throw new Error("Senha deve ter ao menos 8 caracteres");
+      if (fields.name.length > 15 || fields.name.length < 6) {
+        throw new Error("Nome deve ter 6 e 15 caracteres");
+
       }
 
       if (fields.password !== fields.password_confirmation) {
@@ -174,7 +171,7 @@ const authService = {
       const email = localStorage.getItem("email");
 
       if (email === "") {
-        throw new Error("Por favor, digite novamente seu email");
+        throw new Error("Por favor, digite um email válido");
       }
 
       if (code.length !== 4) {
@@ -204,10 +201,6 @@ const authService = {
         throw new Error("Por favor, digite novamente seu email");
       }
 
-      if (password.length < 8) {
-        throw new Error("Senha não pode ter menos de 8 caracteres");
-      }
-
       if (password !== passwordConfirm) {
         throw new Error("As senhas não podem ser diferentes");
       }
@@ -228,7 +221,7 @@ const authService = {
   contentRequest: async (section) => {
     try {
       let response;
-      
+
       if (section === "upvoted" || section === "downvoted") {
         response = await apiProvider.get(`users/me/posts/${section}/`);
       } else {

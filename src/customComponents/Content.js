@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import InteractionButton from "./buttons/InteractionButton";
 import postService from "../services/postService";
-import { useAlert } from '../context/AlertContext';
+import { useAlert } from "../context/AlertContext";
 import Avatar from "@mui/material/Avatar";
 import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
@@ -41,7 +41,6 @@ export default function Content({ itemId, section, isFeed = false }) {
     }
   };
 
-
   useEffect(() => {
     const fetchPostDetails = async () => {
       try {
@@ -62,7 +61,6 @@ export default function Content({ itemId, section, isFeed = false }) {
       show("error", "Erro ao atualizar o post.");
     }
   };
-
 
   const handleVote = async (voteType) => {
     try {
@@ -98,11 +96,14 @@ export default function Content({ itemId, section, isFeed = false }) {
     <div className="flex flex-col gap-2 w-full bg-white border border-gray-300 rounded-xl p-4 mb-4 shadow-sm">
       {/* Header */}
       <div className="flex items-center justify-between mb-2">
-        <div className="flex items-center gap-2 cursor-pointer"
+        <div
+          className="flex items-center gap-2 cursor-pointer"
           onClick={() => navigate(`/profile/${postDetails.creator.id}`)}
         >
           <Avatar>{postDetails.creator.user_name.charAt(1)}</Avatar>
-          <span className="font-semibold text-sm">{postDetails.creator.user_name}</span>
+          <span className="font-semibold text-sm">
+            {postDetails.creator.user_name}
+          </span>
         </div>
         <TopicActionsBox
           post={postDetails}
@@ -119,25 +120,33 @@ export default function Content({ itemId, section, isFeed = false }) {
               if (!isFeed && section === "comments") {
                 navigate("/");
               } else {
-                window.location.reload(); 
+                window.location.reload();
               }
             } catch (err) {
               show("error", "Erro ao deletar o post.");
             }
           }}
-
         />
-
       </div>
 
-      <div className="flex flex-col cursor-pointer"
-        onClick={() => isFeed ? navigate(`/post/${postDetails.id}`) : null}>
+      <div
+        className="flex flex-col cursor-pointer"
+        onClick={() => (isFeed ? navigate(`/post/${postDetails.id}`) : null)}
+      >
         {/* Título */}
-        <Typography variant="h6" component="h6" className="!font-semibold !text-gray-900"
-        >{postDetails.title}</Typography>
+        <Typography
+          variant="h6"
+          component="h6"
+          className="!font-semibold !text-gray-900"
+        >
+          {postDetails.title}
+        </Typography>
 
         {/* Corpo em Markdown */}
-        <div data-color-mode="light" className="prose prose-sm max-w-full text-sm text-gray-800 mb-2 p-2">
+        <div
+          data-color-mode="light"
+          className="prose prose-sm max-w-full text-sm text-gray-800 mb-2 p-2"
+        >
           <MDEditor.Markdown source={postDetails.content} />
         </div>
       </div>
@@ -157,24 +166,37 @@ export default function Content({ itemId, section, isFeed = false }) {
       {/* Botões de interação */}
       <div className="flex gap-4 mt-2">
         <div className="text-sm text-gray-700 hover:text-blue-600">
-          <InteractionButton type="likes" counter={postDetails.upvotes} onClickFn={() => handleVote(1)}
-            active={postDetails.current_user_vote === 1} />
+          <InteractionButton
+            type="likes"
+            counter={postDetails.upvotes}
+            onClickFn={() => handleVote(1)}
+            active={postDetails.current_user_vote === 1}
+          />
         </div>
         <div className="text-sm text-gray-700 hover:text-red-600">
-          <InteractionButton type="dislikes" counter={postDetails.downvotes} onClickFn={() => handleVote(-1)}
-            active={postDetails.current_user_vote === -1} />
+          <InteractionButton
+            type="dislikes"
+            counter={postDetails.downvotes}
+            onClickFn={() => handleVote(-1)}
+            active={postDetails.current_user_vote === -1}
+          />
         </div>
         <div className="text-sm text-gray-700 hover:text-green-600">
-          <InteractionButton type="comment" counter={postDetails.comment_count} onClickFn={() => setCommentOpen(true)} />
+          <InteractionButton
+            type="comment"
+            counter={postDetails.comment_count}
+            onClickFn={() => setCommentOpen(true)}
+          />
         </div>
         {section === "comments" && (
           <p className="ml-auto text-xs text-gray-500 mt-1">
-            Postado em {new Date(postDetails.created_at).toLocaleDateString("pt-BR", {
+            Postado em{" "}
+            {new Date(postDetails.created_at).toLocaleDateString("pt-BR", {
               day: "2-digit",
               month: "2-digit",
               year: "numeric",
               hour: "2-digit",
-              minute: "2-digit"
+              minute: "2-digit",
             })}
           </p>
         )}
@@ -192,8 +214,8 @@ export default function Content({ itemId, section, isFeed = false }) {
             }}
             height={300}
             preview="edit"
-            commands={
-              [commands.bold,
+            commands={[
+              commands.bold,
               commands.italic,
               commands.strikethrough,
               commands.link,
@@ -202,8 +224,7 @@ export default function Content({ itemId, section, isFeed = false }) {
               commands.checkedListCommand,
               commands.unorderedListCommand,
               commands.orderedListCommand,
-              ]
-            }
+            ]}
             extraCommands={[
               commands.codeEdit,
               commands.codeLive,
@@ -215,8 +236,12 @@ export default function Content({ itemId, section, isFeed = false }) {
             Limite de caracteres: {commentContent.length}/300
           </p>
           <div className="flex justify-end gap-2">
-            <Button variant="outlined" onClick={() => setCommentOpen(false)}>Cancelar</Button>
-            <Button variant="contained" onClick={handleCreateComment}>Enviar</Button>
+            <Button variant="outlined" onClick={() => setCommentOpen(false)}>
+              Cancelar
+            </Button>
+            <Button variant="contained" onClick={handleCreateComment}>
+              Enviar
+            </Button>
           </div>
         </Box>
       </Modal>
@@ -225,9 +250,9 @@ export default function Content({ itemId, section, isFeed = false }) {
         <Box
           className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[90vw] max-w-2xl bg-white rounded-lg shadow-lg p-6 overflow-auto"
           sx={{
-            maxHeight: '90vh', // limita altura máxima
-            display: 'flex',
-            flexDirection: 'column',
+            maxHeight: "90vh", // limita altura máxima
+            display: "flex",
+            flexDirection: "column",
           }}
         >
           <h2 className="text-xl font-semibold mb-4">Editar post</h2>
@@ -239,7 +264,13 @@ export default function Content({ itemId, section, isFeed = false }) {
             submitLabel="Salvar"
             onSubmit={async ({ title, content, topics, is_anonymous }) => {
               try {
-                await postService.updatePost(postDetails.id, title, content, topics, is_anonymous);
+                await postService.updatePost(
+                  postDetails.id,
+                  title,
+                  content,
+                  topics,
+                  is_anonymous
+                );
                 show("success", "Post atualizado com sucesso!");
                 setEditOpen(false);
                 refreshPost();
@@ -251,14 +282,20 @@ export default function Content({ itemId, section, isFeed = false }) {
         </Box>
       </Modal>
 
-
       {/* Lista de Comentários */}
       {section === "comments" && postDetails.comments?.length > 0 && (
         <div className="mt-4 border-t border-gray-200 pt-4">
-          <h3 className="text-md font-semibold text-gray-800 mb-3">Comentários</h3>
+          <h3 className="text-md font-semibold text-gray-800 mb-3">
+            Comentários
+          </h3>
           <div className="flex flex-col gap-3">
             {postDetails.comments.map((comment) => (
-              <Comment key={comment.id} comment={comment} postId={itemId} onUpdate={refreshPost} />
+              <Comment
+                key={comment.id}
+                comment={comment}
+                postId={itemId}
+                onUpdate={refreshPost}
+              />
             ))}
           </div>
         </div>

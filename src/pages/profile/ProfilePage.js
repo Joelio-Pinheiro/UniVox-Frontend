@@ -40,8 +40,8 @@ export function ProfilePage() {
     <div className="relative h-full w-full flex items-center sm:items-start md:items-start lg:items-start flex-col">
       <div className="relative h-full w-full flex items-center flex-col gap-[1vh] rounded-md shadow-lg border-gray-400 bg-white">
         <ProfilePageHead
-          pictureType={user.avatar_id}
-          userName={user.name}
+          user={user}
+          userName={user.user_name}
           profileDesc={user.description}
           rank={user.rank}
           level={user.level}

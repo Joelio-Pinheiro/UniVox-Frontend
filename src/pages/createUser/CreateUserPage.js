@@ -7,9 +7,11 @@ import CustomSnackbar from "../../customComponents/CustomSnackbar.js";
 import ConfirmButton from "../../customComponents/buttons/ConfirmButton.js";
 import authService from "../../services/authService";
 import UnivoxIcon from "../../assets/UnivoxIcon.png";
+import { useAlert } from "../../context/AlertContext.jsx";
 
 export function CreateUserPage() {
   const navigate = useNavigate();
+  const [show] = useAlert();
   const [fields, setFields] = useState({
     name: "",
     email: "",
@@ -24,9 +26,7 @@ export function CreateUserPage() {
   function handleChange(e) {
     const { name, value } = e.target;
 
-    if (name === "contact_number" && value.length > 11) {
-      return;
-    }
+
 
     setFields((prev) => ({
       ...prev,
