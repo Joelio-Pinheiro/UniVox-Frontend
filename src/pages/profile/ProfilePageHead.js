@@ -9,9 +9,12 @@ import {
   Typography,
 } from "@mui/material";
 import EditProfileButton from "../../customComponents/buttons/EditProfileButton";
-import PasswordHideButton from "../../customComponents/buttons/PasswordHideButton";
+import { useAlert } from "../../context/AlertContext";
+import authService from "../../services/authService";
+import UserConfigsButton from "../../customComponents/buttons/UserConfigsButton";
 
 export function ProfilePageHead({ user }) {
+  const { show } = useAlert();
   const [userInfo, setUserInfo] = useState({
     name: user.name,
     userName: user.user_name,
@@ -22,11 +25,6 @@ export function ProfilePageHead({ user }) {
   });
 
   const [editMode, setEditMode] = useState(false);
-  const [visibility, setVisibility] = useState("invisible");
-
-  function onClickFn() {
-    setVisibility(visibility === "invisible" ? "visible" : "invisible");
-  }
 
   function handleEditClick() {
     setEditMode(!editMode);
@@ -49,13 +47,24 @@ export function ProfilePageHead({ user }) {
     }));
   }
 
-  function handleEditConfirm() {}
+  function handleEditConfirm() {
+    apiRequest();
+  }
+
+  async function apiRequest(){
+    try{
+      await authService.updateProfile(userInfo);
+    }catch(error){
+      show("error", `Erro ao editar perfi: ${error.message}`);
+    }
+  }
 
   return (
     <div className="relative flex items-center flex-col w-full sm:w-11/12 md:w-11/12 lg:w-11/12 h-1/4 gap-2">
       {/*foto e descrição de perfil */}
       <div className="relative w-11/12 h-1/6">
         <EditProfileButton onClickFn={handleEditClick} />
+        <UserConfigsButton />
       </div>
 
       <div className="relative flex items-center flex-row w-11/12 gap-2">
@@ -93,15 +102,6 @@ export function ProfilePageHead({ user }) {
           />
 
           <TextField
-            label="Email"
-            variant="outlined"
-            size="small"
-            name={"email"}
-            value={userInfo.email}
-            onChange={handleChange}
-          />
-
-          <TextField
             variant="outlined"
             size="small"
             label="Nome"
@@ -127,36 +127,20 @@ export function ProfilePageHead({ user }) {
           </p>
 
           <TextField
-            label="Senha"
+            label="Email"
             variant="outlined"
             size="small"
-            name={"password"}
-            value={userInfo.password}
-            type={visibility === "visible" ? "text" : "password"}
+            name={"email"}
+            value={userInfo.email}
+            disabled
             onChange={handleChange}
-            slotProps={{
-              input: {
-                endAdornment: (
-                  <InputAdornment position="end">
-                    <PasswordHideButton
-                      name={visibility}
-                      onClickFn={() => onClickFn(visibility)}
-                    />
-                  </InputAdornment>
-                ),
-              },
-            }}
           />
 
-          <TextField
-            label="Senha"
-            variant="outlined"
-            size="small"
-            name={"newPassword"}
-            value={userInfo.newPassword}
-            type={visibility === "visible" ? "text" : "password"}
-            onChange={handleChange}
-          />
+          <div className="w-full flex justify-end">
+            <Button size="small" color="error">
+              Alterar senha
+            </Button>
+          </div>
 
           <div className="flex justify-end gap-2">
             <Button variant="outlined" onClick={() => setEditMode(false)}>

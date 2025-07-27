@@ -30,6 +30,14 @@ const topicService = {
         } catch (error) {
             throw error;
         }
+    },
+    async getMeTopics() {
+        try {
+            const response = await apiProvider.get("users/me/recent-topics/", { headers });
+            return response;
+        } catch (error) {
+            throw error;
+        }
     }
 }
 

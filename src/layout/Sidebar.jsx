@@ -14,6 +14,7 @@ import topicService from "../services/topicService";
 import { useEffect, useState } from "react";
 
 const Sidebar = ({ isMobile, onClose }) => {
+  const isAuthenticated = localStorage.getItem("user_data") !== null;
   const [openTopics, setOpenTopics] = React.useState(true);
   const [topics, setTopics] = useState([]);
   const navigate = useNavigate();
@@ -21,10 +22,17 @@ const Sidebar = ({ isMobile, onClose }) => {
   useEffect(() => {
     const fetchTopics = async () => {
       try {
-        const data = await topicService.getTopics();
-        setTopics(data.slice(0, 10).map(topic => ({
-          ...topic,
-        })));
+        if (!isAuthenticated) {
+          const data = await topicService.getTopics();
+          setTopics(data.slice(0, 10).map(topic => ({
+            ...topic,
+          })));
+        } else {
+          const data = await topicService.getMeTopics();
+          setTopics(data.slice(0, 10).map(topic => ({
+            ...topic,
+          })));
+        }
       } catch (error) {
         console.error("Erro ao carregar tópicos:", error);
       }

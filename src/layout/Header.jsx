@@ -27,7 +27,7 @@ const Header = ({ isMobile }) => {
             navigate(`/posts?search=${encodeURIComponent(searchValue.trim())}`);
         }
     };
-
+    
 
     return (
         <>
@@ -79,7 +79,7 @@ const Header = ({ isMobile }) => {
                                     </InputAdornment>
                                 ),
                             }}
-                            className="bg-white !shadow-sm"
+                            className="bg-white"
                             sx={{
                                 "& .MuiOutlinedInput-root": {
                                     borderRadius: "100px",

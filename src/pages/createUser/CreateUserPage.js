@@ -11,7 +11,7 @@ import { useAlert } from "../../context/AlertContext.jsx";
 
 export function CreateUserPage() {
   const navigate = useNavigate();
-  const [show] = useAlert();
+  const { show } = useAlert();
   const [fields, setFields] = useState({
     name: "",
     email: "",

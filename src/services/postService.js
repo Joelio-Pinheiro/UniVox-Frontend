@@ -8,7 +8,8 @@ const postService = {
     async getPosts() {
         try {
             const response = await apiProvider.get("posts/", { headers });
-            return response;
+            const filteredPosts = response.filter(post => post.is_deleted !== true);
+            return filteredPosts;
         } catch (error) {
             throw error;
         }

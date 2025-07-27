@@ -218,6 +218,8 @@ const authService = {
       throw error;
     }
   },
+
+  //rota da API para requisitar posts, comentários, publicações curtidas e descurtidas pelo usuário
   contentRequest: async (section) => {
     try {
       let response;
@@ -236,6 +238,15 @@ const authService = {
       throw error;
     }
   },
+
+  //rota da API para envio de dados editados pelo usuário
+  updateProfile: async (data) => {
+    try{
+      await apiProvider.patch("users/profile/update", {data}, headers);
+    }catch(error){
+      throw error;
+    }
+  }
 };
 
 export default authService;

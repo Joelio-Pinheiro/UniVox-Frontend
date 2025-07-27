@@ -1,6 +1,5 @@
 import {
   AccountCircle,
-  ChatBubbleOutlineOutlined,
   Face2TwoTone,
   Face3TwoTone,
   Face6TwoTone,
@@ -10,14 +9,16 @@ import {
   MilitaryTech,
   MilitaryTechOutlined,
   MilitaryTechRounded,
-  MoreVert,
   PhoneAndroid,
-  ThumbDownSharp,
-  ThumbUpSharp,
   Visibility,
   VisibilityOff,
   WorkspacePremium,
 } from "@mui/icons-material";
+import {
+  ThumbsUp,
+  ThumbsDown,
+  MessageCircle,
+} from "lucide-react";
 
 //fornece ícones para input de texto baseado na propriedade name
 export function inputIconSetter(name) {
@@ -43,17 +44,15 @@ export function inputIconSetter(name) {
 
 //fornece ícones especificamente para alguns tipos de botões menores
 export function buttonIconSetter(type) {
-  switch (type) {
+ switch (type) {
     case "likes":
-      return <ThumbUpSharp sx={{ color: "black" }} />;
+      return <ThumbsUp size={16} />;
     case "dislikes":
-      return <ThumbDownSharp sx={{ color: "black" }} />;
+      return <ThumbsDown size={16} />;
     case "comment":
-      return <ChatBubbleOutlineOutlined sx={{ color: "black" }} />;
-    case "options":
-      return <MoreVert sx={{ color: "black" }} />;
+      return <MessageCircle size={16} />;
     default:
-      return;
+      return null;
   }
 }
 
