@@ -13,12 +13,20 @@ import { TextField, InputAdornment } from '@mui/material';
 import { FaBell } from "react-icons/fa";
 import Box from '@mui/material/Box';
 import { useNavigate } from "react-router-dom";
+import { useState } from "react";
 
 
 const Header = ({ isMobile }) => {
     const isAuthenticated = localStorage.getItem("user_data") !== null;
     const [drawerOpen, setDrawerOpen] = React.useState(false);
+    const [searchValue, setSearchValue] = useState("");
     const navigate = useNavigate();
+
+    const handleSearchKeyPress = (e) => {
+        if (e.key === "Enter" && searchValue.trim() !== "") {
+            navigate(`/posts?search=${encodeURIComponent(searchValue.trim())}`);
+        }
+    };
 
 
     return (
@@ -61,19 +69,20 @@ const Header = ({ isMobile }) => {
                             placeholder="Pesquisar..."
                             variant="outlined"
                             fullWidth
-                            slotProps={{
-                                input: {
-                                    startAdornment: (
-                                        <InputAdornment position="start">
-                                            <MdSearch className="text-gray-500 text-xl" />
-                                        </InputAdornment>
-                                    ),
-                                },
+                            value={searchValue}
+                            onChange={(e) => setSearchValue(e.target.value)}
+                            onKeyDown={handleSearchKeyPress}
+                            InputProps={{
+                                startAdornment: (
+                                    <InputAdornment position="start">
+                                        <MdSearch className="text-gray-500 text-xl" />
+                                    </InputAdornment>
+                                ),
                             }}
                             className="bg-white !shadow-sm"
                             sx={{
-                                '& .MuiOutlinedInput-root': {
-                                    borderRadius: '100px',
+                                "& .MuiOutlinedInput-root": {
+                                    borderRadius: "100px",
                                 },
                             }}
                         />

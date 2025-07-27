@@ -131,7 +131,7 @@ export default function Content({ itemId, section, isFeed = false }) {
       </div>
 
       <div className="flex flex-col cursor-pointer"
-        onClick={() => isFeed ? navigate(`/post/${postDetails.id}`) : null}>
+        onClick={() => isFeed ? navigate(`/posts/${postDetails.id}`) : null}>
         {/* Título */}
         <Typography variant="h6" component="h6" className="!font-semibold !text-gray-900"
         >{postDetails.title}</Typography>
