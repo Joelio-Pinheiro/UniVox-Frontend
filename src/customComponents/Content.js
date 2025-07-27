@@ -10,6 +10,8 @@ import Button from "@mui/material/Button";
 import MDEditor, { commands } from "@uiw/react-md-editor";
 import { useNavigate } from "react-router-dom";
 import Comment from "../pages/detailPage/comment";
+import TopicActionsBox from "./TopicActionsBox";
+import PostForm from "../pages/createPost/PostForm";
 
 export default function Content({ itemId, section, isFeed = false }) {
   const navigate = useNavigate();
@@ -17,6 +19,28 @@ export default function Content({ itemId, section, isFeed = false }) {
   const [postDetails, setPostDetails] = useState(null);
   const [isCommentOpen, setCommentOpen] = useState(false);
   const [commentContent, setCommentContent] = useState("");
+
+  const [isEditOpen, setEditOpen] = useState(false);
+  const [editContent, setEditContent] = useState("");
+  const [editTitle, setEditTitle] = useState("");
+
+  const handleEditPost = async () => {
+    try {
+      await postService.updatePost(
+        itemId,
+        editTitle,
+        editContent,
+        postDetails.topics?.map((t) => t.id) || [],
+        postDetails.is_anonymous || false
+      );
+      show("success", "Post atualizado com sucesso!");
+      setEditOpen(false);
+      refreshPost();
+    } catch (err) {
+      show("error", "Erro ao editar o post.");
+    }
+  };
+
 
   useEffect(() => {
     const fetchPostDetails = async () => {
@@ -80,7 +104,30 @@ export default function Content({ itemId, section, isFeed = false }) {
           <Avatar>{postDetails.creator.user_name.charAt(1)}</Avatar>
           <span className="font-semibold text-sm">{postDetails.creator.user_name}</span>
         </div>
-        <div className="text-gray-500 text-lg cursor-pointer">⋮</div>
+        <TopicActionsBox
+          post={postDetails}
+          onEdit={(post) => {
+            setEditTitle(post.title);
+            setEditContent(post.content);
+            setEditOpen(true);
+          }}
+          onDelete={async (id) => {
+            try {
+              await postService.deletePost(id);
+              show("success", "Post deletado com sucesso!");
+
+              if (!isFeed && section === "comments") {
+                navigate("/");
+              } else {
+                window.location.reload(); 
+              }
+            } catch (err) {
+              show("error", "Erro ao deletar o post.");
+            }
+          }}
+
+        />
+
       </div>
 
       <div className="flex flex-col cursor-pointer"
@@ -173,6 +220,37 @@ export default function Content({ itemId, section, isFeed = false }) {
           </div>
         </Box>
       </Modal>
+      {/* Modal de edição de post */}
+      <Modal open={isEditOpen} onClose={() => setEditOpen(false)}>
+        <Box
+          className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[90vw] max-w-2xl bg-white rounded-lg shadow-lg p-6 overflow-auto"
+          sx={{
+            maxHeight: '90vh', // limita altura máxima
+            display: 'flex',
+            flexDirection: 'column',
+          }}
+        >
+          <h2 className="text-xl font-semibold mb-4">Editar post</h2>
+          <PostForm
+            initialTitle={postDetails.title}
+            initialContent={postDetails.content}
+            initialTags={postDetails.topics}
+            initialAnonymous={postDetails.is_anonymous}
+            submitLabel="Salvar"
+            onSubmit={async ({ title, content, topics, is_anonymous }) => {
+              try {
+                await postService.updatePost(postDetails.id, title, content, topics, is_anonymous);
+                show("success", "Post atualizado com sucesso!");
+                setEditOpen(false);
+                refreshPost();
+              } catch (err) {
+                show("error", "Erro ao editar o post.");
+              }
+            }}
+          />
+        </Box>
+      </Modal>
+
 
       {/* Lista de Comentários */}
       {section === "comments" && postDetails.comments?.length > 0 && (
