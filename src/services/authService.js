@@ -77,7 +77,6 @@ const authService = {
 
       if (fields.name.length > 15 || fields.name.length < 6) {
         throw new Error("Nome deve ter 6 e 15 caracteres");
-
       }
 
       if (fields.password !== fields.password_confirmation) {
@@ -104,9 +103,10 @@ const authService = {
   },
 
   //rota da Api para envio do código de confirmação do email na criação da conta
-  accountConfirmation: async (code) => {
+  accountConfirmation: async (type, code) => {
     try {
       const email = localStorage.getItem("email");
+      console.log("email");
 
       if (email === "") {
         throw new Error("Por favor, digite um email válido");
@@ -117,6 +117,10 @@ const authService = {
         { code, email },
         headers
       );
+
+      if (type === "email-change") {
+        await apiProvider.patch("users/profile/update", { email }, headers);
+      }
 
       console.log("Conta verificada");
       return response;
@@ -229,10 +233,7 @@ const authService = {
       } else {
         response = await apiProvider.get(`users/me/${section}/`);
       }
-
-      console.log(response);
       return response;
-
     } catch (error) {
       console.log("Erro na solicitação");
       throw error;
@@ -241,12 +242,12 @@ const authService = {
 
   //rota da API para envio de dados editados pelo usuário
   updateProfile: async (data) => {
-    try{
-      await apiProvider.patch("users/profile/update", {data}, headers);
-    }catch(error){
+    try {
+      await apiProvider.patch("users/profile/update/", { data }, headers);
+    } catch (error) {
       throw error;
     }
-  }
+  },
 };
 
 export default authService;

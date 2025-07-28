@@ -1,5 +1,5 @@
-import message from "../../messages.json";
-export function emptySectionMessage({ section }) {
+import message from "../messages.json";
+export function emptySectionMessage(section) {
   switch (section) {
     case "posts":
       return message.warningMessages.emptyPostsSection;

@@ -1,4 +1,4 @@
-import { Settings } from "@mui/icons-material";
+import { SettingsOutlined } from "@mui/icons-material";
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import { useAlert } from "../../context/AlertContext";
@@ -21,10 +21,9 @@ export default function UserConfigsButton() {
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
-  const handleClose = (route) => {
-    setAnchorEl(null);
 
-    navigate(route);
+  const handleClose = () => {
+    setAnchorEl(null);
   };
 
   return (
@@ -37,7 +36,7 @@ export default function UserConfigsButton() {
           aria-haspopup="true"
           aria-expanded={open ? "true" : undefined}
         >
-          <Settings />
+          <SettingsOutlined sx={{ color: "gray" }} />
         </IconButton>
       </Box>
       <Menu
@@ -76,15 +75,14 @@ export default function UserConfigsButton() {
         transformOrigin={{ horizontal: "right", vertical: "top" }}
         anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
       >
-        <MenuItem onClick={() => handleClose("email")}>
+        <MenuItem onClick={() => navigate("/emailfornewpass/email-change")}>
           {inputIconSetter("email")}
           Alterar email
         </MenuItem>
 
-        <MenuItem onClick={() => handleClose("password")}>
-          {inputIconSetter("email")} Alterar senha
+        <MenuItem onClick={() => navigate("/emailfornewpass/password-change")}>
+          {inputIconSetter("password")} Alterar senha
         </MenuItem>
-        <Divider />
       </Menu>
     </React.Fragment>
   );

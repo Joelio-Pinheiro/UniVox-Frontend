@@ -30,6 +30,7 @@ export function LoginPage() {
   async function apiRequest(email, password) {
     try {
       await authService.login(email, password);
+      localStorage.setItem("email", email);
       navigate("/"); //redireciona para a home page
     } catch (error) {
       console.log(error);

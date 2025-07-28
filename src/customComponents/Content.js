@@ -86,7 +86,7 @@ export default function Content({ itemId, section, isFeed = false }) {
 
   if (!postDetails) {
     return (
-      <div className="bg-white border border-gray-300 rounded-xl p-4 mb-4 w-screen max-w-xl shadow-sm animate-pulse">
+      <div className="bg-white border border-gray-300 rounded-xl p-4 mb-4 w-full max-w-xl shadow-sm animate-pulse">
         <p className="text-gray-400">Carregando post...</p>
       </div>
     );

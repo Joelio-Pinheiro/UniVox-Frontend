@@ -7,7 +7,7 @@ export default function ProfileSectionsButton({
 }) {
   return (
     <Button
-      className="!border-gray-500 !h-min"
+      className="!border-gray-500"
       variant="text"
       size="small"
       onClick={() => sectionChange(section)}

@@ -22,11 +22,11 @@ export function App() {
             <Route index element={<MainLayout children={<HomePage />} />} />
             <Route path="login" element={<LoginPage />} />
             <Route path="register" element={<CreateUserPage />} />
+            <Route path="emailfornewpass/:type" element={<EmailForResetPage />} />
             <Route path="verify/:type" element={<EmailCodePage />} />
-            <Route path="emailfornewpass" element={<EmailForResetPage />} />
             <Route path="newpassword" element={<NewPasswordPage />} />
             <Route
-              path="profile"
+              path="profile/:id"
               element={<MainLayout children={<ProfilePage />} />}
             />
             <Route

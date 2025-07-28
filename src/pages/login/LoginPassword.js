@@ -44,7 +44,7 @@ export function LoginPassword({ name, text, password, onChangeFn }) {
         <div className="relative float-end">
           <Link
             className="text-[#106FE2] font-semibold text-base sm:text-lg md:text-lg lg:text-lg"
-            to="/emailfornewpass"
+            to="/emailfornewpass/email-confirm"
           >
             Esqueceu a senha?
           </Link>

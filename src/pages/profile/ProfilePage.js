@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { SectionBar } from "../../customComponents/SectionBar";
 import { ProfileSection } from "./ProfileSection";
 import { ProfilePageHead } from "./ProfilePageHead";
@@ -7,18 +7,48 @@ import ProfileSectionsButton from "../../customComponents/buttons/ProfileSection
 import authService from "../../services/authService";
 
 export function ProfilePage() {
-  const navigate = useNavigate();
+  const routeParams = useParams();
 
   const [content, setContent] = useState([{}]);
   const [section, setSection] = useState("posts");
   const [isLoading, setIsLoading] = useState(true);
-  const user = JSON.parse(localStorage.getItem("user_data"));
+  const [userData, setUserData] = useState({});
 
   useEffect(() => {
-    if (user.email === "") {
-      return navigate("/");
+    const fetchProfileData = async () => {
+      try {
+        setIsLoading(true);
+
+        const user = await authService.getUserById(routeParams.id);
+        setUserData(user);
+
+      } catch (err) {
+        console.error("Error fetching profile data:", err);
+      } finally {
+      }
+    };
+
+    fetchProfileData();
+  }, [routeParams.id]);
+
+  useEffect(() => {
+    const fetchSectionContent = async () => {
+      setIsLoading(true);
+      try {
+        const response = await authService.contentRequest(section);
+        setContent(response);
+      } catch (err) {
+        console.error(`Error fetching ${section} content:`, err);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    if (userData.user_name) {
+      // Only fetch content if user data has been loaded
+      fetchSectionContent();
     }
-  });
+  }, [section, userData.user_name]);
 
   function handleSectionChange(userSection) {
     if (section === userSection) {
@@ -26,63 +56,55 @@ export function ProfilePage() {
     }
 
     setSection(userSection);
-    apiRequest(userSection);
-  }
-
-  async function apiRequest(userSection) {
-    setIsLoading(true);
-    try {
-      const response = await authService.contentRequest(userSection);
-      setContent(response);
-    } catch (err) {
-      console.log(err.message);
-    } finally {
-      setIsLoading(false);
-    }
   }
 
   return (
     <div className="relative h-full w-full flex items-center sm:items-start md:items-start lg:items-start flex-col">
-      <div className="relative h-full w-full flex items-center flex-col gap-[1vh] rounded-md shadow-lg border-gray-400 bg-white">
-        <ProfilePageHead
-          user={user}
-          userName={user.user_name}
-          profileDesc={user.description}
-          rank={user.rank}
-          level={user.level}
-        />
+      {!isLoading && (
+        <div className="relative h-full w-full flex items-center flex-col gap-[1vh] rounded-md shadow-lg border-gray-400 bg-white">
+          <ProfilePageHead
+            user={userData}
+            userName={userData.user_name}
+            profileDesc={userData.description}
+            rank={userData.rank}
+            level={userData.level}
+          />
 
-        <div className="relative w-11/12 h-min">
-          <div className="relative w-full h-full grid grid-cols-4">
-            <ProfileSectionsButton
-              text={"Posts"}
-              section={"posts"}
-              sectionChange={() => handleSectionChange("posts")}
-            />
+          <div className="relative w-full sm:w-11/12 md:w-11/12 lg:w-11/12 flex flex-col items-center h-min">
+            <div className="relative w-full h-full grid grid-cols-4">
+              <ProfileSectionsButton
+                text={"Posts"}
+                section={"posts"}
+                sectionChange={() => handleSectionChange("posts")}
+              />
+              <ProfileSectionsButton
+                text={"Comentários"}
+                section={"comments"}
+                sectionChange={() => handleSectionChange("comments")}
+              />
 
-            <ProfileSectionsButton
-              text={"Comentários"}
-              section={"comments"}
-              sectionChange={() => handleSectionChange("comments")}
-            />
+              <ProfileSectionsButton
+                text={"Likes"}
+                section={"upvoted"}
+                sectionChange={() => handleSectionChange("upvoted")}
+              />
 
-            <ProfileSectionsButton
-              text={"Likes"}
-              section={"upvoted"}
-              sectionChange={() => handleSectionChange("upvoted")}
-            />
-
-            <ProfileSectionsButton
-              text={"Deslikes"}
-              section={"downvoted"}
-              sectionChange={() => handleSectionChange("downvoted")}
-            />
+              <ProfileSectionsButton
+                text={"Deslikes"}
+                section={"downvoted"}
+                sectionChange={() => handleSectionChange("downvoted")}
+              />
+            </div>
           </div>
-          <SectionBar section={section} />
-        </div>
 
-        <ProfileSection data={content} loading={isLoading} section={section} />
-      </div>
+          <SectionBar section={section} />
+          <ProfileSection
+            data={content}
+            loading={isLoading}
+            section={section}
+          />
+        </div>
+      )}
     </div>
   );
 }
