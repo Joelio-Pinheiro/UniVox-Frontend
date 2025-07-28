@@ -7,7 +7,7 @@ const headers = {
 
 const authService = {
   //rota da Api para login de usuário
-  login: async (email, password, id) => {
+  login: async (email, password) => {
     try {
       if (!email || !password) {
         throw new Error("Nenhum campo deve ser vazio");
@@ -20,7 +20,7 @@ const authService = {
       );
 
       const userId = response.user_id;
-
+      localStorage.setItem("session_id", response.user_id);
       await authService.getUserById(userId);
 
       return response;
@@ -32,12 +32,34 @@ const authService = {
   logout: async () => {
     try {
       const response = await apiProvider.post("users/logout/", {}, headers);
-
       return response;
     } catch (error) {
       throw error;
     } finally {
-      localStorage.removeItem(USER_DATA);
+      if (localStorage.getItem(USER_DATA)) {
+        localStorage.removeItem(USER_DATA);
+      }
+      localStorage.removeItem("session_id");
+    }
+  },
+  getUserSession: async (id) => {
+    try {
+      const response = await apiProvider.get(`users/`, headers);
+
+      if (!Array.isArray(response)) {
+        throw new Error("Resposta inesperada da API.");
+      }
+
+      const user = response.find((u) => u.id === Number(id));
+
+      if (!user) {
+        throw new Error("Usuário não encontrado.");
+      }
+
+      return user;
+    } catch (error) {
+      console.error("Erro ao buscar usuário:", error);
+      throw error;
     }
   },
   getUserById: async (userId) => {
@@ -75,10 +97,6 @@ const authService = {
         throw new Error("Número de Telefone inválido");
       }
 
-      if (fields.name.length > 15 || fields.name.length < 6) {
-        throw new Error("Nome deve ter 6 e 15 caracteres");
-      }
-
       if (fields.password !== fields.password_confirmation) {
         throw new Error("As senhas não podem ser diferentes");
       }
@@ -106,7 +124,6 @@ const authService = {
   accountConfirmation: async (type, code) => {
     try {
       const email = localStorage.getItem("email");
-      console.log("email");
 
       if (email === "") {
         throw new Error("Por favor, digite um email válido");
@@ -197,21 +214,22 @@ const authService = {
   },
 
   //rota da Api para envio da nova senha da conta
-  accountNewPassword: async (password, passwordConfirm) => {
+  accountNewPassword: async (new_password, passwordConfirm) => {
     try {
+      console.log(new_password);
       const email = localStorage.getItem("email");
 
       if (email === "") {
         throw new Error("Por favor, digite novamente seu email");
       }
 
-      if (password !== passwordConfirm) {
+      if (new_password !== passwordConfirm) {
         throw new Error("As senhas não podem ser diferentes");
       }
 
       const response = await apiProvider.post(
         "users/passwordresetnewpass/",
-        { email, password },
+        { email, new_password },
         headers
       );
 
@@ -228,11 +246,18 @@ const authService = {
     try {
       let response;
 
-      if (section === "upvoted" || section === "downvoted") {
-        response = await apiProvider.get(`users/me/posts/${section}/`);
-      } else {
-        response = await apiProvider.get(`users/me/${section}/`);
+      switch (section) {
+        case "upvoted":
+          response = await apiProvider.get(`users/me/posts/upvoted/`);
+          break;
+        case "downvoted":
+          response = await apiProvider.get(`users/me/posts/downvoted/`);
+          break;
+        default:
+          response = await apiProvider.get(`users/me/posts/`);
+          break;
       }
+
       return response;
     } catch (error) {
       console.log("Erro na solicitação");
@@ -243,7 +268,21 @@ const authService = {
   //rota da API para envio de dados editados pelo usuário
   updateProfile: async (data) => {
     try {
-      await apiProvider.patch("users/profile/update/", { data }, headers);
+      console.log(data);
+      await apiProvider.patch("users/profile/update/", data, headers);
+    } catch (error) {
+      throw error;
+    }
+  },
+
+  deleteAccount: async (password) => {
+    try {
+      await apiProvider.delete(
+        "users/deletelogged/",
+        { password },
+        headers
+      );
+      console.log("Conta removida com sucesso");
     } catch (error) {
       throw error;
     }

@@ -11,7 +11,8 @@ import MainLayout from "./layout/MainLayout";
 import { FaqPage } from "./pages/faq/faqPage";
 import { AlertProvider } from "./context/AlertContext";
 import DetailPage from "./pages/detailPage/detailPage";
-import SearchPage  from "./pages/filterPost/SearchPage";
+import SearchPage from "./pages/filterPost/SearchPage";
+import { DeleteUserPage } from "./pages/deleteUser/DeleteUserPage";
 
 export function App() {
   return (
@@ -22,9 +23,12 @@ export function App() {
             <Route index element={<MainLayout children={<HomePage />} />} />
             <Route path="login" element={<LoginPage />} />
             <Route path="register" element={<CreateUserPage />} />
-            <Route path="emailfornewpass/:type" element={<EmailForResetPage />} />
+            <Route
+              path="email-new-pass/:type"
+              element={<EmailForResetPage />}
+            />
             <Route path="verify/:type" element={<EmailCodePage />} />
-            <Route path="newpassword" element={<NewPasswordPage />} />
+            <Route path="new-pass" element={<NewPasswordPage />} />
             <Route
               path="profile/:id"
               element={<MainLayout children={<ProfilePage />} />}
@@ -33,10 +37,7 @@ export function App() {
               path="create-post"
               element={<MainLayout children={<CreatePostPage />} />}
             />
-            <Route
-              path="faq"
-              element={<MainLayout children={<FaqPage />} />}
-            />
+            <Route path="faq" element={<MainLayout children={<FaqPage />} />} />
             <Route
               path="posts/:id"
               element={<MainLayout children={<DetailPage />} />}
@@ -49,6 +50,8 @@ export function App() {
               path="posts"
               element={<MainLayout children={<SearchPage />} />}
             />
+
+            <Route path="delete-acc" element={<DeleteUserPage />} />
           </Route>
         </Routes>
       </AlertProvider>

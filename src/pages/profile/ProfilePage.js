@@ -10,9 +10,9 @@ export function ProfilePage() {
   const routeParams = useParams();
 
   const [content, setContent] = useState([{}]);
+  const [userData, setUserData] = useState({});
   const [section, setSection] = useState("posts");
   const [isLoading, setIsLoading] = useState(true);
-  const [userData, setUserData] = useState({});
 
   useEffect(() => {
     const fetchProfileData = async () => {
@@ -23,7 +23,7 @@ export function ProfilePage() {
         setUserData(user);
 
       } catch (err) {
-        console.error("Error fetching profile data:", err);
+        console.error("Erro ao tentar obter dados:", err);
       } finally {
       }
     };
@@ -38,7 +38,7 @@ export function ProfilePage() {
         const response = await authService.contentRequest(section);
         setContent(response);
       } catch (err) {
-        console.error(`Error fetching ${section} content:`, err);
+        console.error(`Erro ao tentar obter dados da seção de ${section}:`, err);
       } finally {
         setIsLoading(false);
       }
@@ -64,24 +64,20 @@ export function ProfilePage() {
         <div className="relative h-full w-full flex items-center flex-col gap-[1vh] rounded-md shadow-lg border-gray-400 bg-white">
           <ProfilePageHead
             user={userData}
-            userName={userData.user_name}
-            profileDesc={userData.description}
-            rank={userData.rank}
-            level={userData.level}
           />
 
           <div className="relative w-full sm:w-11/12 md:w-11/12 lg:w-11/12 flex flex-col items-center h-min">
-            <div className="relative w-full h-full grid grid-cols-4">
+            <div className="relative w-full h-full grid grid-cols-3">
               <ProfileSectionsButton
                 text={"Posts"}
                 section={"posts"}
                 sectionChange={() => handleSectionChange("posts")}
               />
-              <ProfileSectionsButton
+              {/* <ProfileSectionsButton
                 text={"Comentários"}
                 section={"comments"}
                 sectionChange={() => handleSectionChange("comments")}
-              />
+              /> */}
 
               <ProfileSectionsButton
                 text={"Likes"}

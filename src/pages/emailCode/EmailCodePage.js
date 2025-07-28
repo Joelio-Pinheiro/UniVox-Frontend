@@ -59,12 +59,15 @@ export function EmailCodePage() {
 
       switch (routeParam.type) {
         case "email-change":
-          await authService.accountConfirmation("email-change", confirmationCode);
+          await authService.accountConfirmation(
+            "email-change",
+            confirmationCode
+          );
           path = "/login";
           break;
         case "password-change":
           await authService.accountConfirmation("", confirmationCode);
-          path = "/newpassword/password-change";
+          path = "/new-pass/password-change";
           break;
         case "email-confirm":
           await authService.accountConfirmation("", confirmationCode);
@@ -72,12 +75,13 @@ export function EmailCodePage() {
           break;
         default:
           await authService.accountCodeForRecovery(confirmationCode);
-          path = "/newpassword";
+          path = "/new-pass";
           break;
       }
-      navigate(path);
     } catch (error) {
       console.log(error.message);
+    } finally {
+      navigate(path);
     }
   }
 

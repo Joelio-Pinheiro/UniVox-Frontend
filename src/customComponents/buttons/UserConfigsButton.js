@@ -2,15 +2,8 @@ import { SettingsOutlined } from "@mui/icons-material";
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import { useAlert } from "../../context/AlertContext";
-import {
-  Box,
-  Divider,
-  IconButton,
-  ListItemIcon,
-  Menu,
-  MenuItem,
-} from "@mui/material";
-import { inputIconSetter } from "../../utils/iconSetters";
+import { Box, Divider, IconButton, Menu, MenuItem } from "@mui/material";
+import { buttonIconSetter, inputIconSetter } from "../../utils/iconSetters";
 
 export default function UserConfigsButton() {
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -75,13 +68,20 @@ export default function UserConfigsButton() {
         transformOrigin={{ horizontal: "right", vertical: "top" }}
         anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
       >
-        <MenuItem onClick={() => navigate("/emailfornewpass/email-change")}>
-          {inputIconSetter("email")}
+        <MenuItem
+          disabled
+          onClick={() => navigate("/email-new-pass/email-change")}
+        >
+          {buttonIconSetter("change-email")}
           Alterar email
         </MenuItem>
 
-        <MenuItem onClick={() => navigate("/emailfornewpass/password-change")}>
-          {inputIconSetter("password")} Alterar senha
+        <MenuItem onClick={() => navigate("/email-new-pass/password-change")}>
+          {buttonIconSetter("change-password")} Alterar senha
+        </MenuItem>
+
+        <MenuItem disabled onClick={() => navigate("/delete-acc")}>
+          {buttonIconSetter("delete")} Deletar conta
         </MenuItem>
       </Menu>
     </React.Fragment>

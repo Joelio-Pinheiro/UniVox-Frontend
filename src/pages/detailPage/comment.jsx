@@ -1,7 +1,12 @@
 import { useState, useEffect } from "react";
 import MDEditor, { commands } from "@uiw/react-md-editor";
 import {
-  Avatar, Typography, Button, Box, Modal, IconButton
+  Avatar,
+  Typography,
+  Button,
+  Box,
+  Modal,
+  IconButton,
 } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
@@ -104,18 +109,30 @@ export default function Comment({ comment, postId, onUpdate }) {
                 onClick={() => setShowReplies(!showReplies)}
                 title={showReplies ? "Ocultar respostas" : "Ver respostas"}
               >
-                {showReplies ? <RemoveIcon fontSize="small" /> : <AddIcon fontSize="small" />}
+                {showReplies ? (
+                  <RemoveIcon fontSize="small" />
+                ) : (
+                  <AddIcon fontSize="small" />
+                )}
               </IconButton>
             )}
             {isAuthor && (
               <>
-                <IconButton size="small" onClick={() => {
-                  setEditContent(localComment.content);
-                  setIsEditMode(true);
-                }} title="Editar comentário">
+                <IconButton
+                  size="small"
+                  onClick={() => {
+                    setEditContent(localComment.content);
+                    setIsEditMode(true);
+                  }}
+                  title="Editar comentário"
+                >
                   <EditIcon fontSize="small" />
                 </IconButton>
-                <IconButton size="small" onClick={handleDelete} title="Deletar comentário">
+                <IconButton
+                  size="small"
+                  onClick={handleDelete}
+                  title="Deletar comentário"
+                >
                   <DeleteIcon fontSize="small" />
                 </IconButton>
               </>
@@ -124,7 +141,10 @@ export default function Comment({ comment, postId, onUpdate }) {
         </div>
 
         {/* Corpo do comentário */}
-        <div className="text-sm text-gray-800 mb-2 prose prose-sm max-w-full" data-color-mode="light">
+        <div
+          className="text-sm text-gray-800 mb-2 prose prose-sm max-w-full"
+          data-color-mode="light"
+        >
           <MDEditor.Markdown
             source={localComment.content}
             style={{
@@ -160,7 +180,12 @@ export default function Comment({ comment, postId, onUpdate }) {
         {localComment.replies?.length > 0 && showReplies && (
           <div className="pl-2 sm:pl-4 border-l-2 border-gray-200 mt-2 overflow-x-auto">
             {localComment.replies.map((reply) => (
-              <Comment key={reply.id} comment={reply} postId={postId} onUpdate={onUpdate} />
+              <Comment
+                key={reply.id}
+                comment={reply}
+                postId={postId}
+                onUpdate={onUpdate}
+              />
             ))}
           </div>
         )}
@@ -194,10 +219,16 @@ export default function Comment({ comment, postId, onUpdate }) {
               ]}
               data-color-mode="light"
             />
-            <p className="text-sm text-gray-500">Limite de caracteres: {replyContent.length}/300</p>
+            <p className="text-sm text-gray-500">
+              Limite de caracteres: {replyContent.length}/300
+            </p>
             <div className="flex justify-end gap-2">
-              <Button variant="outlined" onClick={() => setReplyOpen(false)}>Cancelar</Button>
-              <Button variant="contained" onClick={handleReply}>Responder</Button>
+              <Button variant="outlined" onClick={() => setReplyOpen(false)}>
+                Cancelar
+              </Button>
+              <Button variant="contained" onClick={handleReply}>
+                Responder
+              </Button>
             </div>
           </Box>
         </Modal>
@@ -231,10 +262,16 @@ export default function Comment({ comment, postId, onUpdate }) {
               ]}
               data-color-mode="light"
             />
-            <p className="text-sm text-gray-500">Limite de caracteres: {editContent.length}/300</p>
+            <p className="text-sm text-gray-500">
+              Limite de caracteres: {editContent.length}/300
+            </p>
             <div className="flex justify-end gap-2">
-              <Button variant="outlined" onClick={() => setIsEditMode(false)}>Cancelar</Button>
-              <Button variant="contained" onClick={handleEdit}>Salvar</Button>
+              <Button variant="outlined" onClick={() => setIsEditMode(false)}>
+                Cancelar
+              </Button>
+              <Button variant="contained" onClick={handleEdit}>
+                Salvar
+              </Button>
             </div>
           </Box>
         </Modal>

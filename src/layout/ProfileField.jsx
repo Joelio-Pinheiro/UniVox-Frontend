@@ -18,11 +18,25 @@ export default function BasicMenu() {
   const navigate = useNavigate();
 
   const [anchorEl, setAnchorEl] = React.useState(null);
-
+  const [userFields, setUserFields] = React.useState();
   const open = Boolean(anchorEl);
   const { show } = useAlert();
 
   const user = JSON.parse(localStorage.getItem("user_data")) ?? null;
+  const sessionId = JSON.parse(localStorage.getItem("session_id")) ?? null;
+
+  React.useEffect(() => {
+    const fetchProfileData = async () => {
+      try {
+        const fields = await authService.getUserSession(sessionId);
+        setUserFields(fields);
+      } catch (err) {
+        console.error("Erro ao obter dados do usuário", err);
+      }
+    };
+
+    fetchProfileData();
+  }, [sessionId]);
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -54,7 +68,7 @@ export default function BasicMenu() {
             aria-haspopup="true"
             aria-expanded={open ? "true" : undefined}
           >
-            <Avatar>{user ? user.user_name.charAt(1) : ""}</Avatar>
+            <Avatar>{userFields ? userFields.user_name.charAt(1) : ""}</Avatar>
           </IconButton>
         </Tooltip>
       </Box>
@@ -97,7 +111,7 @@ export default function BasicMenu() {
         <MenuItem
           onClick={() =>
             navigate(
-              `/profile/${JSON.parse(localStorage.getItem("user_data")).id}`
+              `/profile/${JSON.parse(localStorage.getItem("session_id"))}`
             )
           }
         >

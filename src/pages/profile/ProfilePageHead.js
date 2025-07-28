@@ -4,27 +4,24 @@ import {
   Box,
   Button,
   Divider,
-  InputAdornment,
   Modal,
   TextField,
   Typography,
 } from "@mui/material";
-import EditProfileButton from "../../customComponents/buttons/EditProfileButton";
 import { useAlert } from "../../context/AlertContext";
 import authService from "../../services/authService";
 import UserConfigsButton from "../../customComponents/buttons/UserConfigsButton";
-import { BorderColorOutlined } from "@mui/icons-material";
 
 export function ProfilePageHead({ user }) {
   const { show } = useAlert();
   const [userInfo, setUserInfo] = useState({
     name: user.name,
-    userName: user.user_name,
+    user_name: user.user_name,
     email: user.email,
     description: user.description,
-    password: "",
-    newPassword: "",
   });
+
+  const session_id = localStorage.getItem("session_id");
 
   const [editMode, setEditMode] = useState(false);
 
@@ -38,8 +35,7 @@ export function ProfilePageHead({ user }) {
     if (name === "name" && value.length > 15) {
       return;
     }
-
-    if (name === "description" && value.length > 300) {
+    if (name === "description" && value.length > 30) {
       return;
     }
 
@@ -58,27 +54,36 @@ export function ProfilePageHead({ user }) {
       await authService.updateProfile(userInfo);
     } catch (error) {
       show("error", `Erro ao editar perfi: ${error.message}`);
+    } finally {
+      setEditMode(false);
     }
   }
 
   return (
     <div className="relative flex items-center flex-col w-full sm:w-11/12 md:w-11/12 lg:w-11/12 gap-2">
       <div className="relative w-11/12 h-1/6 flex justify-end">
-        <UserConfigsButton />
+        {/**usuário só deve poder editar em seu proprio perfil */}
+        {parseInt(session_id) === user.id && <UserConfigsButton />}
       </div>
 
-      <div className="relative flex items-center flex-row w-11/12 gap-2">
+      <div
+        className={`relative flex items-center flex-row w-11/12 gap-2 ${
+          parseInt(session_id) !== user.id ? "mt-12" : "mt-0"
+        }`}
+      >
         <div className="relative flex items-center flex-col gap-4 w-9/12 sm:w-1/3 md:w-1/2 lg:w-1/4 md:h-40 lg:h-40 h-32">
           <Avatar className="!w-1/2 !h-1/2">
-            {userInfo.userName.charAt(1)}
+            {userInfo.user_name.charAt(1)}
           </Avatar>
 
-          <button
-            className="w-full border-2 rounded-md bg-gray-300"
-            onClick={handleEditClick}
-          >
-            <p className="text-base font-normal text-black">Editar perfil</p>
-          </button>
+          {parseInt(session_id) === user.id && (
+            <button
+              className="w-full border-2 rounded-md bg-gray-300"
+              onClick={handleEditClick}
+            >
+              <p className="text-base font-normal text-black">Editar perfil</p>
+            </button>
+          )}
         </div>
 
         <div className="relative flex flex-row w-full h-full">
@@ -108,8 +113,8 @@ export function ProfilePageHead({ user }) {
             variant="outlined"
             size="small"
             label="Nome de usuário"
-            name={"userName"}
-            value={userInfo.userName}
+            name={"user_name"}
+            value={userInfo.user_name}
             onChange={handleChange}
           />
 
@@ -141,7 +146,7 @@ export function ProfilePageHead({ user }) {
             <Button variant="outlined" onClick={() => setEditMode(false)}>
               Cancelar
             </Button>
-            <Button variant="contained" onClick={() => handleEditConfirm}>
+            <Button variant="contained" onClick={() => handleEditConfirm()}>
               Salvar
             </Button>
           </div>

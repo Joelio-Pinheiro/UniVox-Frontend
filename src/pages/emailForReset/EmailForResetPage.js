@@ -27,7 +27,7 @@ export function EmailForResetPage() {
     try {
       switch (routeParam.type) {
         case "email-change":
-          return navigate(`/verify/email-change`); 
+          return navigate(`/verify/email-change`);
         default:
           await authService.accountEmailForRecovery(email);
           navigate("/verify/password-reset"); //redireciona para a página de entrada do código

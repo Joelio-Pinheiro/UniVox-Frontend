@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import InteractionButton from "./buttons/InteractionButton";
 import postService from "../services/postService";
 import { useAlert } from "../context/AlertContext";
@@ -8,7 +9,6 @@ import Modal from "@mui/material/Modal";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import MDEditor, { commands } from "@uiw/react-md-editor";
-import { useNavigate } from "react-router-dom";
 import Comment from "../pages/detailPage/comment";
 import TopicActionsBox from "./TopicActionsBox";
 import PostForm from "../pages/createPost/PostForm";
@@ -98,7 +98,7 @@ export default function Content({ itemId, section, isFeed = false }) {
       <div className="flex items-center justify-between mb-2">
         <div
           className="flex items-center gap-2 cursor-pointer"
-          onClick={() => navigate(`/profile/${postDetails.creator.id}`)}
+          // onClick={() => navigate(`/profile/${postDetails.creator.id}`)}
         >
           <Avatar>{postDetails.creator.user_name.charAt(1)}</Avatar>
           <span className="font-semibold text-sm">
@@ -129,8 +129,10 @@ export default function Content({ itemId, section, isFeed = false }) {
         />
       </div>
 
-      <div className="flex flex-col cursor-pointer"
-        onClick={() => isFeed ? navigate(`/posts/${postDetails.id}`) : null}>
+      <div
+        className="flex flex-col cursor-pointer"
+        onClick={() => (isFeed ? navigate(`/posts/${postDetails.id}`) : null)}
+      >
         {/* Título */}
         <Typography
           variant="h6"
@@ -164,12 +166,17 @@ export default function Content({ itemId, section, isFeed = false }) {
       {/* Botões de interação */}
       <div className="flex gap-4 mt-2">
         <div className="text-sm text-gray-700 hover:text-blue-600">
-          <InteractionButton type="likes" counter={postDetails.upvotes} onClickFn={() => handleVote(1)}
-            active={postDetails.user_vote === 1} />
+          <InteractionButton
+            type="likes"
+            counter={postDetails.upvotes}
+            onClickFn={() => handleVote(1)}
+            active={postDetails.user_vote === 1}
+          />
         </div>
         <div className="text-sm text-gray-700 hover:text-red-600">
-          <InteractionButton type="dislikes"
-            // counter={postDetails.downvotes} 
+          <InteractionButton
+            type="dislikes"
+            // counter={postDetails.downvotes}
             onClickFn={() => handleVote(-1)}
             active={postDetails.user_vote === -1}
           />

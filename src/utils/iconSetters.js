@@ -1,11 +1,14 @@
 import {
   AccountCircle,
+  DeleteTwoTone,
   Face2TwoTone,
   Face3TwoTone,
   Face6TwoTone,
   FaceUnlockTwoTone,
   LockRounded,
+  LockTwoTone,
   Mail,
+  MailTwoTone,
   MilitaryTech,
   MilitaryTechOutlined,
   MilitaryTechRounded,
@@ -14,11 +17,7 @@ import {
   VisibilityOff,
   WorkspacePremium,
 } from "@mui/icons-material";
-import {
-  ThumbsUp,
-  ThumbsDown,
-  MessageCircle,
-} from "lucide-react";
+import { ThumbsUp, ThumbsDown, MessageCircle, DeleteIcon } from "lucide-react";
 
 //fornece ícones para input de texto baseado na propriedade name
 export function inputIconSetter(name) {
@@ -44,13 +43,19 @@ export function inputIconSetter(name) {
 
 //fornece ícones especificamente para alguns tipos de botões menores
 export function buttonIconSetter(type) {
- switch (type) {
+  switch (type) {
     case "likes":
       return <ThumbsUp size={16} />;
     case "dislikes":
       return <ThumbsDown size={16} />;
     case "comment":
       return <MessageCircle size={16} />;
+    case "change-email":
+      return <MailTwoTone sx={{ color: "#333333" }} />;
+    case "change-password":
+      return <LockTwoTone sx={{ color: "#333333" }} />;
+    case "delete":
+      return <DeleteTwoTone sx={{ color: "#DC143C" }} />;
     default:
       return null;
   }
