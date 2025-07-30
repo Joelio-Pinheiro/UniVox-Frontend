@@ -1,21 +1,21 @@
 import { LinearProgress } from "@mui/material";
-import { rankIconSetter } from "../../utils/rankIconSetter";
+import { rankIconSetter } from "../../utils/iconSetters";
 
 export function ProfileRank({ rank, level }) {
   const userRank = rankIconSetter(rank);
   return (
-    <div className="relative flex items-center flex-col w-full h-1/4 mt-10">
-      <div className="relative flex items-start flex-row gap-6 w-full h-full">
-        <div className="relative w-1/5 h-full rounded-md bg-gray-300">
+    <div className="relative w-9/12 h-1/4 flex items-center flex-col mb-2 ">
+      <div className="relative w-full h-full flex items-start flex-row gap-6">
+        <div className="relative w-2/12 lg:w-1/12 h-full flex items-center flex-col rounded-md bg-slate-800">
           {userRank}
         </div>
-        <div className="relative flex items-start flex-col gap-4 w-3/4 h-full mt-4">
+        <div className="relative flex items-start flex-col gap-4 w-full h-full">
           <p className="text-xl">
             {rank === "maximo" ? "Rank máximo" : "Seu rank é: " + rank}
           </p>
 
           <LinearProgress
-            className="relative w-9/12 !py-1.5 rounded-md"
+            className="relative w-full !py-1 -mt-4 rounded-md"
             color={
               rank === "cobre"
                 ? "warning"

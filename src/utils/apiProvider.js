@@ -36,9 +36,18 @@ class ApiProvider {
     }
   }
 
-  async delete(path, options = {}) {
+  async patch(path, data = {}, options = {}) {
     try {
-      const response = await this.instance.delete(path, options);
+      const response = await this.instance.patch(path, data, options);
+      return response.data;
+    } catch (error) {
+      this.handleError(error);
+    }
+  }
+
+  async delete(path, data = {}, options = {}) {
+    try {
+      const response = await this.instance.delete(path, data, options);
       return response.data;
     } catch (error) {
       this.handleError(error);

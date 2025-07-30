@@ -1,6 +1,6 @@
 import { InputAdornment, TextField } from "@mui/material";
-import { iconSetter } from "../utils/iconSetter";
-import PasswordHideBtn from "./PasswordHideBtn";
+import { inputIconSetter } from "../../utils/iconSetters";
+import PasswordHideButton from "../buttons/PasswordHideButton";
 
 export default function PasswordComponent({
   name,
@@ -10,7 +10,7 @@ export default function PasswordComponent({
   onClickFn,
   visibility,
 }) {
-  const icon = iconSetter(name);
+  const icon = inputIconSetter(name);
 
   return (
     <div className="relative w-full flex items-center flex-col">
@@ -21,7 +21,7 @@ export default function PasswordComponent({
           name={name}
           value={password}
           onChange={onChangeFn}
-          type={visibility === "visivel" ? "text" : "password"}
+          type={visibility === "visible" ? "text" : "password"}
           variant="outlined"
           slotProps={{
             input: {
@@ -30,7 +30,7 @@ export default function PasswordComponent({
               ),
               endAdornment: (
                 <InputAdornment position="end">
-                  <PasswordHideBtn
+                  <PasswordHideButton
                     name={visibility}
                     onClickFn={() => onClickFn(visibility)}
                   />

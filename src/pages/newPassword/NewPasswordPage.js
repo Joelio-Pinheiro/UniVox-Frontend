@@ -1,20 +1,21 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { NewPasswordPageHead } from "./NewPasswordPageHead.js";
-import PasswordComponent from "../../customComponents/PasswordComponent.js";
-import TextInputComponent from "../../customComponents/TextInputComponent.js";
-import ConfirmButton from "../../customComponents/ConfirmButton.js";
+import PasswordComponent from "../../customComponents/inputs/PasswordComponent.js";
+import TextInputComponent from "../../customComponents/inputs/TextInputComponent.js";
+import ConfirmButton from "../../customComponents/buttons/ConfirmButton.js";
 import Snackbar from "../../customComponents/CustomSnackbar.js";
 import authService from "../../services/authService.js";
 import UnivoxIcon from "../../assets/UnivoxIcon.png";
 
 export function NewPasswordPage() {
   const navigate = useNavigate("");
+  const routeParam = useParams();
   const [state, setState] = useState({ open: false, text: "" });
   const [password, setPassword] = useState("");
   const [passwordConfirm, setPasswordConfirm] = useState("");
 
-  const [visibility, setVisibility] = useState("invisivel");
+  const [visibility, setVisibility] = useState("invisible");
 
   function handlePasswordChange(e) {
     setPassword(e.target.value);
@@ -25,7 +26,7 @@ export function NewPasswordPage() {
   }
 
   function onClickFn() {
-    setVisibility(visibility === "invisivel" ? "visivel" : "invisivel");
+    setVisibility(visibility === "invisible" ? "visible" : "invisible");
   }
 
   function onCloseFn() {
@@ -35,7 +36,7 @@ export function NewPasswordPage() {
   async function apiRequest(password, passwordConfirm) {
     try {
       await authService.accountNewPassword(password, passwordConfirm);
-      navigate("/login"); //redireciona de volta para a página de login, onde deve ser usada a senha nova
+      navigate("/"); //redireciona direto para refazer login com senha nova
     } catch (error) {
       setState({ open: true, text: error.message });
     }

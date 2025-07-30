@@ -1,4 +1,5 @@
 import apiProvider from "../utils/apiProvider";
+const USER_DATA = "user_data";
 
 const headers = {
   "Content-type": "application/json",
@@ -12,20 +13,73 @@ const authService = {
         throw new Error("Nenhum campo deve ser vazio");
       }
 
-      if (password.length < 8) {
-        throw new Error("Senha não deve ter menos de 8 caracteres");
-      }
-
       const response = await apiProvider.post(
         "users/login/",
         { email, password },
         headers
       );
 
-      console.log("Login response:", response);
+      const userId = response.user_id;
+      localStorage.setItem("session_id", response.user_id);
+      await authService.getUserById(userId);
+
       return response;
     } catch (error) {
       console.error("Erro no login:", error);
+      throw error;
+    }
+  },
+  logout: async () => {
+    try {
+      const response = await apiProvider.post("users/logout/", {}, headers);
+      return response;
+    } catch (error) {
+      throw error;
+    } finally {
+      if (localStorage.getItem(USER_DATA)) {
+        localStorage.removeItem(USER_DATA);
+      }
+      localStorage.removeItem("session_id");
+    }
+  },
+  getUserSession: async (id) => {
+    try {
+      const response = await apiProvider.get(`users/`, headers);
+
+      if (!Array.isArray(response)) {
+        throw new Error("Resposta inesperada da API.");
+      }
+
+      const user = response.find((u) => u.id === Number(id));
+
+      if (!user) {
+        throw new Error("Usuário não encontrado.");
+      }
+
+      return user;
+    } catch (error) {
+      console.error("Erro ao buscar usuário:", error);
+      throw error;
+    }
+  },
+  getUserById: async (userId) => {
+    try {
+      const response = await apiProvider.get(`users/`, headers);
+
+      if (!Array.isArray(response)) {
+        throw new Error("Resposta inesperada da API.");
+      }
+
+      const user = response.find((u) => u.id === Number(userId));
+
+      if (!user) {
+        throw new Error("Usuário não encontrado.");
+      }
+
+      localStorage.setItem(USER_DATA, JSON.stringify(user));
+      return user;
+    } catch (error) {
+      console.error("Erro ao buscar usuário:", error);
       throw error;
     }
   },
@@ -43,10 +97,6 @@ const authService = {
         throw new Error("Número de Telefone inválido");
       }
 
-      if (fields.password.length < 8) {
-        throw new Error("Senha deve ter ao menos 8 caracteres");
-      }
-
       if (fields.password !== fields.password_confirmation) {
         throw new Error("As senhas não podem ser diferentes");
       }
@@ -62,6 +112,7 @@ const authService = {
 
       const response = await apiProvider.post("users/create/", json, headers);
       console.log("Conta necessita de verificação");
+
       return response;
     } catch (error) {
       console.log("Erro na criação da conta:", error);
@@ -70,7 +121,7 @@ const authService = {
   },
 
   //rota da Api para envio do código de confirmação do email na criação da conta
-  accountConfirmation: async (code) => {
+  accountConfirmation: async (type, code) => {
     try {
       const email = localStorage.getItem("email");
 
@@ -83,6 +134,10 @@ const authService = {
         { code, email },
         headers
       );
+
+      if (type === "email-change") {
+        await apiProvider.patch("users/profile/update", { email }, headers);
+      }
 
       console.log("Conta verificada");
       return response;
@@ -137,7 +192,7 @@ const authService = {
       const email = localStorage.getItem("email");
 
       if (email === "") {
-        throw new Error("Por favor, digite novamente seu email");
+        throw new Error("Por favor, digite um email válido");
       }
 
       if (code.length !== 4) {
@@ -159,25 +214,22 @@ const authService = {
   },
 
   //rota da Api para envio da nova senha da conta
-  accountNewPassword: async (password, passwordConfirm) => {
+  accountNewPassword: async (new_password, passwordConfirm) => {
     try {
+      console.log(new_password);
       const email = localStorage.getItem("email");
 
       if (email === "") {
         throw new Error("Por favor, digite novamente seu email");
       }
 
-      if (password.length < 8) {
-        throw new Error("Senha não pode ter menos de 8 caracteres");
-      }
-
-      if (password !== passwordConfirm) {
+      if (new_password !== passwordConfirm) {
         throw new Error("As senhas não podem ser diferentes");
       }
 
       const response = await apiProvider.post(
         "users/passwordresetnewpass/",
-        { email, password },
+        { email, new_password },
         headers
       );
 
@@ -185,6 +237,53 @@ const authService = {
       return response;
     } catch (error) {
       console.log("Erro na troca de conta:", error);
+      throw error;
+    }
+  },
+
+  //rota da API para requisitar posts, comentários, publicações curtidas e descurtidas pelo usuário
+  contentRequest: async (section) => {
+    try {
+      let response;
+
+      switch (section) {
+        case "upvoted":
+          response = await apiProvider.get(`users/me/posts/upvoted/`);
+          break;
+        case "downvoted":
+          response = await apiProvider.get(`users/me/posts/downvoted/`);
+          break;
+        default:
+          response = await apiProvider.get(`users/me/posts/`);
+          break;
+      }
+
+      return response;
+    } catch (error) {
+      console.log("Erro na solicitação");
+      throw error;
+    }
+  },
+
+  //rota da API para envio de dados editados pelo usuário
+  updateProfile: async (data) => {
+    try {
+      console.log(data);
+      await apiProvider.patch("users/profile/update/", data, headers);
+    } catch (error) {
+      throw error;
+    }
+  },
+
+  deleteAccount: async (password) => {
+    try {
+      await apiProvider.delete(
+        "users/deletelogged/",
+        { password },
+        headers
+      );
+      console.log("Conta removida com sucesso");
+    } catch (error) {
       throw error;
     }
   },

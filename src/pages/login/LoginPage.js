@@ -4,7 +4,7 @@ import { Checkbox, FormControlLabel } from "@mui/material";
 import { LoginPageFooter } from "./LoginPageFooter";
 import { LoginPageHead } from "./LoginPageHead";
 import { LoginPassword } from "./LoginPassword.js";
-import TextInputComponent from "../../customComponents/TextInputComponent";
+import TextInputComponent from "../../customComponents/inputs/TextInputComponent";
 import Snackbar from "../../customComponents/CustomSnackbar.js";
 import authService from "../../services/authService";
 import UnivoxFullIcon from "../../assets/UnivoxFullIcon.png";
@@ -20,22 +20,17 @@ export function LoginPage() {
   }
 
   function handlePasswordChange(e) {
-    //impede que usuário digite mais de 10 caracteres
-    if (e.target.value.length > 10) {
-      return;
-    }
-
     setPassword(e.target.value);
   }
 
   function onCloseFn() {
-    setState({ open: false });
     setState({ open: false });
   }
 
   async function apiRequest(email, password) {
     try {
       await authService.login(email, password);
+      localStorage.setItem("email", email);
       navigate("/"); //redireciona para a home page
     } catch (error) {
       console.log(error);
@@ -63,7 +58,7 @@ export function LoginPage() {
         />
 
         <LoginPassword
-          name={"senha"}
+          name={"password"}
           text={"Senha"}
           contentType={"password"}
           password={password}

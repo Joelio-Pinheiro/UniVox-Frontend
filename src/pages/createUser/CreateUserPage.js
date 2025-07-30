@@ -1,15 +1,17 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { CreateUserPageHead } from "./CreateUserPageHead";
-import TextInputComponent from "../../customComponents/TextInputComponent";
-import PasswordComponent from "../../customComponents/PasswordComponent";
+import TextInputComponent from "../../customComponents/inputs/TextInputComponent";
+import PasswordComponent from "../../customComponents/inputs/PasswordComponent.js";
 import CustomSnackbar from "../../customComponents/CustomSnackbar.js";
-import ConfirmButton from "../../customComponents/ConfirmButton";
+import ConfirmButton from "../../customComponents/buttons/ConfirmButton.js";
 import authService from "../../services/authService";
 import UnivoxIcon from "../../assets/UnivoxIcon.png";
+import { useAlert } from "../../context/AlertContext.jsx";
 
 export function CreateUserPage() {
   const navigate = useNavigate();
+  const { show } = useAlert();
   const [fields, setFields] = useState({
     name: "",
     email: "",
@@ -24,10 +26,6 @@ export function CreateUserPage() {
   function handleChange(e) {
     const { name, value } = e.target;
 
-    if(name === "telefone" && value.length > 11){
-      return;
-    }
-    
     setFields((prev) => ({
       ...prev,
       [name]: value,
@@ -65,12 +63,13 @@ export function CreateUserPage() {
         <CreateUserPageHead icon={UnivoxIcon} title={"Crie sua conta"} />
 
         <TextInputComponent
-          name={"nome"}
+          name={"name"}
           text={"Nome de Usuário"}
           contentType={"text"}
           value={fields.name}
           onChangeFn={handleChange}
         />
+
         <TextInputComponent
           name={"email"}
           text={"Email"}
@@ -80,7 +79,7 @@ export function CreateUserPage() {
         />
 
         <TextInputComponent
-          name={"telefone"}
+          name={"contact_number"}
           text={"Telefone com DDD"}
           contentType={"text"}
           value={fields.contact_number}
@@ -88,7 +87,7 @@ export function CreateUserPage() {
         />
 
         <PasswordComponent
-          name={"senha"}
+          name={"password"}
           text={"Senha"}
           contentType={"password"}
           value={fields.password}
@@ -98,7 +97,7 @@ export function CreateUserPage() {
         />
 
         <TextInputComponent
-          name={"confirma_senha"}
+          name={"password_confirmation"}
           text={"Confirmar senha"}
           contentType={"password"}
           value={fields.password_confirmation}

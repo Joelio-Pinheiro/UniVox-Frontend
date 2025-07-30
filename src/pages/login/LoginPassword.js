@@ -1,16 +1,16 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { InputAdornment, TextField } from "@mui/material";
-import { iconSetter } from "../../utils/iconSetter";
-import CustomPasswordHidingButton from "../../customComponents/PasswordHideBtn";
+import { inputIconSetter } from "../../utils/iconSetters";
+import PasswordHideButton from "../../customComponents/buttons/PasswordHideButton";
 
 export function LoginPassword({ name, text, password, onChangeFn }) {
-  const icon = iconSetter(name);
+  const icon = inputIconSetter(name);
 
-  const [visible, setVisible] = useState("invisivel");
+  const [visibility, setVisibility] = useState("invisible");
 
   function onClickFn() {
-    setVisible(visible === "invisivel" ? "visivel" : "invisivel");
+    setVisibility(visibility === "invisible" ? "visible" : "invisible");
   }
 
   return (
@@ -22,7 +22,7 @@ export function LoginPassword({ name, text, password, onChangeFn }) {
           name={name}
           value={password}
           onChange={onChangeFn}
-          type={visible === "visivel" ? "text" : "password"}
+          type={visibility === "visible" ? "text" : "password"}
           variant="outlined"
           slotProps={{
             input: {
@@ -31,20 +31,20 @@ export function LoginPassword({ name, text, password, onChangeFn }) {
               ),
               endAdornment: (
                 <InputAdornment position="end">
-                  <CustomPasswordHidingButton
-                    name={visible}
-                    onClickFn={() => onClickFn(visible)}
+                  <PasswordHideButton
+                    name={visibility}
+                    onClickFn={() => onClickFn(visibility)}
                   />
                 </InputAdornment>
               ),
-              style: {fontSize: "16px"}
+              style: { fontSize: "16px" },
             },
           }}
         />
         <div className="relative float-end">
           <Link
             className="text-[#106FE2] font-semibold text-base sm:text-lg md:text-lg lg:text-lg"
-            to="/emailfornewpass"
+            to="/email-new-pass/email-confirm"
           >
             Esqueceu a senha?
           </Link>
