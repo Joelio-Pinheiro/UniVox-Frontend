@@ -72,7 +72,7 @@ export function ProfilePageHead({ user }) {
         }`}
       >
         <div className="relative flex items-center flex-col gap-4 w-9/12 sm:w-1/3 md:w-1/2 lg:w-1/4 md:h-40 lg:h-40 h-32">
-          <Avatar className="!w-1/2 !h-1/2">
+          <Avatar className="!w-1/2 !h-3/5">
             {userInfo.user_name.charAt(1)}
           </Avatar>
 
