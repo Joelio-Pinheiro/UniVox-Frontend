@@ -1,0 +1,69 @@
+import { useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import { EmailForResetPageHead } from "./EmailForResetPageHead.js";
+import TextInputComponent from "../../customComponents/inputs/TextInputComponent.js";
+import ConfirmButton from "../../customComponents/buttons/ConfirmButton.js";
+import CustomSnackbar from "../../customComponents/CustomSnackbar.js";
+import authService from "../../services/authService.js";
+import UnivoxIcon from "../../assets/UnivoxFullIcon.png";
+
+export function EmailForResetPage() {
+  const navigate = useNavigate();
+  const routeParam = useParams();
+
+  const [state, setState] = useState({ open: false, text: "" });
+  const [email, setEmail] = useState("");
+
+  function handleEmailChange(e) {
+    setEmail(e.target.value);
+  }
+
+  function onCloseFn() {
+    setState({ open: false });
+  }
+
+  async function apiRequest(email) {
+    localStorage.setItem("email", email);
+    try {
+      switch (routeParam.type) {
+        case "email-change":
+          return navigate(`/verify/email-change`);
+        default:
+          await authService.accountEmailForRecovery(email);
+          navigate("/verify/password-reset"); //redireciona para a página de entrada do código
+          break;
+      }
+    } catch (error) {
+      setState({ open: true, text: error.message });
+    }
+  }
+
+  return (
+    <div className="absolute flex items-center flex-col -translate-x-1/2 left-1/2 h-screen w-screen bg-white">
+      <div className="relative flex items-center flex-col gap-[12vh] h-full w-10/12 sm:w-6/12 md:w-6/12 lg:w-6/12 bg-white">
+        <CustomSnackbar
+          open={state.open}
+          message={state.text}
+          onCloseFn={onCloseFn}
+        />
+
+        <EmailForResetPageHead
+          icon={UnivoxIcon}
+          text={
+            "Digite o email para verificação. Nós enviaremos um código de 4 dígitos para ele."
+          }
+        />
+
+        <TextInputComponent
+          name={"email"}
+          text={"Email"}
+          contentType={"text"}
+          value={email}
+          onChangeFn={handleEmailChange}
+        />
+
+        <ConfirmButton text={"CONTINUAR"} onClick={() => apiRequest(email)} />
+      </div>
+    </div>
+  );
+}

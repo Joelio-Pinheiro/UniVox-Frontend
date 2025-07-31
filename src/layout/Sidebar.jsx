@@ -1,78 +1,102 @@
-import Box from '@mui/material/Box';
+import React from 'react';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
-import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
-import ThemeButton from '../layout/ThemeButton';
 import IconButton from '@mui/material/IconButton';
-import { MdMenuOpen } from "react-icons/md";
-import { MdSearch } from "react-icons/md";
-import { MdPerson, MdQuestionAnswer, MdSettings, MdTopic } from "react-icons/md";
+import Divider from '@mui/material/Divider';
+import Avatar from '@mui/material/Avatar';
+import Collapse from '@mui/material/Collapse';
+import { MdMenuOpen, MdExpandLess, MdExpandMore, MdQuestionAnswer } from "react-icons/md";
+import { FaHome } from "react-icons/fa";
+import { useNavigate } from "react-router-dom";
+import topicService from "../services/topicService";
+import { useEffect, useState } from "react";
+
+const Sidebar = ({ isMobile, onClose }) => {
+  const isAuthenticated = localStorage.getItem("user_data") !== null;
+  const [openTopics, setOpenTopics] = React.useState(true);
+  const [topics, setTopics] = useState([]);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const fetchTopics = async () => {
+      try {
+        if (!isAuthenticated) {
+          const data = await topicService.getTopics();
+          setTopics(data.slice(0, 10).map(topic => ({
+            ...topic,
+          })));
+        } else {
+          const data = await topicService.getMeTopics();
+          setTopics(data.slice(0, 10).map(topic => ({
+            ...topic,
+          })));
+        }
+      } catch (error) {
+        console.error("Erro ao carregar tópicos:", error);
+      }
+    };
+
+    fetchTopics();
+  }, []);
 
 
 
-const Sidebar = ({ toggleDrawer }) => {
+  const renderSection = (title, open, setOpen, items) => (
+    <>
+      <ListItemButton onClick={() => setOpen(!open)} className="text-gray-500">
+        <ListItemText primary={title} />
+        {open ? <MdExpandLess /> : <MdExpandMore />}
+      </ListItemButton>
+      <Collapse in={open} timeout="auto" unmountOnExit>
+        <List component="div" disablePadding>
+          {items.map((item, idx) => (
+            <ListItemButton key={idx} className="pl-6 gap-3"
+              onClick={() => navigate(`/posts?topics=${encodeURIComponent(item.name)}`)}>
+              <Avatar sx={{ width: 24, height: 24, fontSize: 12 }}>
+                {item.name?.[1]?.toUpperCase() || "?"}
+              </Avatar>
+              <ListItemText primary={item.name} />
+            </ListItemButton>
+          ))}
+        </List>
+      </Collapse>
+    </>
+  );
   return (
-    <Box sx={{ width: 250 }} role="presentation" className="!flex !flex-col !h-full !justify-between">
-
-      <List className='flex flex-col h-full gap-6'>
-        {/* Icon from close sidebar*/}
-        <div className="flex items-center h-16 px-7">
-          <IconButton edge="start" color="inherit" onClick={toggleDrawer(false)}>
-            <MdMenuOpen className="text-5xl text-black" />
-          </IconButton>
-        </div>
-
-        {/* Search Bar */}
-        <div className="flex flex-col gap-1 px-4">
-          <div className="relative w-full mb-5">
-            <span className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-gray-500">
-              <MdSearch className="text-xl" />
-            </span>
-            <input
-              type="text"
-              placeholder="Pesquisar..."
-              className="w-full pl-10 pr-4 py-2 rounded-lg shadow-sm border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-            />
+    <nav className="flex flex-col px-2 text-gray-800">
+      <List>
+        {isMobile && (
+          <div className="flex items-center h-16 px-4">
+            <IconButton edge="start" onClick={onClose}>
+              <MdMenuOpen className="text-3xl text-black" />
+            </IconButton>
           </div>
+        )}
+        <ListItem disablePadding>
+          <ListItemButton className="flex items-center gap-3 w-full h-12"
+            onClick={() => navigate('/')}>
+            <div className="w-6 flex justify-center">
+              <FaHome className="text-xl" />
+            </div>
+            <ListItemText primary="Tela Inicial" />
+          </ListItemButton>
+        </ListItem>
 
-          {/* List of items in the sidebar */}
-          <ListItem disablePadding>
-            <ListItemButton className='flex items-center gap-3'>
-                <MdPerson className="text-xl" />
-              <ListItemText primary="Perfil" />
-            </ListItemButton>
-          </ListItem>
-
-          <ListItem disablePadding>
-            <ListItemButton className='flex items-center gap-3'>
-                <MdTopic className="text-xl" />
-              <ListItemText primary="Tópicos" />
-            </ListItemButton>
-          </ListItem>
-
-          <ListItem disablePadding>
-            <ListItemButton className='flex items-center gap-3'>
-                <MdQuestionAnswer className="text-xl" />
-              <ListItemText primary="FAQ" />
-            </ListItemButton>
-          </ListItem>
-
-          <ListItem disablePadding>
-            <ListItemButton className='flex items-center gap-3'>
-                <MdSettings className="text-xl" />
-              <ListItemText primary="Configurações" />
-            </ListItemButton>
-          </ListItem>
-        </div>
+        <ListItem disablePadding>
+          <ListItemButton className="flex items-center gap-3 w-full h-12"
+            onClick={() => navigate('/faq')}>
+            <div className="w-6 flex justify-center">
+              <MdQuestionAnswer className="text-xl" />
+            </div>
+            <ListItemText primary="FAQ" />
+          </ListItemButton>
+        </ListItem>
+        <Divider sx={{ my: 1 }} />
+        {renderSection("Tópicos", openTopics, setOpenTopics, topics)}
       </List>
-
-      {/* Button Light/Dark Theme */}
-      <Box className="flex justify-end items-center h-16">
-        <ThemeButton />
-      </Box>
-    </Box>
+    </nav>
   );
 };
 

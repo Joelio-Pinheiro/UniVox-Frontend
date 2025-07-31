@@ -1,11 +1,12 @@
 import { Snackbar } from "@mui/material";
-export function CustomSnackbar({open, onCloseFn, message}) {
+export default function CustomSnackbar({ open, onCloseFn, message }) {
   return (
     <Snackbar
       open={open}
       onClose={onCloseFn}
-      autoHideDuration={5000}
+      autoHideDuration={3000}
       message={message}
+      anchorOrigin={{ vertical: "top", horizontal: "center" }}
     />
   );
 }

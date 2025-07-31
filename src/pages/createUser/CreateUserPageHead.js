@@ -1,8 +1,8 @@
-export function LoginPageHead({ icon, title }) {
+export function CreateUserPageHead({ icon, title }) {
   return (
-    <div className="relative flex items-center flex-col h-1/5 w-full mt-8">
+    <div className="relative flex items-center flex-col h-1/6 w-full sm:h-1/6 md:h-1/6 lg:h-1/6 mt-2">
       <img
-        className=" relative w-68 h-24 sm:w-80 md:w-80 lg:w-80"
+        className="relative w-42 h-20 sm:w-24 md:w-24 lg:w-24"
         src={icon}
         alt="univox_icon"
       />

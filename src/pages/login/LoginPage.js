@@ -1,35 +1,19 @@
-import React, { useState } from "react";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { Checkbox, FormControlLabel } from "@mui/material";
+import { LoginPageFooter } from "./LoginPageFooter";
 import { LoginPageHead } from "./LoginPageHead";
-import { CustomSnackbar } from "../../customComponents/CustomSnackbar";
-import { LoginConfirmButton } from "./LoginConfirmButton";
-import { TextInputContainer } from "../../customComponents/TextInputContainer";
-import { PasswordContainer } from "./PasswordContainer";
-import { Link, useNavigate } from "react-router-dom";
-import axios from "axios";
+import { LoginPassword } from "./LoginPassword.js";
+import TextInputComponent from "../../customComponents/inputs/TextInputComponent";
+import Snackbar from "../../customComponents/CustomSnackbar.js";
+import authService from "../../services/authService";
+import UnivoxFullIcon from "../../assets/UnivoxFullIcon.png";
 
 export function LoginPage() {
   const navigate = useNavigate();
   const [state, setState] = useState({ open: false, text: "" });
-  const [password, setPassword] = useState("");
   const [email, setEmail] = useState("");
-
-  function dataValidation(email, password) {
-    if (!email || !password) {
-      setState(
-        {open: true, text: "Email e Senha obrigatórios"}
-      );
-
-      return;
-    }
-
-    const formData = new FormData();
-
-    formData.append("email", email);
-    formData.append("password", password);
-
-    LoginConfirmation(formData);
-  }
+  const [password, setPassword] = useState("");
 
   function handleEmailChange(e) {
     setEmail(e.target.value);
@@ -40,67 +24,61 @@ export function LoginPage() {
   }
 
   function onCloseFn() {
-    setState({open: false});
+    setState({ open: false });
   }
 
-  async function LoginConfirmation(formData) {
-    await axios
-      .post("https://univox-backend.onrender.com/login/", formData, {
-      })
-      .then(() => {
-        setState({open: true, text: "Login bem sucedido."});
-        navigate("/home");
-      })
-      .catch((err) => {
-        console.log(err.message);
-      });
+  async function apiRequest(email, password) {
+    try {
+      await authService.login(email, password);
+      localStorage.setItem("email", email);
+      navigate("/"); //redireciona para a home page
+    } catch (error) {
+      console.log(error);
+      setState({ open: true, text: error.message });
+    }
   }
 
   return (
-    <div className="flex items-center flex-col absolute -translate-x-1/2  left-1/2 h-screen bg-white">
-      <CustomSnackbar
-        open={state.open}
-        message={state.text}
-        onCloseFn={onCloseFn}
-      />
-
-      <LoginPageHead />
-
-      <TextInputContainer
-        name={"email"}
-        text={"Email"}
-        email={email}
-        onChangeFn={handleEmailChange}
-      />
-
-      <PasswordContainer
-        password={password}
-        onChangeFn={handlePasswordChange}
-      />
-
-      <div className="relative top-16">
-        <FormControlLabel
-          control={<Checkbox defaultValue={false} />}
-          label={<span className="text-gray-500">Lembrar de mim</span>}
+    <div className="absolute flex items-center flex-col -translate-x-1/2 left-1/2 h-screen w-screen bg-white">
+      <div className="relative flex items-center flex-col gap-[5vh] h-full w-10/12 sm:w-6/12 md:w-6/12 lg:w-6/12 bg-white">
+        <Snackbar
+          open={state.open}
+          message={state.text}
+          onCloseFn={onCloseFn}
         />
-        <Link className="text-[#106FE2] font-semibold" to="/recovery">
-          Esqueceu a senha?
-        </Link>
-      </div>
 
-      <LoginConfirmButton
-        onClick={() => dataValidation(email, password)}
-        email={email}
-        password={password}
-      />
+        <LoginPageHead icon={UnivoxFullIcon} title={"Entre na sua conta"} />
 
-      <div className="relative top-40">
-        <p className=" text-center text-gray-500">
-          Ainda não possui uma conta?
-          <Link to="/register" className=" text-[#106FE2] font-semibold">
-            Cadastrar-se
-          </Link>
-        </p>
+        <TextInputComponent
+          name={"email"}
+          text={"Email"}
+          contentType={"text"}
+          email={email}
+          onChangeFn={handleEmailChange}
+        />
+
+        <LoginPassword
+          name={"password"}
+          text={"Senha"}
+          contentType={"password"}
+          password={password}
+          onChangeFn={handlePasswordChange}
+        />
+
+        <div className="relative w-full sm:w-full md:w-full lg:w-9/12">
+          <div className="relative float-start">
+            <FormControlLabel
+              control={<Checkbox defaultValue={false} />}
+              label={
+                <span className="text-gray-500 text-base sm:text-lg md:text-lg lg:text-lg">
+                  Lembrar de mim
+                </span>
+              }
+            />
+          </div>
+        </div>
+
+        <LoginPageFooter onClickFn={() => apiRequest(email, password)} />
       </div>
     </div>
   );
