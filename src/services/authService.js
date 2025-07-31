@@ -257,8 +257,9 @@ const authService = {
           response = await apiProvider.get(`users/me/posts/`);
           break;
       }
-
-      return response;
+      const filteredPosts = response.filter(post => post.is_deleted !== true);
+      
+      return filteredPosts;
     } catch (error) {
       console.log("Erro na solicitação");
       throw error;

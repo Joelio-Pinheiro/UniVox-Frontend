@@ -36,7 +36,7 @@ export function NewPasswordPage() {
   async function apiRequest(password, passwordConfirm) {
     try {
       await authService.accountNewPassword(password, passwordConfirm);
-      navigate("/"); //redireciona direto para refazer login com senha nova
+      navigate("/login"); //redireciona direto para refazer login com senha nova
     } catch (error) {
       setState({ open: true, text: error.message });
     }
