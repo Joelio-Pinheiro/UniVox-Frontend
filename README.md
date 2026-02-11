@@ -30,3 +30,6 @@ Use the command below to install the node dependencies:
 Use the command below to run the project:
 
 --npm run start
+
+How to install Tailwind:
+
